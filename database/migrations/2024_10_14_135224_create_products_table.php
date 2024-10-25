@@ -17,8 +17,11 @@ return new class extends Migration
             $table->id(); // Auto-incrementing ID
             $table->string('org'); // Organization name or ID (could also reference an Orgs table)
             $table->string('name'); // Product name
-            $table->string('size'); // Product size (could be a string, e.g., 'S', 'M', 'L', or a numeric value)
-            $table->integer('stocks'); // Number of stocks available
+            $table->integer('small'); 
+            $table->integer('medium'); 
+            $table->integer('large'); 
+            $table->integer('extralarge'); 
+            $table->integer('double_extralarge'); 
             $table->decimal('price', 8, 2); // Product price with 2 decimal points
             $table->json('photos')->nullable(); // Store up to 5 photos as a JSON array
             $table->timestamps(); // Automatically includes 'created_at' and 'updated_at'

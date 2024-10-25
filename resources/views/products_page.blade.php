@@ -14,7 +14,8 @@
         @foreach($products as $product)
         <a href="{{ route('show_prodpage', $product->id) }}">
             <div class="products_card">
-                {{ $product->name }} - {{ $product->price }} - {{ $product->org }} - {{ $product->size }}
+                <span>{{ $product->name }} - {{ $product->price }} - {{ $product->org }}</span>
+                <span>{{ $product->small }} - {{ $product->medium }} - {{ $product->large }}</span>
             </div>
         </a>
         @endforeach
