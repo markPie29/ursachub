@@ -16,6 +16,7 @@
             <div class="products_card">
                 <span>{{ $product->name }} - {{ $product->price }} - {{ $product->org }}</span>
                 <span>{{ $product->small }} - {{ $product->medium }} - {{ $product->large }}</span>
+                <span>{{ $product->name }}</span>
             </div>
         </a>
         @endforeach
