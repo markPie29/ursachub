@@ -36,13 +36,6 @@ Route::get('/news_page', function () {
     return view('news_page');
 });
 
-Route::get('/addnews', function () {
-    return view('admin_addnews');
-});
-
-// Route::get('/addproduct', function () {
-//     return view('admin_addprod');
-// });
 
 Route::get('/admin_account', 'App\Http\Controllers\UrsacHubController@admin');
 
@@ -54,8 +47,4 @@ Route::get('/create', [UrsacHubController::class, 'create'])->name('create'); //
 
 Route::post('/add', [UrsacHubController::class, 'addproduct'])->name('addproduct'); // POST route for adding
 
-
-
-
-
-
+Route::get('/addnews', [UrsacHubController::class, 'addnews'])->name('addnews'); // Updated route

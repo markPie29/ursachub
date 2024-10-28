@@ -18,7 +18,7 @@
         @endif
 
         {{-- Product Form --}}
-        <form action="{{ route('addproduct') }}" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div>
@@ -27,8 +27,8 @@
             </div>
 
             <div>
-                <label for="name">News / Headline :</label>
-                <input type="text" name="name" id="name" required>
+                <label for="headline">News / Headline :</label>
+                <input type="text" name="headline" id="headline" required>
             </div>
 
             <div>
