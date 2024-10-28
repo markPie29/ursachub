@@ -33,10 +33,22 @@
 
             <div class="prodnews-div-admin">
                 <h1>News</h1>
-                
+                @foreach($news as $news)
                 <div>
+                    {{ $news->org }} - {{ $news->headline }} - {{ $news->conent }}
+                    @php
+                        $photos = json_decode($news->photos, true); // Decode the JSON column to an array
+                    @endphp
 
+                    @if(is_array($photos))
+                        @foreach($photos as $photo)
+                            <img src="{{ asset('storage/' . $photo) }}" alt="News Photo">
+                        @endforeach
+                    @else
+                        <p>No images available</p>
+                    @endif
                 </div>
+                @endforeach
             </div>
            
         </div>
