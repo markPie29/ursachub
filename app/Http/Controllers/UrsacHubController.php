@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Products;
-// use App\User;
+use App\Models\News; // Assuming the News model exists
 
 class UrsacHubController extends Controller
 {
@@ -69,9 +69,44 @@ class UrsacHubController extends Controller
         // return redirect()->route('/add')->with('success', 'Products added successfully!');
     }
     
+    public function saveaddnews(Request $request)
+{
+    // Validate the incoming request
+    $request->validate([
+        'org' => 'required|string|max:255',
+        'headline' => 'required|string|max:255',
+        'content' => 'required|string',
+        'photos' => 'array|max:5', // Validate that a maximum of 5 photos can be uploaded
+        'photos.*' => 'image|mimes:jpg,jpeg,png|max:2048', // Validate each photo file
+    ]);
+
+    // If there are photos, handle uploading and saving their paths
+    $photoPaths = [];
+    if ($request->has('photos')) {
+        foreach ($request->file('photos') as $photo) {
+            $path = $photo->store('photos', 'public'); // Store the photo in the 'public/photos' folder
+            $photoPaths[] = $path;
+        }
+    }
+
+    // Save the news entry in the database
+    \App\Models\news::create([ // Make sure 'News' is capitalized
+        'org' => $request->org,
+        'headline' => $request->headline,
+        'content' => $request->content,
+        'photos' => json_encode($photoPaths), // Store photos as a JSON array
+    ]);
+
+    // Return success response
+    return redirect()->back()->with('success', 'News added successfully!');
+}
 
     public function create()
     {
         return view('admin_addprod'); 
+    }
+    public function addnews()
+    {
+        return view('admin_addnews'); 
     }
 }
