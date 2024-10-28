@@ -111,4 +111,9 @@ class UrsacHubController extends Controller
     
         return redirect('/');
     }
+
+    public function addnewspage()
+    {
+        return view('admin_addnews'); 
+    }
 }
