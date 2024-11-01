@@ -466,18 +466,73 @@ section {
     height: 100px;
 }
 
+.products_card {
+    flex: 1 1 calc(20% - 40px); /* Set to 20% width for 5 items per row */
+    max-width: calc(20% - 40px);
+    min-width: 200px; /* Minimum width to prevent cards from being too small */
+    box-sizing: border-box; /* Include padding and border in total width */
+    background-color: #fff; /* White background for visibility */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow */
+    padding: 16px; /* Inner padding for content */
+    text-align: center; /* Center-align text content */
+}
+
+.products_card img {
+    width: 100%; /* Makes the image take the full width of the container */
+    height: 200px; /* Fixed height for all images */
+    object-fit: cover; /* Crops the image to cover the area while maintaining aspect ratio */
+    border-radius: 5px; /* Optional: Add a slight border radius for aesthetics */
+    display: block; /* Removes any unwanted space around the image */
+}
+
 
 .products-ctn {
     display: flex;
-    flex-direction: column;
-    padding: 0px 12%;
+    flex-wrap: wrap;
+    gap: 20px; /* Increased gap for better spacing */
+    justify-content: center; /* Center the items */
+    padding: 20px; /* Padding around the container */
 }
 
 .products-ctn div {
+    margin: 10%;
     padding: 5%;
     background-color: var(--white-color);
     border-radius: 10px;
 }
+
+
+.news-ctn {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 5%;
+}
+.news-ctn div {
+    padding: 5%;
+    background-color: var(--white-color);
+    border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+    .products_card {
+        flex: 1 1 calc(33.33% - 40px); /* 3 items per row on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .products_card {
+        flex: 1 1 calc(50% - 40px); /* 2 items per row on small screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .products_card {
+        flex: 1 1 100%; /* Full width for each item on very small screens */
+    }
+}
+
 @media (max-width: 1140px) {
     header{
         padding: 10px 16px;
