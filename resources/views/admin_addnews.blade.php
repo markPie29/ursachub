@@ -37,24 +37,12 @@
             </div>
 
             <div>
-                <label for="photos">Photos (max 5):</label>
-                <input type="file" name="photos[]" id="photos" multiple>
+                <label for="photos">Photos (min 1, max 5):</label>
+                <input type="file" name="photos[]" id="photos" required multiple accept="image/*">
             </div>
             
             <button type="submit">Publish News</button>
         </form>
 
     </div>
-
-    <script>
-        function toggleStockInput(checkbox) {
-            const stockInput = checkbox.parentElement.nextElementSibling; // Get the corresponding stock input
-            if (checkbox.checked) {
-                stockInput.style.display = 'inline'; // Show the stock input
-            } else {
-                stockInput.style.display = 'none'; // Hide the stock input
-                stockInput.value = '0'; // Reset the input value
-            }
-        }
-    </script>
-@endsection  
+@endsection
