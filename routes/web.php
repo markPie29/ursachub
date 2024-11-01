@@ -34,38 +34,36 @@ Route::get('/register', function () {
 
 
 
-Route::get('/admin_account', 'App\Http\Controllers\UrsacHubController@admin');
+Route::get('/admin_account', 'App\Http\Controllers\UrsacHubController@admin'); //ADMIN
+
+Route::post('/addnews', 'App\Http\Controllers\UrsacHubController@addnews'); //ADMIN
+
+Route::get('/addnewspage', 'App\Http\Controllers\UrsacHubController@addnewspage'); //ADMIN
+
+Route::get('/news_page', 'App\Http\Controllers\UrsacHubController@news_page'); //STUDENT
+ 
+Route::get('/news/{id}', 'App\Http\Controllers\UrsacHubController@show_eachnewspage')->name('show_eachnewspage'); //STUDENT
+
+Route::get('/news_admin/{id}', 'App\Http\Controllers\UrsacHubController@show_eachnewspage_admin')->name('show_eachnewspage_admin'); //ADMIN
+
+Route::put('/news/{id}/edit', [UrsacHubController::class, 'editNews'])->name('editNews'); //ADMIN
+
+Route::delete('/news_admin/{id}', 'App\Http\Controllers\UrsacHubController@delete_news')->name('delete_news'); //ADMIN
 
 
+Route::get('/products_page', 'App\Http\Controllers\UrsacHubController@products_page'); //STUDENT
 
-Route::post('/addnews', 'App\Http\Controllers\UrsacHubController@addnews');
+Route::get('/products/{id}', 'App\Http\Controllers\UrsacHubController@show_eachprodpage')->name('show_eachprodpage'); //STUDENT
 
-Route::get('/addnewspage', 'App\Http\Controllers\UrsacHubController@addnewspage');
+Route::get('/products_admin/{id}', 'App\Http\Controllers\UrsacHubController@show_eachprodpage_admin')->name('show_eachprodpage_admin'); //ADMIN
 
-Route::get('/news_page', 'App\Http\Controllers\UrsacHubController@news_page');
+Route::get('/addprodpage', 'App\Http\Controllers\UrsacHubController@addprodpage'); //ADMIN
 
-Route::get('/news/{id}', 'App\Http\Controllers\UrsacHubController@show_eachnewspage')->name('show_eachnewspage');
+Route::post('/addprod', 'App\Http\Controllers\UrsacHubController@addprod'); //ADMIN
 
-Route::get('/news_admin/{id}', 'App\Http\Controllers\UrsacHubController@show_eachnewspage_admin')->name('show_eachnewspage_admin');
+Route::delete('/products_admin/{id}', 'App\Http\Controllers\UrsacHubController@delete_prod')->name('delete_prod'); //ADMIN
 
-Route::put('/news/{id}/edit', [UrsacHubController::class, 'editNews'])->name('editNews');
-
-Route::delete('/news_admin/{id}', 'App\Http\Controllers\UrsacHubController@delete_news')->name('delete_news');
-
-
-Route::get('/products_page', 'App\Http\Controllers\UrsacHubController@products_page');
-
-Route::get('/products/{id}', 'App\Http\Controllers\UrsacHubController@show_eachprodpage')->name('show_eachprodpage');
-
-Route::get('/products_admin/{id}', 'App\Http\Controllers\UrsacHubController@show_eachprodpage_admin')->name('show_eachprodpage_admin');
-
-Route::get('/addprodpage', 'App\Http\Controllers\UrsacHubController@addprodpage'); 
-
-Route::post('/addprod', 'App\Http\Controllers\UrsacHubController@addprod');
-
-Route::delete('/products_admin/{id}', 'App\Http\Controllers\UrsacHubController@delete_prod')->name('delete_prod');
-
-Route::put('/products/{id}/edit_stock/{size}', [UrsacHubController::class, 'editStock'])->name('edit_stock');
+Route::put('/products/{id}/edit_stock/{size}', [UrsacHubController::class, 'editStock'])->name('edit_stock'); //ADMIN
 
 
 
