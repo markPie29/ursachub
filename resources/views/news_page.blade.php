@@ -5,17 +5,20 @@
     <body>    
         <img class="hero-bg" src="URSAC.png" alt="">
         <div class="hero-text">
-        <h1>News Page</h1>  
+        <h2>News Page</h2>  
         </div>
 
-        @foreach($news as $news)
-        <a href="{{ route('show_eachnewspage', $news->id) }}">
+        <div class="news-ctn">
+        @foreach($news as $newsx)
+        <a href="{{ route('show_eachnewspage', $newsx->id) }}">
             <div class="products_card"> 
-                <p>{{ $news->name }}</p>
-                <p>{{ $news->org }}</p>
+                <p>{{ $newsx->headline }}</p>
+                <p>{{ $newsx->org }}</p>
+                <p>{{ $newsx->timestamp }}</p>
             </div>
         </a>
         @endforeach
+        </div>
 
 
     </body>
