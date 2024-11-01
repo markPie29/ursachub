@@ -15,8 +15,8 @@
             </div>
 
             <div class="account-addbtn-ctn">
-                <a href= "{{ route('create') }}"> <div class="main-button" > <i class='bx bxs-t-shirt'></i> Add Product <i class='bx bx-plus'></i></div> </a>
-                <a href= "addnews.php"> <div class="main-button" href="addnews.php"> <i class='bx bx-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
+                <a href= "/addprodpage"> <div class="main-button" > <i class='bx bxs-t-shirt'></i> Add Product <i class='bx bx-plus'></i></div> </a>
+                <a href= "/addnewspage"> <div class="main-button" > <i class='bx bx-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
             </div>
         </div>
 
@@ -25,9 +25,12 @@
             <div class="prodnews-div-admin">
                 <h1>Products</h1>
                 @foreach($products as $product)
-                <div>
-                    {{ $product->name }} - {{ $product->price }} - {{ $product->org }}
-                </div>
+                <a href="{{ route('show_eachprodpage_admin', $product->id) }} ">
+                    <div>
+                        {{ $product->name }} - {{ $product->price }} - {{ $product->org }}
+                    </div>
+                </a>
+
                 @endforeach
             </div>
 
