@@ -123,6 +123,28 @@ class UrsacHubController extends Controller
         return redirect('/');
     }
 
+    public function delete_news($id)
+    {
+        // Find the product by ID
+        $news = News::findOrFail($id);
+
+        // Optionally, delete associated photos from storage
+        if ($news->photos) {
+            $photos = json_decode($news->photos);
+            foreach ($photos as $photoPath) {
+                if (Storage::exists($photoPath)) {
+                    Storage::delete($photoPath);
+                }
+            }
+        }
+
+        // Delete the product from the database
+        $news->delete();
+
+        // Redirect with a success message
+        return redirect('/');
+    }
+
     public function editStock(Request $request, $id, $size)
     {
         $product = Products::findOrFail($id);
@@ -138,7 +160,63 @@ class UrsacHubController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
+
+    public function editNews(Request $request, $id)
+    {
+        $news = News::findOrFail($id);
+
+        // Update text fields
+        $news->headline = $request->input('headline');
+        $news->org = $request->input('org');
+        $news->content = $request->input('content');
+
+        // Get existing photos
+        $existingPhotos = json_decode($news->photos, true) ?? [];
+
+        // Debug: Log existing photos
+        \Log::info('Existing Photos: ', $existingPhotos);
+
+        // Handle removing selected photos
+        if ($request->has('remove_photos')) {
+            foreach ($request->input('remove_photos') as $photoToRemove) {
+                // Check if the photo exists before trying to delete it
+                if (in_array($photoToRemove, $existingPhotos)) {
+                    // Remove the photo from storage
+                    \Storage::disk('public')->delete($photoToRemove);
+                    // Remove the photo from the existing array
+                    if (($key = array_search($photoToRemove, $existingPhotos)) !== false) {
+                        unset($existingPhotos[$key]);
+                    }
+                } else {
+                    // Debug: Log if the photo to remove was not found
+                    \Log::warning('Photo not found for removal: ', [$photoToRemove]);
+                }
+            }
+        }
+
+        // Handle new photo uploads
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                if ($photo->isValid()) {
+                    $existingPhotos[] = $photo->store('news_photos', 'public');
+                }
+            }
+        }
+
+        // Limit the number of photos to 5
+        $existingPhotos = array_slice($existingPhotos, 0, 5);
+        $news->photos = json_encode($existingPhotos);
+
+        // Save the updated news
+        $news->save();
+        return redirect('/');
+    }
+
     
+
+    
+    
+
 
     public function addprodpage()
     {
