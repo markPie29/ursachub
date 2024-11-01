@@ -8,9 +8,16 @@
         <h1>News Page</h1>  
         </div>
 
-        <div class="hero-text">
-        <h3>News Page</h3>
-        </div>
+        @foreach($news as $news)
+        <a href="{{ route('show_eachnewspage', $news->id) }}">
+            <div class="products_card"> 
+                <p>{{ $news->name }}</p>
+                <p>{{ $news->org }}</p>
+            </div>
+        </a>
+        @endforeach
+
+
     </body>
 
 @endsection

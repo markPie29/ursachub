@@ -16,68 +16,45 @@
         @endif
 
         {{-- Product Form --}}
-        <form action="{{ route('addproduct') }}" method="POST" enctype="multipart/form-data">
+        <form action="/addprod" method="POST" enctype="multipart/form-data">
             @csrf
             <div>
                 <label for="name">Product Name:</label>
-                <input type="text" name="name" id="name" required>
-            </div>
-            
-            <div>
-                <label for="org">Organization:</label>
-                <input type="text" name="org" id="org" required>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" required>
             </div>
 
             <div>
-                <h3>Select Sizes:</h3>
-                <!-- Updated Sizes -->
+                <label for="org">Organization:</label>
+                <input type="text" name="org" id="org" value="{{ old('org') }}" required>
+            </div>
+
+            <div>
+                <h3>Enter Stocks for Sizes:</h3>
                 <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="XS" onchange="toggleStockInput(this)"> XS
-                    </label>
-                    <input type="number" name="stocks[XS]" class="stock-input" placeholder="Enter stocks" style="display:none;">
+                    <label for="small">Small:</label>
+                    <input type="number" name="small" id="small" value="{{ old('small') }}" min="0" required placeholder="Enter stocks for Small">
                 </div>
                 <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="S" onchange="toggleStockInput(this)"> S
-                    </label>
-                    <input type="number" name="stocks[S]" class="stock-input" placeholder="Enter stocks" style="display:none;">
+                    <label for="medium">Medium:</label>
+                    <input type="number" name="medium" id="medium" value="{{ old('medium') }}" min="0" required placeholder="Enter stocks for Medium">
                 </div>
                 <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="M" onchange="toggleStockInput(this)"> M
-                    </label>
-                    <input type="number" name="stocks[M]" class="stock-input" placeholder="Enter stocks" style="display:none;">
+                    <label for="large">Large:</label>
+                    <input type="number" name="large" id="large" value="{{ old('large') }}" min="0" required placeholder="Enter stocks for Large">
                 </div>
                 <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="L" onchange="toggleStockInput(this)"> L
-                    </label>
-                    <input type="number" name="stocks[L]" class="stock-input" placeholder="Enter stocks" style="display:none;">
+                    <label for="extralarge">Extra Large:</label>
+                    <input type="number" name="extralarge" id="extralarge" value="{{ old('extralarge') }}" min="0" required placeholder="Enter stocks for Extra Large">
                 </div>
                 <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="XL" onchange="toggleStockInput(this)"> XL
-                    </label>
-                    <input type="number" name="stocks[XL]" class="stock-input" placeholder="Enter stocks" style="display:none;">
-                </div>
-                <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="2XL" onchange="toggleStockInput(this)"> 2XL
-                    </label>
-                    <input type="number" name="stocks[2XL]" class="stock-input" placeholder="Enter stocks" style="display:none;">
-                </div>
-                <div>
-                    <label>
-                        <input type="checkbox" class="size-checkbox" name="sizes[]" value="3XL" onchange="toggleStockInput(this)"> 3XL
-                    </label>
-                    <input type="number" name="stocks[3XL]" class="stock-input" placeholder="Enter stocks" style="display:none;">
+                    <label for="double_extralarge">Double Extra Large:</label>
+                    <input type="number" name="double_extralarge" id="double_extralarge" value="{{ old('double_extralarge') }}" min="0" required placeholder="Enter stocks for Double Extra Large">
                 </div>
             </div>
 
             <div>
                 <label for="price">Price:</label>
-                <input type="number" name="price" id="price" step="0.01" required>
+                <input type="number" name="price" id="price" step="0.01" value="{{ old('price') }}" required>
             </div>
 
             <div>
@@ -89,16 +66,4 @@
         </form>
 
     </div>
-
-    <script>
-        function toggleStockInput(checkbox) {
-            const stockInput = checkbox.parentElement.nextElementSibling; // Get the corresponding stock input
-            if (checkbox.checked) {
-                stockInput.style.display = 'inline'; // Show the stock input
-            } else {
-                stockInput.style.display = 'none'; // Hide the stock input
-                stockInput.value = '0'; // Reset the input value
-            }
-        }
-    </script>
-@endsection  
+@endsection

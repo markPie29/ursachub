@@ -12,11 +12,11 @@
 
     <div class="products-ctn">
         @foreach($products as $product)
-        <a href="{{ route('show_prodpage', $product->id) }}">
+        <a href="{{ route('show_eachprodpage', $product->id) }}">
             <div class="products_card"> 
-                <span>{{ $product->name }} - {{ $product->price }} - {{ $product->org }}</span>
-                <span>{{ $product->small }} - {{ $product->medium }} - {{ $product->large }}</span>
                 <span>{{ $product->name }}</span>
+                <p>{{ $product->org }}</p>
+                <strong>{{ $product->price }}</strong>
             </div>
         </a>
         @endforeach
