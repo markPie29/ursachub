@@ -27,7 +27,7 @@ class UrsacHubController extends Controller
 
     public function products_page() {
 
-        $products = Products::all();
+        $products = Products::paginate(6);
 
         return view('products_page', [
             'products' => $products
