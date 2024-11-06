@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class UrsacHubController extends Controller
 {
+
+    public function home() {
+        return view ('home');
+    }
     public function admin() {
 
         // $user = User::all();
@@ -69,7 +73,7 @@ class UrsacHubController extends Controller
 
     public function addprod(Request $request)
     {
-       $product = new Products();
+        $product = new Products();
 
         $product->org = $request->input('org');
         $product->name = $request->input('name');
@@ -87,18 +91,19 @@ class UrsacHubController extends Controller
             $photos = $request->file('photos');
             foreach ($photos as $index => $photo) {
                 if ($index >= 5) break; // Limit to 5 images
-    
+
                 if ($photo->isValid()) {
                     $photoPaths[] = $photo->store('product_photos', 'public'); // Add each path to array
                 }
             }
         }
-    
+
         // Store JSON-encoded photo paths in the photos column
         $product->photos = json_encode($photoPaths);
         $product->save();
-    
-        return redirect('/');
+
+        // Redirect to the admin account route
+        return redirect()->route('admin.account')->with('success', 'Product added successfully.');
     }
 
     public function delete_prod($id)

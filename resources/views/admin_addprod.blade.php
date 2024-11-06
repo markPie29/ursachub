@@ -16,7 +16,7 @@
         @endif
 
         {{-- Product Form --}}
-        <form action="/addprod" method="POST" enctype="multipart/form-data">
+        <form action="/admin/addprod" method="POST" enctype="multipart/form-data">
             @csrf
             <div>
                 <label for="name">Product Name:</label>

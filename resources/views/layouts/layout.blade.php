@@ -17,14 +17,14 @@
 
 <header>
         <div>
-            <a href="{{ url('/home') }}" class="logo">URSAC Hub</a>
+            <a href="{{ route('student.home') }}" class="logo">URSAC Hub</a>
         </div>
 
         <div>
             <ul class="navbar">
-                <li><a href="{{ url('/news_page') }}">News</a></li>
-                <li><a href="{{ url('/products_page') }}">Products</a></li>
-                <li><a href="{{ url('/faqs_page') }}">FAQs</a></li>
+                <li><a href="{{ route('news_page') }}">News</a></li>
+                <li><a href="{{ route('products_page') }}">Products</a></li>
+                <li><a href="">FAQs</a></li>
             </ul>
         </div>
 

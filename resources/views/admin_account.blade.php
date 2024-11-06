@@ -11,12 +11,12 @@
         <div class="main-details">
             <div>
                 <h1>{{ $org_name }}</h1>
-                <h3>{{ $org_name_full }}</h3>
+                
             </div>
 
             <div class="account-addbtn-ctn">
-                <a href= "/addprodpage"> <div class="main-button" > <i class='bx bxs-t-shirt'></i> Add Product <i class='bx bx-plus'></i></div> </a>
-                <a href= "/addnewspage"> <div class="main-button" > <i class='bx bx-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
+                <a href= "{{ route('addprodpage') }}"> <div class="main-button" > <i class='bx bxs-t-shirt'></i> Add Product <i class='bx bx-plus'></i></div> </a>
+                <a href= "{{ route('addnewspage') }}"> <div class="main-button" > <i class='bx bx-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
             </div>
         </div>
 
