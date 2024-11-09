@@ -42,7 +42,7 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('login', [AdminAuthController::class, 'login']);
     
-    Route::middleware('auth:admin')->group(function () {
+    Route::middleware(['auth:admin'])->group(function () {
         Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
         Route::post('addnews', [UrsacHubController::class, 'addnews']);
         Route::get('addnewspage', [UrsacHubController::class, 'addnewspage'])->name('addnewspage');
