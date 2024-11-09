@@ -23,9 +23,9 @@
                 <input type="text" name="name" id="name" value="{{ old('name') }}" required>
             </div>
 
-            <div>
+            <div> 
                 <label for="org">Organization:</label>
-                <input type="text" name="org" id="org" value="{{ old('org') }}" required>
+                <span>{{ $org }}</span>
             </div>
 
             <div>
