@@ -11,7 +11,8 @@ class StudentAuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('auth.register_student');
+        $courses = ['Bachelor of Science in Computer Engineering', 'Bachelor of Science in Civil Engineering', 'Bachelor of Science in Hospitality Management ', 'Bachelor of Science in Business Administration'];
+        return view('auth.register_student', compact('courses'));
     }
 
     public function register(Request $request)
