@@ -68,6 +68,7 @@ Route::prefix('student')->group(function () {
         Route::get('news', [UrsacHubController::class, 'news_page'])->name('news_page');
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');
+        Route::get('news/{id}', [UrsacHubController::class, 'show_eachnewspage'])->name('show_eachnewspage');
         
     });
 });
