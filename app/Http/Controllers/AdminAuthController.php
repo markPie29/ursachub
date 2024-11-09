@@ -72,4 +72,13 @@ class AdminAuthController extends Controller
             'name' => 'The provided credentials do not match our records.',
         ])->onlyInput('name');
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout(); // or 'student' as needed
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
+    }
 }

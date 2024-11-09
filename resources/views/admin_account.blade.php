@@ -8,6 +8,13 @@
 
         </section>
 
+        <div>
+            <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+
         <div class="main-details">
             <div>
                 <h1>{{ $org_name }}</h1>

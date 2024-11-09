@@ -52,4 +52,13 @@ class StudentAuthController extends Controller
             'student_id' => 'The provided credentials do not match our records.',
         ])->onlyInput('student_id');
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout(); // or 'student' as needed
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('student.login');
+    }
 }

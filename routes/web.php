@@ -35,6 +35,8 @@ Route::get('/', function () {
 // });
 
 
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
 
 Route::prefix('admin')->group(function () {
     Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
