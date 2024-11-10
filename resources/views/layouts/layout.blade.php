@@ -55,7 +55,7 @@
         </div>
         <ul>
             <li><a href="{{ route('student.account') }}"><i class='bx bx-user'></i> Account</a></li>
-            <li><a href="products.php"><i class='bx bx-box'></i> Products</a></li>
+            <li><a href="{{ route('student.cart') }}"><i class='bx bx-box'></i> Cart</a></li>
             <li>
                 <form action="{{ route('student.logout') }}" method="POST" style="display: inline;">
                 @csrf

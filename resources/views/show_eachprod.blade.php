@@ -68,7 +68,7 @@
             @if($canAddToCart)
                 <button class="product-add-to-cart" id="product-add-to-cart">Add to Cart</button>
             @else
-                <p>This product is not available for your course.</p>
+                <p style="text-align: center">This product is not available for your course.</p>
             @endif
             
         </div>
@@ -91,7 +91,40 @@
     document.getElementById('product-add-to-cart').addEventListener('click', function() {
         const size = document.getElementById('product-size').value;
         const quantity = document.getElementById('product-quantity').value;
-        alert(`Adding ${quantity} of size ${size} to cart!`);
+        const productId = {{ $product->id }};  // This is the product ID you need to send.
+
+        if (!size) {
+            alert('Please select a size.');
+            return;
+        }
+
+        fetch("{{ route('cart.add', $product->id) }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                size: size,
+                quantity: quantity,
+                product_id: productId  // Include product_id explicitly here
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Product added to cart successfully!');
+                // Optionally, update cart count or redirect to cart page
+            } else {
+                alert(data.message || 'Error adding product to cart.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to add product to cart.');
+        });
     });
+
+
 </script>
 @endsection

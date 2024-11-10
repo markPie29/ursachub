@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\News;
 use App\Models\Courses;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 // use App\User;
@@ -60,7 +61,7 @@ class UrsacHubController extends Controller
         return view('show_eachprod', compact('product', 'canAddToCart'));
     }
     
-    
+
 
     public function show_eachprodpage_admin($id)
     {
@@ -317,4 +318,81 @@ class UrsacHubController extends Controller
             'student_id'=> $student_id
         ]);
     }
+
+    public function student_cart()
+    {
+        $student = Auth::guard('student')->user();
+    
+        // Retrieve all cart items for the logged-in student
+        $cartItems = Cart::where('student_id', $student->id)->get();
+    
+        return view('student_cart', compact('cartItems'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        \Log::info($request->all()); 
+
+        $request->validate([
+            'size' => 'required|string',
+            'quantity' => 'required|integer|min:1',
+            'product_id' => 'required|exists:products,id'  // Validate that product_id exists
+        ]);
+    
+        $product = Products::findOrFail($request->product_id);  // Retrieve the product by ID
+        $student = Auth::guard('student')->user();
+    
+        // Prepare cart data with required fields
+        $cartData = [
+            'name' => $product->name,
+            'org' => $product->org,
+            'size' => $request->size,
+            'quantity' => $request->quantity,
+            'price' => $product->price * $request->quantity,
+            'photos' => $product->photos,
+            'student_id' => $student->id,
+        ];
+    
+        // Insert into cart
+        Cart::create($cartData);
+    
+        return response()->json(['success' => 'Product added to cart successfully']);
+    }
+    
+    
+    
+
+    public function updateCartQuantity(Request $request, $id)
+    {
+        $request->validate(['quantity' => 'required|integer|min:1']);
+        
+        $cartItem = Cart::findOrFail($id);
+        $cartItem->quantity = $request->quantity;
+        $cartItem->price = $cartItem->quantity * $cartItem->price / $cartItem->getOriginal('quantity'); // Adjust price
+        $cartItem->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    // Remove item
+    public function removeItem($itemId)
+    {
+        // Find the cart item by its ID
+        $cartItem = Cart::find($itemId);
+    
+        if (!$cartItem) {
+            // Redirect back with error message if item is not found
+            return redirect()->route('student.cart')->with('error', 'Item not found.');
+        }
+    
+        // Delete the cart item
+        $cartItem->delete();
+    
+        // Redirect back to the cart page with a success message
+        return redirect()->route('student.cart')->with('success', 'Item removed successfully.');
+    }
+    
+
+
+
 }

@@ -68,6 +68,10 @@ Route::prefix('student')->group(function () {
     Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [UrsacHubController::class, 'home'])->name('student.home');
         Route::get('account', [UrsacHubController::class, 'student_account'])->name('student.account');
+        Route::get('cart', [UrsacHubController::class, 'student_cart'])->name('student.cart');
+        Route::post('/cart/{productId}', [UrsacHubController::class, 'addToCart'])->name('cart.add');
+        Route::post('/cart/update/{id}', [UrsacHubController::class, 'updateCartQuantity'])->name('cart.update');
+        Route::post('/cart/remove/{itemId}', [UrsacHubController::class, 'removeItem'])->name('cart.remove');
         Route::get('news', [UrsacHubController::class, 'news_page'])->name('news_page');
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');
