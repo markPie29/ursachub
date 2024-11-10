@@ -8,13 +8,6 @@
 
         </section>
 
-        <div>
-            <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
-            @csrf
-            <button type="submit" class="btn btn-danger">Logout</button>
-            </form>
-        </div>
-
         <div class="main-details">
             <div>
                 <h1>{{ $org_name }}</h1>
@@ -24,6 +17,10 @@
             <div class="account-addbtn-ctn">
                 <a href= "{{ route('addprodpage') }}"> <div class="main-button" > <i class='bx bxs-t-shirt'></i> Add Product <i class='bx bx-plus'></i></div> </a>
                 <a href= "{{ route('addnewspage') }}"> <div class="main-button" > <i class='bx bx-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
+                <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             </div>
         </div>
 

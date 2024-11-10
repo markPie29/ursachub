@@ -2,13 +2,12 @@
 
 @section('content')
 <div class="admin-container">
-    <h2>Welcome, Admin!</h2>
     
     <form method="POST" action="{{ route('admin.login') }}" class="admin-login">
         @csrf
 
         <!-- Login div starts here -->
-        <h3>Login</h3>
+        <h1>Welcome, Admin!</h1>
 
         <!-- Name Field -->
         <div class="form-group inputBx">
@@ -47,15 +46,9 @@
 
         <!-- Login Button -->
         <div class="inputBx">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Log In</button>
         </div>
 
-        <!-- Links for "Forgot Password" and Registration -->
-        <div class="links">
-            <a href="#">Forget Password</a>
-            <a href="{{ route('admin.register') }}">Sign Up Now</a>
-        </div>
-        <!-- Login div ends here -->
     </form>
 
     <!-- Error handling -->

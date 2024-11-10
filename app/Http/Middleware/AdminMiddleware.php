@@ -18,7 +18,7 @@ class AdminMiddleware
     {
         if (!Auth::guard('admin')->check()) {
             // Redirect to admin login page if not authenticated
-            return redirect()->route('admin.login');
+            return redirect()->route('student.login');
         }
 
         return $next($request);

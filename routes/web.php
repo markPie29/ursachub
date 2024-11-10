@@ -65,8 +65,9 @@ Route::prefix('student')->group(function () {
     Route::get('login', [StudentAuthController::class, 'showLoginForm'])->name('student.login');
     Route::post('login', [StudentAuthController::class, 'login']);
     
-    Route::middleware('auth:student')->group(function () {
+    Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [UrsacHubController::class, 'home'])->name('student.home');
+        Route::get('account', [UrsacHubController::class, 'student_account'])->name('student.account');
         Route::get('news', [UrsacHubController::class, 'news_page'])->name('news_page');
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');

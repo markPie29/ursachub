@@ -39,11 +39,6 @@
                 <button type="submit" class="btn btn-primary">Sign in</button>
             </div>
 
-            <!-- Links section -->
-            <div class="links">
-                <a href="#">Forget Password</a>
-                <a href="{{ route('student.register') }}">Sign Up Now</a>
-            </div>
 
             <!-- Registration prompt inside the container -->
             <div class="register-prompt">

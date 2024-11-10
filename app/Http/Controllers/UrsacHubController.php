@@ -279,4 +279,20 @@ public function addprodpage()
     {
         return view('admin_addnews'); 
     }
+
+    public function student_account()
+    {
+        $student = Auth::guard('student')->user();
+        $firstname = $student->first_name;
+        $lastname = $student->last_name;
+        $middlename = $student->middle_name;
+        $student_id = $student->student_id;
+
+        return view('student_account', [
+            'firstname' => $firstname, 
+            'lastname' => $lastname, 
+            'middlename' => $middlename, 
+            'student_id'=> $student_id
+        ]);
+    }
 }

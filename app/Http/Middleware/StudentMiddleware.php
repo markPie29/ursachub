@@ -18,6 +18,7 @@ class StudentMiddleware
     {
         if (!Auth::guard('student')->check()) {
             // Redirect to student login page if not authenticated
+            echo("error");
             return redirect()->route('student.login');
         }
 
