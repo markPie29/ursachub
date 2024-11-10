@@ -53,7 +53,15 @@
         <ul>
             <li><a href="account.php"><i class='bx bx-user'></i> Account</a></li>
             <li><a href="products.php"><i class='bx bx-box'></i> Products</a></li>
+            <li>
+                <form action="{{ route('student.logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </li>
         </ul>
+
+
     </div>
 
 @yield('content')
