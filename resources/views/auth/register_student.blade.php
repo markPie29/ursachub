@@ -24,7 +24,12 @@
         </div>
         <div class="form-group">
             <label for="course">Course</label>
-            <input type="text" class="form-control" id="course" name="course" required>
+            <select class="form-control" id="course" name="course" required>
+                <option value="" disabled selected>Select your course</option>
+                @foreach ($courses as $course)
+                    <option value="{{ $course }}">{{ $course }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             <label for="password">Password</label>

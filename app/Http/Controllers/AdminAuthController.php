@@ -14,7 +14,10 @@ class AdminAuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('auth.register_admin');
+    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress', 'Association of Stenographers Aiming for Progress', "Bartender's Society",
+    'Christian Brotherhood International', 'College of Business Administration - Student Council', 'College of Education - Student Council', 'College of Hospitality Industry - Student Council', 'CORO URSAC', 'Elevate University of Rizal System Antipolo Chapter', 'Environmental Army Society', 'Hiyas ng Rizal Dance Troup', 
+    'Hospitality Management Society', 'Kapulungang Filipino', 'Litera Organization', 'Radicals Organization', 'Red Cross Youth Council', 'Tipolo Student Publication', 'Tourism Society Organization', 'University Supreme Student Government', 'URSAC - Fierce Group Facilitator', 'URSAC - Social Studies Organization for UNESCO', 'URSAC Extensionist'];
+        return view('auth.register_admin',compact('organizations'));
     }
 
     public function register(Request $request)
@@ -32,7 +35,10 @@ class AdminAuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login_admin');
+    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress', 'Association of Stenographers Aiming for Progress', "Bartender's Society",
+    'Christian Brotherhood International', 'College of Business Administration - Student Council', 'College of Education - Student Council', 'College of Hospitality Industry - Student Council', 'CORO URSAC', 'Elevate University of Rizal System Antipolo Chapter', 'Environmental Army Society', 'Hiyas ng Rizal Dance Troup', 
+    'Hospitality Management Society', 'Kapulungang Filipino', 'Litera Organization', 'Radicals Organization', 'Red Cross Youth Council', 'Tipolo Student Publication', 'Tourism Society Organization', 'University Supreme Student Government', 'URSAC - Fierce Group Facilitator', 'URSAC - Social Studies Organization for UNESCO', 'URSAC Extensionist'];
+        return view('auth.login_admin',compact('organizations'));
     }
 
     public function login(Request $request)
@@ -65,5 +71,14 @@ class AdminAuthController extends Controller
         return back()->withErrors([
             'name' => 'The provided credentials do not match our records.',
         ])->onlyInput('name');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout(); // or 'student' as needed
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 }

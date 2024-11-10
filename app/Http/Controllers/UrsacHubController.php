@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\News;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 // use App\User;
 
@@ -72,39 +73,64 @@ class UrsacHubController extends Controller
     }
 
     public function addprod(Request $request)
-    {
-        $product = new Products();
+{
+    // Validate input fields
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'small' => 'required|integer|min:0',
+        'medium' => 'required|integer|min:0',
+        'large' => 'required|integer|min:0',
+        'extralarge' => 'required|integer|min:0',
+        'double_extralarge' => 'required|integer|min:0',
+        'price' => 'required|numeric|min:0',
+        'photos' => 'nullable|array|max:5',
+        'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $product->org = $request->input('org');
-        $product->name = $request->input('name');
-        $product->small = $request->input('small');
-        $product->medium = $request->input('medium');
-        $product->large = $request->input('large');
-        $product->extralarge = $request->input('extralarge');
-        $product->double_extralarge = $request->input('double_extralarge');
-        $product->price = $request->input('price');
+    // Retrieve the organization from the authenticated admin
+    $admin = Auth::guard('admin')->user();
+    $org = $admin->org;
 
-        $photoPaths = [];
+    // Create a new product instance
+    $product = new Products();
+    $product->org = $org; // Set the organization based on the admin's org
+    $product->name = $request->input('name');
+    $product->small = $request->input('small');
+    $product->medium = $request->input('medium');
+    $product->large = $request->input('large');
+    $product->extralarge = $request->input('extralarge');
+    $product->double_extralarge = $request->input('double_extralarge');
+    $product->price = $request->input('price');
 
-        // Handle multiple file uploads, max 5 images
-        if ($request->hasFile('photos')) {
-            $photos = $request->file('photos');
-            foreach ($photos as $index => $photo) {
-                if ($index >= 5) break; // Limit to 5 images
+    $photoPaths = [];
 
-                if ($photo->isValid()) {
-                    $photoPaths[] = $photo->store('product_photos', 'public'); // Add each path to array
-                }
+    // Handle multiple file uploads, max 5 images
+    if ($request->hasFile('photos')) {
+        $photos = $request->file('photos');
+        foreach ($photos as $index => $photo) {
+            if ($index >= 5) break; // Limit to 5 images
+
+            if ($photo->isValid()) {
+                $photoPaths[] = $photo->store('product_photos', 'public'); // Add each path to array
             }
         }
-
-        // Store JSON-encoded photo paths in the photos column
-        $product->photos = json_encode($photoPaths);
-        $product->save();
-
-        // Redirect to the admin account route
-        return redirect()->route('admin.account')->with('success', 'Product added successfully.');
     }
+
+    // Store JSON-encoded photo paths in the photos column
+    $product->photos = json_encode($photoPaths);
+    $product->save();
+
+    // Redirect to the admin account route
+    return redirect()->route('admin.account')->with('success', 'Product added successfully.');
+}
+
+public function addprodpage()
+{
+    // Retrieve the authenticated admin's organization
+    $admin = Auth::guard('admin')->user();
+    $org = $admin->org;
+    return view('admin_addprod', compact('org'));
+}
 
     public function delete_prod($id)
     {
@@ -217,16 +243,6 @@ class UrsacHubController extends Controller
         return redirect('/');
     }
 
-    
-
-    
-    
-
-
-    public function addprodpage()
-    {
-        return view('admin_addprod'); 
-    }
 
     public function addnews(Request $request)
     {

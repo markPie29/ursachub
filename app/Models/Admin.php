@@ -9,6 +9,8 @@ class Admin extends Authenticatable
 {
     use Notifiable;
 
+    protected $guard = 'admin';
+
     protected $fillable = ['name', 'org', 'password'];
 
     protected $hidden = ['password', 'remember_token'];

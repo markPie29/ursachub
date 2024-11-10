@@ -25,13 +25,12 @@
         <!-- Organization Field -->
         <div class="form-group inputBx">
             <label for="org">Organization</label>
-            <input 
-                type="text" 
-                class="form-control" 
-                id="org" 
-                name="org" 
-                placeholder="Enter your organization" 
-                required>
+            <select class="form-control" id="org" name="org" required>
+                <option value="" disabled selected>Select an organization</option>
+                @foreach ($organizations as $organization)
+                    <option value="{{ $organization }}">{{ $organization }}</option>
+                @endforeach
+            </select>
         </div>
 
         <!-- Password Field -->

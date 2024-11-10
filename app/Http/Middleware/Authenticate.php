@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Auth;
+
 
 class Authenticate extends Middleware
 {
@@ -14,9 +17,27 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
-        if (Auth::guard($guards)->guest()) {
-            // Redirect the user to the login page
-            return redirect()->route('admin.login');
+        if (! $request->expectsJson()) {
+            return route('admin.login');  // Specify the admin login route if different
+        }
+    }
+
+    protected $guards;
+
+    public function __construct()
+    {
+        // Set a default guard here if necessary
+        $this->guards = ['web'];
+        
+    }
+
+    public function handle($request, Closure $next, ...$guards)
+    {
+        // Use the guards passed in the function or fallback to the default guards
+        $this->guards = $guards ?: $this->guards;
+
+        if (!Auth::guard($this->guards[0])->check()) {
+            return redirect()->route('admin.login'); // Adjust redirect route if needed
         }
 
         return $next($request);

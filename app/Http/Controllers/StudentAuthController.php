@@ -11,7 +11,8 @@ class StudentAuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('auth.register_student');
+        $courses = ['Bachelor of Science in Computer Engineering', 'Bachelor of Science in Civil Engineering', 'Bachelor of Science in Hospitality Management ', 'Bachelor of Science in Business Administration'];
+        return view('auth.register_student', compact('courses'));
     }
 
     public function register(Request $request)
@@ -50,5 +51,14 @@ class StudentAuthController extends Controller
         return back()->withErrors([
             'student_id' => 'The provided credentials do not match our records.',
         ])->onlyInput('student_id');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout(); // or 'student' as needed
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('student.login');
     }
 }
