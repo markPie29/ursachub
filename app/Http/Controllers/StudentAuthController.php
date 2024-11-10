@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\Courses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,31 +12,24 @@ class StudentAuthController extends Controller
 {
     public function showRegisterForm()
     {
-        $courses = [
-            'Bachelor of Science in Computer Engineering',
-            'Bachelor of Science in Civil Engineering',
-            'Bachelor of Science in Hospitality Management',
-            'Bachelor of Science in Business Administration'
-        ];
+        $courses = Courses::all();
         return view('auth.register_student', compact('courses'));
     }
 
     public function register(Request $request)
     {
-        // Validate incoming request data, including student ID format
+        // Validate incoming request data
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'student_id' => [
                 'required',
-                'regex:/^AC\d{4}-\d{5}$/', // Enforces the ACYYYY-XXXXX format
-                'unique:students', // Ensures the ID is unique in the students table
+                'regex:/^AC\d{4}-\d{5}$/',
+                'unique:students',
             ],
-            'course' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
             'password' => 'required|string|min:8|confirmed',
-        ], [
-            'student_id.regex' => 'Invalid Student ID',
         ]);
 
         // Create the new student record
@@ -44,8 +38,8 @@ class StudentAuthController extends Controller
             'last_name' => $request->last_name,
             'middle_name' => $request->middle_name,
             'student_id' => $request->student_id,
-            'course' => $request->course,
-            'password' => bcrypt($request->password),
+            'course_id' => $request->course_id,
+            'password' => bcrypt($request->password), // Hash password here
         ]);
 
         return redirect()->route('student.login')->with('success', 'Registration successful. Please log in.');
@@ -64,6 +58,7 @@ class StudentAuthController extends Controller
             'password' => 'required|string',
         ]);
 
+
         // Attempt login with student guard
         if (Auth::guard('student')->attempt($credentials)) {
             $request->session()->regenerate();
@@ -74,6 +69,7 @@ class StudentAuthController extends Controller
             'student_id' => 'The provided credentials do not match our records.',
         ])->onlyInput('student_id');
     }
+
 
     public function logout(Request $request)
     {

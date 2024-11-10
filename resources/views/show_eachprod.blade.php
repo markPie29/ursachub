@@ -65,7 +65,12 @@
             </div>
 
             <!-- Add to Cart Button -->
-            <button class="product-add-to-cart" id="product-add-to-cart">Add to Cart</button>
+            @if($canAddToCart)
+                <button class="product-add-to-cart" id="product-add-to-cart">Add to Cart</button>
+            @else
+                <p>This product is not available for your course.</p>
+            @endif
+            
         </div>
     </div>
 </div>

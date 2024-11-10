@@ -24,12 +24,15 @@
         </div>
         <div class="form-group">
             <label for="course">Course</label>
-            <select class="form-control" id="course" name="course" required>
+
+            <select class="form-control" id="course" name="course_id" required>
                 <option value="" disabled selected>Select your course</option>
-                @foreach ($courses as $course)
-                    <option value="{{ $course }}">{{ $course }}</option>
+                @foreach($courses as $course)
+                    <option value="{{ $course->id }}">{{ $course->name }}</option>
                 @endforeach
             </select>
+
+
         </div>
         <div class="form-group">
             <label for="password">Password</label>

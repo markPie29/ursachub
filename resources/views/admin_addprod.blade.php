@@ -28,6 +28,17 @@
                 <span>{{ $org }}</span>
             </div>
 
+            {{-- Course Selection using Checkboxes --}}
+            <label for="courses">Available for Courses:</label>
+            <div id="courses">
+                @foreach($courses as $course)
+                    <div>
+                        <input type="checkbox" name="course_ids[]" value="{{ $course->id }}" id="course_{{ $course->id }}">
+                        <label for="course_{{ $course->id }}">{{ $course->name }}</label>
+                    </div>
+                @endforeach
+            </div>
+
             <div>
                 <h3>Enter Stocks for Sizes:</h3>
                 <div>
