@@ -1,11 +1,12 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<div class="container">
-    <h2>Student Registration</h2>
-    <form method="POST" action="{{ route('student.register') }}">
+<div class="registration-container">
+    
+    <form method="POST" action="{{ route('student.register') }}" class="registration-form">
         @csrf
         <div class="form-group">
+            <h2>Student Registration</h2>
             <label for="first_name">First Name</label>
             <input type="text" class="form-control" id="first_name" name="first_name" required>
         </div>
