@@ -111,6 +111,7 @@
 body{
     color: var(--text-color);
     background: var(--bg-color);
+    
 }
 header{
     animation-name: topslide;
@@ -176,7 +177,7 @@ section {
     letter-spacing: var(--logo-letter-spacing);
     margin-bottom: 10px;
 }
-.form-box{
+/* .form-box{
     width: 450px;
     margin: 0px 10px;
 }
@@ -201,7 +202,7 @@ section {
     border-radius: 5px;
     border: 1px solid #ccc;
     outline: none;
-}
+} */
 .btn{
     height: 35px;
     background: var(--main-color);
@@ -465,6 +466,100 @@ section {
 .filler-div {
     height: 100px;
 }
+/* Basic styling for the container */
+/* Basic styling for the container */
+/* General Container Styling */
+.container,
+.admin-container,
+.registration-container,
+.admin-registration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #007bff; /* For the main container */
+    padding: 20px;
+}
+
+/* Form Box Styling */
+.login-1,
+.registration-form,
+.admin-login,
+.admin-registration {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 550px; /* Default width for larger screens */
+}
+
+/* Text Styling */
+.text-1 {
+    color: var(--text-color);
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Form Input Styling */
+.form-control,
+.registration-form .form-control,
+.admin-login .form-control,
+.admin-registration .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+/* Button Styling */
+.btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Links and Error Handling */
+.links,
+.register-prompt,
+.alert {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.alert {
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 5px;
+}
+
+
+
+
 
 .products-ctn {
     display: grid;
@@ -642,18 +737,7 @@ section {
     font-size: 1.1em;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    .products-ctn {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
 
-@media (max-width: 480px) {
-    .products-ctn {
-        grid-template-columns: 1fr;
-    }
-}
 
 .pagination .page-link,
 .pagination .current-page,
@@ -677,7 +761,235 @@ section {
     background-color: #007bff;
     color: white;
 }
+/* Styling for the filler-div section */
+.product-filler-div {
+    height: 50px;
+    background-color: var(--bg-color); /* Light blue background */
+    margin-bottom: 20px;
+}
 
+/* Main container styling */
+.product-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Product row and column styling */
+.product-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-col-md-6 {
+    width: 100%;
+    padding: 15px;
+}
+
+/* Product title styling */
+.product-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #004080; /* Dark blue for title */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Product stock list styling */
+.product-stock-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 16px;
+    color: #004080; /* Dark blue for text */
+    margin-bottom: 20px;
+}
+
+.product-stock-list li {
+    margin-bottom: 5px;
+}
+
+/* Price styling */
+.product-price {
+    font-size: 20px;
+    color: #004080; /* Dark blue for price */
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Product images */
+.product-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 2px solid #e0f0ff; /* Light blue border */
+}
+
+/* No images available text */
+.product-no-image {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Size selection dropdown */
+.product-size-selection {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-size-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #004080; /* Dark blue label */
+}
+
+.product-form-select {
+    width: 200px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #004080; /* Dark blue border */
+}
+
+/* Quantity selection styling */
+.product-quantity-selection {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-quantity-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #004080; /* Dark blue label */
+}
+
+.product-input-group {
+    display: flex;
+    align-items: center;
+}
+
+.product-quantity-input {
+    text-align: center;
+    width: 60px;
+    height: 36px;
+    border: 1px solid #004080; /* Dark blue border */
+    border-radius: 3px;
+    margin: 0 5px;
+}
+
+.product-btn-minus,
+.product-btn-plus {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #004080; /* Dark blue border */
+    background-color: #e0f0ff; /* Light blue background */
+    color: #004080; /* Dark blue text */
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.product-btn-minus:hover,
+.product-btn-plus:hover {
+    background-color: #cce0ff; /* Slightly darker light blue on hover */
+}
+
+/* Add to Cart button */
+.product-add-to-cart {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 30px;
+    background-color: #004080; /* Dark blue */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.product-add-to-cart:hover {
+    background-color: #002b59; /* Darker blue on hover */
+}
+
+/* Additional styling for better readability */
+body {
+    background-color: var(--bg-color); /* Very light blue for body background */
+    font-family: Arial, sans-serif;
+}
+
+.product-container h2,
+.product-container p,
+.product-container ul,
+.product-container label {
+    color: #004080; /* Dark blue */
+}
+
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .products-ctn {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .products-ctn {
+        grid-template-columns: 1fr;
+    }
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Form Boxes: Medium screens (tablets) */
+    .login-1,
+    .registration-form,
+    .admin-login,
+    .admin-registration {
+        width: 90%;
+    }
+
+    .text-1, .text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Form Boxes: Small screens (mobile devices) */
+    .login-1,
+    .registration-form,
+    .admin-login,
+    .admin-registration {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .text-1, .text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    /* Adjust link layout for better alignment on mobile */
+    .links, .register-prompt {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+}
 @media (max-width: 1024px) {
     .products_card {
         flex: 1 1 calc(33.33% - 40px); /* 3 items per row on medium screens */

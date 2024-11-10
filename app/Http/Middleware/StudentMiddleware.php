@@ -16,9 +16,12 @@ class StudentMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (auth('student')->check()) {
-            return $next($request);
+        if (!Auth::guard('student')->check()) {
+            // Redirect to student login page if not authenticated
+            return redirect()->route('student.login');
         }
+
+        return $next($request);
     }
     
 }

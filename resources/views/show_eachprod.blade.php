@@ -1,15 +1,14 @@
 @extends('layouts.layout')
 
 @section('content')
-<section class="filler-div">
-
+<section class="product-filler-div">
 </section>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>{{ $product->name }}</h2>
-            <ul>
+<div class="product-container">
+    <div class="product-row">
+        <div class="product-col-md-6">
+            <h2 class="product-title">{{ $product->name }}</h2>
+            <ul class="product-stock-list">
                 <li>Stocks (per size): </li>
                 <li>Small - {{ $product->small }}</li>
                 <li>Medium - {{ $product->medium }}</li>
@@ -18,7 +17,7 @@
                 <li>2 Extra Large - {{ $product->double_extralarge }}</li>
             </ul>
             
-            <p><strong>Price:</strong> ${{ $product->price }}</p>
+            <p class="product-price"><strong>Price:</strong> ${{ $product->price }}</p>
 
             @php
                 $photos = json_decode($product->photos, true); // Decode the JSON column to an array
@@ -26,16 +25,16 @@
 
             @if(is_array($photos) && count($photos) > 0)
                 @foreach($photos as $photo)
-                    <img src="{{ asset('storage/' . $photo) }}" alt="Product Photo" style="max-width: 100%; height: auto;">
+                    <img src="{{ asset('storage/' . $photo) }}" alt="Product Photo" class="product-image">
                 @endforeach
             @else
-                <p>No images available</p>
+                <p class="product-no-image">No images available</p>
             @endif
             
             <!-- Size Selection -->
-            <div class="size-selection mt-3">
-                <label for="size">Select Size:</label>
-                <select id="size" class="form-select">
+            <div class="product-size-selection mt-3">
+                <label for="product-size" class="product-size-label">Select Size:</label>
+                <select id="product-size" class="product-form-select">
                     <option value="">Choose a size</option>
                     @if($product->small > 0)
                         <option value="small">Small</option>
@@ -56,38 +55,37 @@
             </div>
 
             <!-- Quantity Input -->
-            <div class="quantity-selection mt-3">
-                <label for="quantity">Quantity:</label>
-                <div class="input-group">
-                    <button class="btn btn-outline-secondary" type="button" id="minus-btn">-</button>
-                    <input type="number" id="quantity" class="form-control" value="1" min="1" style="width: 50px;">
-                    <button class="btn btn-outline-secondary" type="button" id="plus-btn">+</button>
+            <div class="product-quantity-selection mt-3">
+                <label for="product-quantity" class="product-quantity-label">Quantity:</label>
+                <div class="product-input-group">
+                    <button class="product-btn-minus" type="button" id="product-minus-btn">-</button>
+                    <input type="number" id="product-quantity" class="product-quantity-input" value="1" min="1">
+                    <button class="product-btn-plus" type="button" id="product-plus-btn">+</button>
                 </div>
             </div>
 
             <!-- Add to Cart Button -->
-            <button class="btn btn-primary mt-3" id="add-to-cart">Add to Cart</button>
+            <button class="product-add-to-cart" id="product-add-to-cart">Add to Cart</button>
         </div>
     </div>
 </div>
 
 <script>
-    document.getElementById('plus-btn').addEventListener('click', function() {
-        let quantityInput = document.getElementById('quantity');
+    document.getElementById('product-plus-btn').addEventListener('click', function() {
+        let quantityInput = document.getElementById('product-quantity');
         quantityInput.value = parseInt(quantityInput.value) + 1;
     });
 
-    document.getElementById('minus-btn').addEventListener('click', function() {
-        let quantityInput = document.getElementById('quantity');
+    document.getElementById('product-minus-btn').addEventListener('click', function() {
+        let quantityInput = document.getElementById('product-quantity');
         if (quantityInput.value > 1) {
             quantityInput.value = parseInt(quantityInput.value) - 1;
         }
     });
 
-    document.getElementById('add-to-cart').addEventListener('click', function() {
-        const size = document.getElementById('size').value;
-        const quantity = document.getElementById('quantity').value;
-        // Here you would typically send the data to your backend to add the item to the cart
+    document.getElementById('product-add-to-cart').addEventListener('click', function() {
+        const size = document.getElementById('product-size').value;
+        const quantity = document.getElementById('product-quantity').value;
         alert(`Adding ${quantity} of size ${size} to cart!`);
     });
 </script>

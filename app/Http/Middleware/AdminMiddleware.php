@@ -16,9 +16,11 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (auth('admin')->check()) {
-            return $next($request);
+        if (!Auth::guard('admin')->check()) {
+            // Redirect to admin login page if not authenticated
+            return redirect()->route('admin.login');
         }
-        return redirect('/login/admin')->with('error', 'Admin access only');
+
+        return $next($request);
     }
 }

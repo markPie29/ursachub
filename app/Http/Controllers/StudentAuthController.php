@@ -55,7 +55,7 @@ class StudentAuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout(); // or 'student' as needed
+        Auth::guard('student')->logout(); // or 'student' as needed
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

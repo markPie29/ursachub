@@ -11,12 +11,7 @@
         </div>
         <div class="form-group">
             <label for="org">Organization</label>
-            <select class="form-control" id="org" name="org" required>
-                <option value="" disabled selected>Select an organization</option>
-                @foreach ($organizations as $organization)
-                    <option value="{{ $organization }}">{{ $organization }}</option>
-                @endforeach
-            </select>
+            <input type="text" class="form-control" id="org" name="org" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
