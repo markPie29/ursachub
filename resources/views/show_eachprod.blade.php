@@ -8,7 +8,14 @@
     <div class="product-row">
         <div class="product-col-md-6">
             <h2 class="product-title">{{ $product->name }}</h2>
-            
+            <ul class="product-stock-list">
+                <li>Stocks (per size): </li>
+                <li>Small - {{ $product->small }}</li>
+                <li>Medium - {{ $product->medium }}</li>
+                <li>Large - {{ $product->large }}</li>
+                <li>Extra Large - {{ $product->extralarge }}</li>
+                <li>2 Extra Large - {{ $product->double_extralarge }}</li>
+            </ul>
             
             <p class="product-price"><strong>Price:</strong> ${{ $product->price }}</p>
 
@@ -41,8 +48,10 @@
                     @if($product->extralarge > 0)
                         <option value="extralarge">Extra Large</option>
                     @endif
+                    @if($product->double_extralarge > 0)
+                        <option value="double_extralarge">2 Extra Large</option>
+                    @endif
                 </select>
-                <small id="stock-info" class="text-muted mt-1"></small>
             </div>
 
             <!-- Quantity Input -->
@@ -67,7 +76,6 @@
 </div>
 
 <script>
-    // Quantity Increment/Decrement
     document.getElementById('product-plus-btn').addEventListener('click', function() {
         let quantityInput = document.getElementById('product-quantity');
         quantityInput.value = parseInt(quantityInput.value) + 1;
@@ -80,28 +88,6 @@
         }
     });
 
-    // Update Stock Info Based on Selected Size
-    document.getElementById('product-size').addEventListener('change', function() {
-        const stockInfo = document.getElementById('stock-info');
-        const size = this.value;
-        
-        // Define the stock data
-        const stockData = {
-            small: {{ $product->small }},
-            medium: {{ $product->medium }},
-            large: {{ $product->large }},
-            extralarge: {{ $product->extralarge }},
-        };
-
-        // Update the stock information based on the selected size
-        if (size && stockData[size] !== undefined) {
-            stockInfo.textContent = `Available stock: ${stockData[size]}`;
-        } else {
-            stockInfo.textContent = ''; // Clear text if no valid size is selected
-        }
-    });
-
-    // Add to Cart Button
     document.getElementById('product-add-to-cart').addEventListener('click', function() {
         const size = document.getElementById('product-size').value;
         const quantity = document.getElementById('product-quantity').value;
