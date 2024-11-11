@@ -939,7 +939,115 @@ body {
 .product-container label {
     color: #004080; /* Dark blue */
 }
+#stock-info {
+    font-size: 0.9rem; 
+    color: #6c757d; 
+    opacity: 0.7; 
+    transition: opacity 0.3s ease; 
+}
+/* General Styling */
+.admin-news-page {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:var(--bg-color);
+    color: #333;
+}
 
+.admin-news-page .admin-news-header {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.admin-news-page .admin-news-header h3 {
+    font-size: 24px;
+    color: #007bff;
+    margin: 0;
+}
+
+/* Container Styling */
+.admin-news-page .admin-news-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+.admin-news-page .admin-news-container h3 {
+    text-align: center; /* Centers the text horizontally */
+    font-size: 24px; /* Optional: Adjust font size if needed */
+    margin-bottom: 20px; /* Add spacing below the heading */
+    color: #007bff; /* Optional: Apply a unique color */
+}
+
+/* Alert Styling */
+.admin-news-page .admin-news-alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.admin-news-page .admin-news-alert ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.admin-news-page .admin-news-alert li {
+    margin-bottom: 5px;
+}
+
+/* Form Styling */
+.admin-news-page .admin-news-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-news-page .form-group {
+    margin-bottom: 15px;
+}
+
+.admin-news-page .form-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.admin-news-page .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.admin-news-page .form-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button Styling */
+.admin-news-page .form-submit-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-news-page .form-submit-button:hover {
+    background-color: #0056b3;
+}
 
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
