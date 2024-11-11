@@ -30,7 +30,37 @@ class UrsacHubController extends Controller
             'news' => $news
         ]);
     }
+    public function store(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'org' => 'required|string|max:255',
+            'headline' => 'required|string|max:255',
+            'content' => 'required|string',
+            'photos' => 'required|array|min:1|max:5',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Limit each image size to 2MB
+        ]);
 
+        // Process and store each photo
+        $photoPaths = [];
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('public/photos');
+                $photoPaths[] = Storage::url($path); // Save URLs for display
+            }
+        }
+
+        // Save news data to the database
+        $news = new News();
+        $news->organization = $request->input('org');
+        $news->headline = $request->input('headline');
+        $news->content = $request->input('content');
+        $news->photos = json_encode($photoPaths); // Store as JSON array in the database
+        $news->save();
+
+        // Redirect or return success response
+        return redirect()->back()->with('success', 'News published successfully.');
+    }
 
     public function products_page() {
 
