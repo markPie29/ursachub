@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Courses;
 
 class Student extends Authenticatable
 {
@@ -17,7 +18,7 @@ class Student extends Authenticatable
     // Define the relationship with the Course model
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id'); // Ensure correct foreign key 'course_id'
+        return $this->belongsTo(Courses::class, 'course_id'); // Ensure correct foreign key 'course_id'
     }
 }
 

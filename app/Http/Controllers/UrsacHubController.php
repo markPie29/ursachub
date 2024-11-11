@@ -306,33 +306,44 @@ class UrsacHubController extends Controller
     public function student_account()
     {
         $student = Auth::guard('student')->user();
-        $firstname = $student->first_name;
-        $lastname = $student->last_name;
-        $middlename = $student->middle_name;
-        $student_id = $student->student_id;
-
+    
+        // Eager load the related course
+        $course = $student->course;
+    
         return view('student_account', [
-            'firstname' => $firstname, 
-            'lastname' => $lastname, 
-            'middlename' => $middlename, 
-            'student_id'=> $student_id
+            'firstname' => $student->first_name,
+            'lastname' => $student->last_name,
+            'middlename' => $student->middle_name,
+            'student_id' => $student->student_id,
+            'course' => $course // Pass the course object to the view
         ]);
     }
+    
 
     public function student_cart()
     {
         $student = Auth::guard('student')->user();
-    
-        // Retrieve all cart items for the logged-in student
+        $course = $student->course;
         $cartItems = Cart::where('student_id', $student->id)->get();
+        $totalPrice = $cartItems->sum('price'); // Calculate total price
     
-        return view('student_cart', compact('cartItems'));
+        return view('student_cart', [
+            'firstname' => $student->first_name,
+            'lastname' => $student->last_name,
+            'middlename' => $student->middle_name,
+            'student_id' => $student->student_id,
+            'course' => $course, // Pass course data
+            'cartItems' => $cartItems, // Pass cart items
+            'totalPrice' => $totalPrice, // Pass total price
+        ]);
     }
+    
+    
 
     public function addToCart(Request $request)
     {
         \Log::info($request->all()); 
-
+    
         $request->validate([
             'size' => 'required|string',
             'quantity' => 'required|integer|min:1',
@@ -356,8 +367,10 @@ class UrsacHubController extends Controller
         // Insert into cart
         Cart::create($cartData);
     
-        return response()->json(['success' => 'Product added to cart successfully']);
+        // Redirect to the student cart page with a success message
+        return response()->json(['success' => true, 'message' => 'Product added to cart successfully']);
     }
+    
     
     
     

@@ -91,7 +91,7 @@
     document.getElementById('product-add-to-cart').addEventListener('click', function() {
         const size = document.getElementById('product-size').value;
         const quantity = document.getElementById('product-quantity').value;
-        const productId = {{ $product->id }};  // This is the product ID you need to send.
+        const productId = {{ $product->id }};
 
         if (!size) {
             alert('Please select a size.');
@@ -107,14 +107,14 @@
             body: JSON.stringify({
                 size: size,
                 quantity: quantity,
-                product_id: productId  // Include product_id explicitly here
+                product_id: productId
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Product added to cart successfully!');
-                // Optionally, update cart count or redirect to cart page
+                // Redirect to the cart page on success
+                window.location.href = "{{ route('student.cart') }}";
             } else {
                 alert(data.message || 'Error adding product to cart.');
             }
@@ -124,6 +124,7 @@
             alert('Failed to add product to cart.');
         });
     });
+
 
 
 </script>
