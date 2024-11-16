@@ -23,7 +23,7 @@
             
             <div class="publish-news-field">
                 <label for="org" class="publish-news-label">Organization:</label>
-                <input type="text" name="org" id="org" class="publish-news-input" required>
+                <span class="add-product-organization">{{ $org }}</span>
             </div>
 
             <div class="publish-news-field">

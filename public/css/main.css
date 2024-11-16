@@ -117,7 +117,7 @@ header{
     animation-name: topslide;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
-    position: relative;
+    position: fixed;
     top: 0;
     right: 0;
     width: 100%;    

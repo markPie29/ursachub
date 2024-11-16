@@ -321,9 +321,12 @@ class UrsacHubController extends Controller
     public function addnews(Request $request)
     {
         $news = new News();
+
+        $admin = Auth::guard('admin')->user();
+        $org = $admin->org;
     
         // Set other fields
-        $news->org = $request->input('org');
+        $news->org = $org;
         $news->headline = $request->input('headline');
         $news->content = $request->input('content');
     
@@ -351,7 +354,12 @@ class UrsacHubController extends Controller
 
     public function addnewspage()
     {
-        return view('admin_addnews'); 
+        // Fetch the currently authenticated admin and their organization
+        $admin = Auth::guard('admin')->user();
+        $org = $admin->org;
+
+        // Return the view with both courses and org data
+        return view('admin_addnews', compact('org'));
     }
 
     public function student_account()

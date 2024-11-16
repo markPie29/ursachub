@@ -2,6 +2,10 @@
 
 @section('content')
 
+<section class="filler-div">
+
+</section>
+
 <body>
     
     <div class="news-page-header">
