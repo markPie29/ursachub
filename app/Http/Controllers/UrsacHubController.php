@@ -464,6 +464,82 @@ class UrsacHubController extends Controller
         return redirect()->route('student.cart')->with('success');
     }
     
+    public function checkout(Request $request)
+    {
+        try {
+            // Ensure the student is authenticated
+            $student = Auth::guard('student')->user();
+            if (!$student) {
+                return redirect()->route('student.login')->with('error', 'You must be logged in to proceed with the checkout.');
+            }
+    
+            // Retrieve course information
+            $course = $student->course;
+            if (!$course) {
+                return redirect()->route('home')->with('error', 'Course information not available.');
+            }
+    
+            // Retrieve and validate the selected items from the request
+            $selectedItems = json_decode($request->input('selected_items'), true);
+            if (empty($selectedItems)) {
+                return redirect()->route('student.cart')->with('error', 'No items selected for checkout.');
+            }
+    
+            // Fetch the cart items from the database based on selected item IDs
+            $cartItems = Cart::whereIn('id', $selectedItems)->get();
+    
+            // Check if the selected items exist in the cart
+            if ($cartItems->count() !== count($selectedItems)) {
+                return redirect()->route('student.cart')->with('error', 'Some of the selected items are no longer available in your cart.');
+            }
+    
+            // Pass data to the checkout view
+            return view('checkout', [
+                'cartItems' => $cartItems,
+                'firstname' => $student->first_name,
+                'lastname' => $student->last_name,
+                'middlename' => $student->middle_name,
+                'student_id' => $student->student_id,
+                'course' => $course, // Pass course data
+            ]);
+    
+        } catch (\Exception $e) {
+            // Log the error and return a generic error message to the user
+            \Log::error('Checkout error: ' . $e->getMessage());
+            return redirect()->route('cart.index')->with('error', 'An error occurred while processing your checkout. Please try again later.');
+        }
+    }
+    
+    
+
+    public function placeOrder(Request $request)
+    {
+        // Validate inputs
+        $request->validate([
+            'selected_items' => 'required',
+            'payment_method' => 'required',
+            'gcash_reference' => 'required_if:payment_method,gcash',
+        ]);
+    
+        // Process the order
+        $selectedItems = json_decode($request->input('selected_items'), true);
+        foreach ($selectedItems as $itemId) {
+            // Update order table (create new order)
+            Order::create([
+                'student_id' => auth()->id(),
+                'cart_item_id' => $itemId,
+                'payment_method' => $request->input('payment_method'),
+                'gcash_reference' => $request->input('gcash_reference'),
+            ]);
+    
+            // Optionally: Remove item from cart after checkout
+            Cart::destroy($itemId);
+        }
+    
+        return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+    }
+    
+
 
 
 
