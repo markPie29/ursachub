@@ -74,44 +74,70 @@
         </div>
 
         <!-- GCash Reference Number -->
-        <div id="gcash-reference-div">
+        <!-- <div id="gcash-reference-div">
             <label for="gcash-reference">GCash Reference Number:</label>
             <input type="text" id="gcash-reference" name="gcash-reference" class="form-control">
-        </div>
+        </div> -->
 
         <!-- Place Order Button -->
         <form action="" method="POST" id="checkout-form">
             @csrf
             <input type="hidden" name="selected_items" id="selected-items">
-            <button type="submit" class="btn btn-success mt-3">Place Your Order</button>
+            <button type="submit" class="btn btn-success mt-3" disabled>Place Your Order</button>
         </form>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const checkboxes = document.querySelectorAll('.item-checkbox');
         const totalPriceDisplay = document.getElementById('total-price');
         const selectedItemsInput = document.getElementById('selected-items');
+        const checkoutForm = document.getElementById('checkout-form');
+        const placeOrderButton = checkoutForm.querySelector('button[type="submit"]');
 
         function updateTotalPrice() {
             let total = 0;
             let selectedItems = [];
+            let orgSet = new Set();
 
             checkboxes.forEach(checkbox => {
                 if (checkbox.checked) {
                     total += parseFloat(checkbox.dataset.price);
                     selectedItems.push(checkbox.dataset.itemId);
+                    orgSet.add(checkbox.closest('.cart-item').querySelector('p strong + p').textContent.trim());
                 }
             });
 
             // Update the total price display with the calculated value
             totalPriceDisplay.textContent = total.toFixed(2);
             selectedItemsInput.value = selectedItems.join(',');
+
+            // Enable or disable the button based on the organization check
+            if (orgSet.size > 1) {
+                placeOrderButton.disabled = true;
+            } else {
+                placeOrderButton.disabled = false;
+            }
         }
 
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateTotalPrice);
+        });
+
+        checkoutForm.addEventListener('submit', function (event) {
+            const orgSet = new Set();
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    orgSet.add(checkbox.closest('.cart-item').querySelector('p strong + p').textContent.trim());
+                }
+            });
+
+            if (orgSet.size > 1) {
+                event.preventDefault();
+                alert('You cannot place an order with products from multiple organizations.');
+            }
         });
     });
 </script>

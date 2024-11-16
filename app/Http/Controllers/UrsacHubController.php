@@ -17,19 +17,31 @@ class UrsacHubController extends Controller
     public function home() {
         return view ('home');
     }
-    public function admin() {
-
-        // $user = User::all();
-        $products = Products::all();
-        $news = News::all();
-
-        return view('admin_account', [
-            'org_name' => request('org_name'),
-            'org_name_full' => request('org_name_full'),
-            'products' => $products,
-            'news' => $news
-        ]);
+    public function admin()
+    {
+        // Check if the user is authenticated as an admin
+        if (Auth::guard('admin')->check()) {
+            // Get the authenticated admin user
+            $admin = Auth::guard('admin')->user();
+            $org = $admin->org; // Assuming 'org' is a field in the admin table
+            
+            // Fetch data based on the authenticated admin's organization
+            $products = Products::where('org', $org)->get(); 
+            $news = News::where('org', $org)->get();
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_account', [
+                'org_name' => $org,
+                'org_name_full' => $admin->org_name_full ?? null, // Adjust if the full name field is different
+                'products' => $products,
+                'news' => $news
+            ]);
+        }
+    
+        // Redirect to the admin login page if not authenticated
+        return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
     }
+    
 
 
     public function products_page() {
@@ -94,8 +106,23 @@ class UrsacHubController extends Controller
             'double_extralarge' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
             'photos' => 'nullable|array|max:5',
-            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480',  // 20MB limit
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:20480', // 20MB per file
         ]);
+    
+        // Check total size of uploaded photos
+        if ($request->hasFile('photos')) {
+            $totalSize = 0;
+            foreach ($request->file('photos') as $photo) {
+                $totalSize += $photo->getSize(); // Get size in bytes
+            }
+            
+            // Convert bytes to MB and check if it exceeds 20MB
+            if ($totalSize > 20 * 1024 * 1024) {
+                return back()->withErrors([
+                    'photos' => 'The total size of all uploaded photos must not exceed 20MB.',
+                ])->withInput();
+            }
+        }
     
         // Retrieve the organization from the authenticated admin
         $admin = Auth::guard('admin')->user();
@@ -127,7 +154,7 @@ class UrsacHubController extends Controller
     
         // Store JSON-encoded photo paths in the photos column
         $product->photos = json_encode($photoPaths);
-        
+    
         // Save the product first to generate product_id
         $product->save();
     
@@ -139,6 +166,7 @@ class UrsacHubController extends Controller
         // Redirect to the admin account route
         return redirect()->route('admin.account')->with('success', 'Product added successfully.');
     }
+    
     
 
 
