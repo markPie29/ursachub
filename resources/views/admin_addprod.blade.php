@@ -16,7 +16,7 @@
         @endif
 
         {{-- Product Form --}}
-        <form action="/admin/addprod" method="POST" enctype="multipart/form-data" class="add-product-form">
+        <form action="/admin/addprod" method="POST" enctype="multipart/form-data" class="add-product-form" id="addProductForm">
             @csrf
             <div class="add-product-field">
                 <label for="name" class="add-product-label">Product Name:</label>
@@ -71,9 +71,30 @@
             <div class="add-product-field">
                 <label for="photos" class="add-product-label">Photos (max 5):</label>
                 <input type="file" name="photos[]" id="photos" class="add-product-input" multiple>
+                <p id="photoSizeError" style="color: red; display: none;">The total size of uploaded photos must not exceed 20MB.</p>
             </div>
             
             <button type="submit" class="add-product-button">Add Product</button>
         </form>
     </div>
+
+    {{-- JavaScript for Photo Size Validation --}}
+    <script>
+        document.getElementById('addProductForm').addEventListener('submit', function (e) {
+            const files = document.getElementById('photos').files;
+            let totalSize = 0;
+
+            // Calculate total size of uploaded files
+            for (let i = 0; i < files.length; i++) {
+                totalSize += files[i].size; // Size in bytes
+            }
+
+            // Convert bytes to megabytes and check if it exceeds 20MB
+            if (totalSize > 20 * 1024 * 1024) {
+                e.preventDefault(); // Prevent form submission
+                const errorElement = document.getElementById('photoSizeError');
+                errorElement.style.display = 'block'; // Show error message
+            }
+        });
+    </script>
 @endsection

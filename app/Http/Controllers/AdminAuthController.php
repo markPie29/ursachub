@@ -24,7 +24,7 @@ class AdminAuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'org' => 'required|string|max:255',
+            'org' => 'required|string|max:255|unique:admins,org',
             'password' => 'required|string|min:8|confirmed',
         ]);
 

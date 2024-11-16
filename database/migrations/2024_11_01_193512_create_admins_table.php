@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('org');
+            $table->string('org')->unique(); // Ensure the organization name is unique
             $table->string('password');
+            $table->string('gcash_name')->nullable();
+            $table->string('gcash_number')->nullable();
             $table->timestamps();
         });
     }
