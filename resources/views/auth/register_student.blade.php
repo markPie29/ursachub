@@ -8,15 +8,15 @@
         <div class="form-group">
             <h2>Student Registration</h2>
             <label for="first_name">First Name</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" required>
+            <input type="text" class="form-control" id="first_name" name="first_name" style="text-transform:uppercase" required>
         </div>
         <div class="form-group">
             <label for="last_name">Last Name</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" required>
+            <input type="text" class="form-control" id="last_name" name="last_name" style="text-transform:uppercase" required>
         </div>
         <div class="form-group">
             <label for="middle_name">Middle Name</label>
-            <input type="text" class="form-control" id="middle_name" name="middle_name">
+            <input type="text" class="form-control" id="middle_name" name="middle_name" style="text-transform:uppercase">
         </div>
         <div class="form-group">
             <label for="student_id">Student ID</label>

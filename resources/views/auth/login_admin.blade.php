@@ -18,6 +18,7 @@
                 id="name" 
                 name="name" 
                 placeholder="Enter your name" 
+                style="text-transform:uppercase"
                 required>
         </div>
 
@@ -41,6 +42,7 @@
                 id="password" 
                 name="password" 
                 placeholder="Enter your password" 
+                style="text-transform:uppercase"
                 required>
         </div>
 

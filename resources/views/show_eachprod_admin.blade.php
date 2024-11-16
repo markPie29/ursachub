@@ -76,6 +76,49 @@
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
             </form>
+
+            <!-- Display allowed courses -->
+            <h3 class="mt-4">Allowed Courses</h3>
+            @if(session('edit_mode'))
+                <!-- Edit Mode -->
+                <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label>Select Courses:</label>
+                        <div>
+                            @foreach($courses as $course)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" 
+                                        name="allowed_courses[]" 
+                                        value="{{ $course->id }}" 
+                                        id="course_{{ $course->id }}"
+                                        {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="course_{{ $course->id }}">
+                                        {{ $course->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Update Restrictions</button>
+                </form>
+            @else
+                <!-- View Mode -->
+                @if($product->courses->count() > 0)
+                    @foreach($product->courses as $course)
+                        <p>{{ $course->name }}</p>
+                    @endforeach
+                @else
+                    <p>No courses allowed for this product.</p>
+                @endif
+                <form action="{{ route('toggle_edit_mode', $product->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary">Update Restrictions</button>
+                </form>
+            @endif
+
+
         </div>
     </div>
 </div>

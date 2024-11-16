@@ -20,41 +20,33 @@
         @else
             @foreach($cartItems as $item)
                 <div class="cart-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-1">
-                            <input type="checkbox" class="item-checkbox" data-price="{{ $item->price }}" data-item-id="{{ $item->id }}">
-                        </div>
-                        <div class="col-md-3">
-                            <p><strong>Product:</strong> {{ $item->name }}</p>
-                            <p><strong>Organization:</strong> {{ $item->org }}</p>
-                        </div>
-                        <div class="col-md-1">
-                            <p><strong>Size:</strong> {{ ucfirst($item->size) }}</p>
-                        </div>
-                        <div class="col-md-1">
-                            <p><strong>Quantity:</strong> {{ $item->quantity }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <p><strong>Price:</strong> ${{ number_format($item->price, 2) }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            @php
-                                $photos = json_decode($item->photos, true);
-                            @endphp
-                            @if(is_array($photos) && count($photos) > 0)
-                                @foreach($photos as $photo)
-                                    <img src="{{ asset('storage/' . $photo) }}" alt="Product Image" width="50">
-                                @endforeach
-                            @else
-                                <span>No images</span>
-                            @endif
-                        </div>
-                        <div class="col-md-1">
-                            <form action="{{ route('cart.remove', $item->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Remove</button>
-                            </form>
-                        </div>
+                    <div class="cart-item-2">
+                        <p><strong>Product:</strong> {{ $item->name }}</p>
+                        <p><strong>Organization:</strong> {{ $item->org }}</p>
+                        <p><strong>Size:</strong> {{ ucfirst($item->size) }}</p>
+                        <p><strong>Quantity:</strong> {{ $item->quantity }}</p>
+                        <p><strong>Price:</strong> ${{ number_format($item->price, 2) }}</p>
+                        <input type="checkbox" class="item-checkbox" data-price="{{ $item->price }}" data-item-id="{{ $item->id }}">
+                    </div>
+
+                    <div class="cart-item-3">
+                        @php
+                            $photos = json_decode($item->photos, true);
+                        @endphp
+                        @if(is_array($photos) && count($photos) > 0)
+                            @foreach($photos as $photo)
+                                <img src="{{ asset('storage/' . $photo) }}" alt="Product Image" width="50">
+                            @endforeach
+                        @else
+                            <span>No images</span>
+                        @endif
+                    </div>
+                
+                    <div class="cart-item-4">
+                        <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
                     </div>
                 </div>
             @endforeach

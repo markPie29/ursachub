@@ -98,38 +98,65 @@
         showImage(currentIndex);
     }
 
-    // Size Selection Script
+    // Customizable Error Message Function
+    function showError(message) {
+        alert(message);
+    }
+
+    // Size Selection and Quantity Script
     document.addEventListener('DOMContentLoaded', function() {
         const sizeSelect = document.getElementById('product-size');
         const stockDisplay = document.getElementById('product-stock');
+        const addToCartButton = document.getElementById('product-add-to-cart');
+        const quantityInput = document.getElementById('product-quantity');
 
         sizeSelect.addEventListener('change', function() {
             const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
-            const stock = selectedOption.dataset.stock || '-';
+            const stock = parseInt(selectedOption.dataset.stock) || 0;
             stockDisplay.textContent = stock;
-        });
 
-        // Quantity controls
-        document.getElementById('product-plus-btn').addEventListener('click', function() {
-            let quantityInput = document.getElementById('product-quantity');
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        });
+            // Set quantity max based on stock
+            quantityInput.max = stock;
 
-        document.getElementById('product-minus-btn').addEventListener('click', function() {
-            let quantityInput = document.getElementById('product-quantity');
-            if (quantityInput.value > 1) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
+            // Reset quantity if it exceeds stock
+            if (parseInt(quantityInput.value) > stock) {
+                quantityInput.value = stock;
             }
         });
 
-        // Add to Cart button
-        document.getElementById('product-add-to-cart').addEventListener('click', function() {
+        // Quantity controls with stock check and customizable error message
+        document.getElementById('product-plus-btn').addEventListener('click', function() {
+            let currentQuantity = parseInt(quantityInput.value);
+            const maxQuantity = parseInt(quantityInput.max);
+
+            if (currentQuantity < maxQuantity) {
+                quantityInput.value = currentQuantity + 1;
+            } else {
+                showError('You cannot select more than the available stock.');
+            }
+        });
+
+        document.getElementById('product-minus-btn').addEventListener('click', function() {
+            let currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+            }
+        });
+
+        // Add to Cart button with stock check and customizable error message
+        addToCartButton.addEventListener('click', function() {
             const size = sizeSelect.value;
-            const quantity = document.getElementById('product-quantity').value;
+            const quantity = parseInt(quantityInput.value);
+            const maxQuantity = parseInt(quantityInput.max);
             const productId = {{ $product->id }};
 
             if (!size) {
-                alert('Please select a size.');
+                showError('Please select a size.');
+                return;
+            }
+
+            if (quantity > maxQuantity) {
+                showError('Quantity cannot exceed available stock.');
                 return;
             }
 
@@ -150,12 +177,12 @@
                 if (data.success) {
                     window.location.href = "{{ route('student.cart') }}";
                 } else {
-                    alert(data.message || 'Error adding product to cart.');
+                    showError(data.message || 'Error adding product to cart.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to add product to cart.');
+                showError('Failed to add product to cart.');
             });
         });
     });

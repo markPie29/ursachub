@@ -8,7 +8,7 @@
         <h2>Admin Registration</h2 class="text-1-admin">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" style="text-transform:uppercase" required>
         </div>
         <div class="form-group">
             <label for="org">Organization</label>

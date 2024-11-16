@@ -45,7 +45,6 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminAuthController::class, 'login']);
     
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
         Route::post('addnews', [UrsacHubController::class, 'addnews']);
         Route::get('addnewspage', [UrsacHubController::class, 'addnewspage'])->name('addnewspage');
         Route::get('news_admin/{id}', [UrsacHubController::class, 'show_eachnewspage_admin'])->name('show_eachnewspage_admin');
@@ -56,6 +55,8 @@ Route::prefix('admin')->group(function () {
         Route::post('addprod', [UrsacHubController::class, 'addprod']);
         Route::delete('products/{id}', [UrsacHubController::class, 'delete_prod'])->name('delete_prod');
         Route::put('products/{id}/edit_stock/{size}', [UrsacHubController::class, 'editStock'])->name('edit_stock');
+        Route::post('/product/{id}/toggle-edit-mode', [UrsacHubController::class, 'toggleEditMode'])->name('toggle_edit_mode');
+        Route::put('/product/{id}/update-restrictions', [UrsacHubController::class, 'updateRestrictions'])->name('update_restrictions');
     });
 });
 

@@ -66,7 +66,8 @@ class UrsacHubController extends Controller
     public function show_eachprodpage_admin($id)
     {
         $product = Products::findOrFail($id);
-        return view('show_eachprod_admin', compact('product'));
+        $courses = Courses::all();
+        return view('show_eachprod_admin', compact('product', 'courses'));
     }
 
     public function show_eachnewspage($id)
@@ -214,6 +215,28 @@ class UrsacHubController extends Controller
 
         return redirect()->back()->with('success', 'Stock updated successfully.');
     }
+
+    public function updateRestrictions(Request $request, $id)
+    {
+        $product = Products::findOrFail($id);
+    
+        // Sync allowed courses
+        $allowedCourses = $request->input('allowed_courses', []);
+        $product->courses()->sync($allowedCourses);
+    
+        // Disable edit mode after saving changes
+        session()->forget('edit_mode');
+        
+        return redirect()->back()->with('success', 'Course restrictions updated successfully!');
+    }
+    
+
+    public function toggleEditMode(Request $request, $id)
+    {
+        session(['edit_mode' => !session('edit_mode', false)]); // Toggle edit mode
+        return redirect()->back();
+    }
+
 
     public function editNews(Request $request, $id)
     {
@@ -402,7 +425,7 @@ class UrsacHubController extends Controller
         $cartItem->delete();
     
         // Redirect back to the cart page with a success message
-        return redirect()->route('student.cart')->with('success', 'Item removed successfully.');
+        return redirect()->route('student.cart')->with('success');
     }
     
 
