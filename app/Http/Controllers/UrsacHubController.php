@@ -55,7 +55,7 @@ class UrsacHubController extends Controller
 
     public function news_page() {
 
-        $news = News::paginate(8);
+        $news = News::paginate(2);
 
         return view('news_page', [
             'news' => $news

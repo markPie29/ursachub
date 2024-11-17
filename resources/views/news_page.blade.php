@@ -7,37 +7,39 @@
 </section>
 
 <body>
-    
     <div class="news-page-header">
         <h2>News Page</h2>  
     </div>
 
     <div class="news-container">
-    @foreach($news as $newsx)
-    <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card">
-        <div class="news-card-image">
-            @php
-                // Decode the JSON-encoded image URLs
-                $images = json_decode($newsx->photos, true);
-            @endphp
+        @foreach($news as $newsx)
+        <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card">
+            <!-- News Content at the Top -->
+            <div class="news-card-content">
+                <h3 class="news-headline"  title ="{{ $newsx->headline }}"></h3>
+                    {{Str::limit($newsx->headline, 30, '...')}}
+                <p class="news-org">{{ $newsx->org }}</p>
+                <p class="news-timestamp">{{ $newsx->timestamp }}</p>
+            </div>
 
-            @if(is_array($images) && count($images) > 0)
-                <!-- Display the first image in the array -->
-                <img src="{{ asset('storage/' . $images[0]) }}" alt="News Preview">
-            @else
-                <!-- Fallback if no images are available -->
-                <p>No images available</p>
-            @endif
-        </div>
-        <div class="news-card-content">
-            <h3 class="news-headline">{{ $newsx->headline }}</h3>
-            <p class="news-org">{{ $newsx->org }}</p>
-            <p class="news-timestamp">{{ $newsx->timestamp }}</p>
-        </div>
-    </a>
-    @endforeach
-</div>
+            <!-- Image at the Bottom -->
+            <div class="news-card-image">
+                @php
+                    // Decode the JSON-encoded image URLs
+                    $images = json_decode($newsx->photos, true);
+                @endphp
 
+                @if(is_array($images) && count($images) > 0)
+                    <!-- Display the first image in the array -->
+                    <img src="{{ asset('storage/' . $images[0]) }}" alt="News Preview">
+                @else
+                    <!-- Fallback if no images are available -->
+                    <p>No images available</p>
+                @endif
+            </div>
+        </a>
+        @endforeach
+    </div>
 
     <!-- Pagination -->
     <div class="pagination-container">

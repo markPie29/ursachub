@@ -117,7 +117,7 @@ header{
     animation-name: topslide;
     animation-duration: 1s;
     animation-timing-function: ease-in-out;
-    position: fixed;
+    position: sticky;
     top: 0;
     right: 0;
     width: 100%;    
@@ -462,9 +462,7 @@ section {
     box-sizing: border-box; /* Includes padding in width calculation */
     gap: 10px; /* Optional: Adds space between flex items */
 }
-.filler-div {
-    height: 100px;
-}
+
 /* Basic styling for the container */
 /* Basic styling for the container */
 /* General Container Styling */
@@ -1138,16 +1136,17 @@ section {
 
 /* News Page Header */
 /* News Page Header */
+/* Page Header */
 .news-page-header {
     text-align: center;
-    background-color: #007bff;
+    background-color: var(--main-color);
     color: white;
-    padding: 20px 0;
-    position: relative; /* Ensures it's always visible */
-    top: 0;
+    padding: 10px 0; /* Reduced padding to occupy less space */
+    position: sticky; /* Keeps it visible at the top while scrolling without overlapping */
+    top: 0; /* Ensure it sticks to the top of the viewport */
     width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for aesthetics */
+    z-index: 1000; /* Keeps the header above other content */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .news-page-header h2 {
@@ -1155,73 +1154,97 @@ section {
     font-size: 2rem;
 }
 
-
-
-
 /* News Container */
 .news-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Increase min card size for larger cards */
-    gap: 30px; /* Add more spacing between cards */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
     padding: 30px;
     max-width: 1200px;
     margin: 0 auto;
+   
 }
 
 /* News Card */
 .news-card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Stack content vertically */
     background-color: white;
-    border-radius: 12px; /* Slightly larger rounded corners */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Enhanced shadow for better aesthetics */
+    border-radius: 12px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-decoration: none;
     color: inherit;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #ddd; /* Add border for a clean look */
 }
 
 .news-card:hover {
-    transform: translateY(-7px); /* Slightly higher hover effect */
-    box-shadow: 0 10px 14px rgba(0, 0, 0, 0.2); /* Enhanced hover shadow */
-}
-
-/* News Card Image */
-.news-card-image {
-    flex: 0 0 150px; /* Slightly larger image */
-    height: 100%;
-    overflow: hidden;
-}
-
-.news-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    transform: translateY(-7px);
+    box-shadow: 0 10px 14px rgba(0, 0, 0, 0.2);
 }
 
 /* News Card Content */
 .news-card-content {
-    padding: 20px; /* Increased padding for better spacing inside the card */
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center; /* Center-align the text content */
+    text-align: center; /* Center-align the text */
+    gap: 10px; /* Add spacing between elements */
 }
 
-.news-headline {
-    font-size: 1.5rem; /* Larger headline text */
-    margin: 0 0 10px;
-    font-weight: bold;
+h3.news-headline {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: bold !important;
+    text-transform: uppercase; /* Match the style in your image */
+    text-overflow: ellipsis;
+    overflow: hidden;
+   
 }
 
 .news-org {
-    font-size: 1.1rem; /* Slightly larger organization text */
-    color: #555;
-    margin: 0 0 5px;
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    font-weight: bold;
 }
 
 .news-timestamp {
-    font-size: 1rem; /* Slightly larger timestamp */
+    font-size: 0.9rem;
     color: #888;
+    margin-top: 5px;
+}
+
+/* Organization Logo */
+.news-org img {
+    max-width: 50px;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 50%; /* Make the logo circular if applicable */
+}
+
+/* News Card Image */
+.news-card-image {
+    width: 100%;
+    height: 250px; /* Fixed height for consistency across cards */
+    overflow: hidden; /* Ensures any overflowing parts of the image are hidden */
+    margin-top: 10px;
+    border-top: 1px solid #ddd; /* Optional: Separator line between content and image */
+    display: flex; /* Flexbox to ensure alignment if needed */
+    align-items: center; /* Center-align image vertically */
+    justify-content: center; /* Center-align image horizontally */
+    background-color: var(--white-color); /* Optional: consistent background */
+    flex:1.5;
+}
+
+.news-card-image img {
+    max-width: 100%; /* Let the width adjust naturally */
+    height: auto; /* Ensure the height fills the container */
+    object-fit: cover; /* Ensure the image fills the container without distortion */
+    border-radius: 12px 12px 0 0; /* Optional: Rounded corners matching the card */
+    display: block; /* Remove inline spacing or gaps for images */
 }
 
 /* Pagination Container */
@@ -1242,7 +1265,7 @@ section {
 .pagination a,
 .pagination span {
     display: inline-block;
-    padding: 10px 16px; /* Slightly larger pagination buttons */
+    padding: 10px 16px;
     text-decoration: none;
     color: #007bff;
     font-size: 15px;
@@ -1278,6 +1301,72 @@ section {
     color: #555;
     font-size: 14px;
 }
+/* showeachnews css */
+/* Unique styles for the Blade template layout */
+.custom-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch; /* Make children stretch to fill container */
+    margin: 0; /* Remove margins to fully occupy space */
+    width: 100%; /* Full width */
+    height: 100vh; /* Full height of the viewport */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0; /* Optional: remove border-radius for full stretch */
+    overflow: hidden;
+}
+
+.image-section {
+    flex: 1.5; /* Allow the image section to grow proportionally */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center the image within the section */
+    padding: 20px;
+    background-color: var(--header-color);
+}
+
+.image-section img {
+    width: 100%; /* Fill the section width */
+    height: 100%; /* Maintain aspect ratio */
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.text-section {
+    flex: 1; /* Allow the text section to grow larger */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: flex-start; /* Center the text vertically */
+    background-color: #ffffff;
+}
+
+.text-section h2 {
+    font-size: 2.5rem; /* Larger font size */
+    color: #333;
+    margin-bottom: 10px;
+    font-weight:bold;
+}
+
+.text-section p {
+    font-size: 1.2rem; /* Slightly larger font size */
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 15px;
+    
+}
+
+.text-section p:last-child {
+    margin-bottom: 0;
+}
+
+
+
 
 
 
