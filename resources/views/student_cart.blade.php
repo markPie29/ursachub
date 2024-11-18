@@ -18,7 +18,14 @@
                         <p><strong>Size:</strong> {{ ucfirst($item->size) }}</p>
                         <p><strong>Quantity:</strong> {{ $item->quantity }}</p>
                         <p><strong>Price:</strong> ${{ number_format($item->price, 2) }}</p>
-                        <input type="checkbox" class="item-checkbox" data-price="{{ $item->price }}" data-item-id="{{ $item->id }}" data-org="{{ $item->org }}">
+                        <input type="checkbox" 
+                                class="item-checkbox" 
+                                data-item-id="{{ $item->id }}" 
+                                data-name="{{ $item->name }}" 
+                                data-size="{{ $item->size }}" 
+                                data-quantity="{{ $item->quantity }}" 
+                                data-price="{{ $item->price }}" 
+                                data-org="{{ $item->org }}">
                     </div>
 
                     <div class="cart-item-images">
@@ -78,6 +85,11 @@
 
         <button type="button" class="btn btn-primary mt-3" id="placeorder-button">Place Order</button>
     </div>
+
+    <!-- Order message div (hidden initially) -->
+    <div id="order-message" style="display: none; margin-top: 20px;">
+        <p>Your order is being processed. Please wait...</p>
+    </div>
 </div>
 
 @if($errors->any())
@@ -91,141 +103,123 @@
 @endif
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const checkboxes = document.querySelectorAll('.item-checkbox');
-        const totalPriceDisplay = document.getElementById('total-price');
-        const checkoutButton = document.getElementById('placeorder-button');
-        const selectedItemsInput = document.getElementById('checkout-selected-items');
+        const totalPriceElement = document.getElementById('total-price');
+        let selectedOrg = null; // Variable to track the selected organization
+
+        // Function to calculate the total price
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    totalPrice += parseFloat(checkbox.getAttribute('data-price'));
+                }
+            });
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        // Function to handle checkbox selection
+        function handleCheckboxChange(event) {
+            const checkbox = event.target;
+            const itemOrg = checkbox.getAttribute('data-org');
+
+            if (checkbox.checked) {
+                // If no organization is selected, set the current one
+                if (!selectedOrg) {
+                    selectedOrg = itemOrg;
+                }
+
+                // If the selected item is from a different org, uncheck it and alert the user
+                if (itemOrg !== selectedOrg) {
+                    alert(`You can only select products from the same organization (${selectedOrg}).`);
+                    checkbox.checked = false;
+                }
+            } else {
+                // If unchecked, check if all items from the current org are deselected
+                const anyChecked = Array.from(checkboxes).some(
+                    cb => cb.checked && cb.getAttribute('data-org') === selectedOrg
+                );
+
+                // If no items from the org are checked, reset the selectedOrg
+                if (!anyChecked) {
+                    selectedOrg = null;
+                }
+            }
+
+            // Update the total price
+            updateTotalPrice();
+        }
+
+        // Add event listeners to all checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', handleCheckboxChange);
+        });
+
+        // Initial calculation of total price
+        updateTotalPrice();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
         const paymentCash = document.getElementById('payment-cash');
         const paymentGcash = document.getElementById('payment-gcash');
         const gcashRefContainer = document.getElementById('gcash-ref-container');
-        const selectedPaymentMethod = document.getElementById('selected-payment-method');
 
-        let selectedOrg = null;
-        let selectedItemIds = []; // Store selected item IDs
-
-        function updateTotalPrice() {
-            let total = 0;
-            let selectedItems = [];
-
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    const itemId = checkbox.dataset.itemId;
-                    const size = checkbox.closest('.cart-item').querySelector('.cart-item-details p:nth-child(3)').textContent.split(': ')[1];
-                    const quantity = parseInt(checkbox.closest('.cart-item').querySelector('.cart-item-details p:nth-child(4)').textContent.split(': ')[1]);
-                    const productId = checkbox.dataset.itemId;
-
-                    if (quantity <= 0) {
-                        alert('Quantity must be greater than 0.');
-                        checkbox.checked = false;
-                        return;
-                    }
-
-                    total += parseFloat(checkbox.dataset.price) * quantity;
-
-                    selectedItems.push({
-                        item_id: itemId,
-                        size: size,
-                        quantity: quantity,
-                        product_id: productId,
-                    });
-
-                    // Add item ID to the array if it's checked
-                    if (checkbox.checked) {
-                        selectedItemIds.push(itemId); // Store the selected item's ID
-                    }
-                }
-            });
-
-            totalPriceDisplay.textContent = total.toFixed(2);
-
-            // Update hidden input for the selected items
-            selectedItemsInput.value = JSON.stringify(selectedItems);
-
-            // Enable/disable checkout button
-            checkoutButton.disabled = selectedItems.length === 0;
+        // Function to toggle GCash reference number field
+        function toggleGcashRefField() {
+            if (paymentGcash.checked) {
+                gcashRefContainer.style.display = 'block';
+            } else {
+                gcashRefContainer.style.display = 'none';
+            }
         }
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                const currentOrg = checkbox.dataset.org;
+        // Add event listeners to payment method radio buttons
+        paymentCash.addEventListener('change', toggleGcashRefField);
+        paymentGcash.addEventListener('change', toggleGcashRefField);
 
+        // Initial toggle based on the default selected option
+        toggleGcashRefField();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const placeOrderButton = document.getElementById('placeorder-button');
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+
+        placeOrderButton.addEventListener('click', function() {
+            const selectedItems = [];
+
+            // Gather details of selected items
+            checkboxes.forEach(checkbox => {
                 if (checkbox.checked) {
-                    if (selectedOrg === null) {
-                        selectedOrg = currentOrg;
-                    } else if (selectedOrg !== currentOrg) {
-                        alert('You can only select products from the same organization.');
-                        checkbox.checked = false;
-                        return;
-                    }
-                }
+                    const itemId = checkbox.getAttribute('data-item-id') || 'Unknown ID';
+                    const itemName = checkbox.getAttribute('data-name') || 'Unknown Name';
+                    const itemPrice = parseFloat(checkbox.getAttribute('data-price')) || 0.0;
+                    const itemOrg = checkbox.getAttribute('data-org') || 'Unknown Organization';
+                    const itemSize = checkbox.getAttribute('data-size') || 'N/A';
+                    const itemQuantity = parseInt(checkbox.getAttribute('data-quantity'), 10) || 1;
 
-                if (![...checkboxes].some(cb => cb.checked)) {
-                    selectedOrg = null;
+                    selectedItems.push({
+                        id: itemId,
+                        name: itemName,
+                        price: itemPrice,
+                        organization: itemOrg,
+                        size: itemSize,
+                        quantity: itemQuantity
+                    });
                 }
-
-                updateTotalPrice();
             });
-        });
 
-        // Payment option toggle
-        paymentCash.addEventListener('change', function () {
-            if (this.checked) {
-                gcashRefContainer.style.display = 'none';
-                if (selectedPaymentMethod) {
-                    selectedPaymentMethod.value = 'cash';  // Only set value if element exists
-                }
-            }
-        });
-
-        paymentGcash.addEventListener('change', function () {
-            if (this.checked) {
-                gcashRefContainer.style.display = 'block';
-                if (selectedPaymentMethod) {
-                    selectedPaymentMethod.value = 'gcash';  // Only set value if element exists
-                }
-            }
-        });
-
-        // Initialize total price
-        updateTotalPrice();
-
-        // When the checkout button is clicked, submit the selected item IDs with JS
-        checkoutButton.addEventListener('click', function () {
-            const selectedItems = selectedItemIds;
-
+            // Check if at least one item is selected
             if (selectedItems.length === 0) {
-                alert('Please select items to proceed.');
-                return;
+                console.error("No items selected. Please select at least one item to place an order.");
+            } else {
+                console.log("Selected Items:", selectedItems);
             }
-
-            // Send the selected items and payment method to the server via AJAX
-            fetch('{{ route("cart.checkout") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                },
-                body: JSON.stringify({
-                    selected_items: selectedItems,
-                    payment_method: selectedPaymentMethod.value,
-                    gcash_ref: document.getElementById('gcash-ref').value, // Include the GCash reference if applicable
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect_url; // Redirect on success
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
         });
     });
+
+
 </script>
 
 @endsection
