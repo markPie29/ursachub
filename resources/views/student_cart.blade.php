@@ -182,43 +182,91 @@
         toggleGcashRefField();
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const placeOrderButton = document.getElementById('placeorder-button');
-        const checkboxes = document.querySelectorAll('.item-checkbox');
+    document.addEventListener("DOMContentLoaded", function () {
+    const placeOrderButton = document.getElementById("placeorder-button");
+    const checkboxes = document.querySelectorAll(".item-checkbox");
+    const paymentMethodInputs = document.getElementsByName("payment_method");
+    const gcashRefInput = document.getElementById("gcash-ref");
 
-        placeOrderButton.addEventListener('click', function() {
-            const selectedItems = [];
+    placeOrderButton.addEventListener("click", function () {
+        const selectedItems = [];
+        let paymentMethod = "";
+        let referenceNumber = null;
 
-            // Gather details of selected items
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    const itemId = checkbox.getAttribute('data-item-id') || 'Unknown ID';
-                    const itemName = checkbox.getAttribute('data-name') || 'Unknown Name';
-                    const itemPrice = parseFloat(checkbox.getAttribute('data-price')) || 0.0;
-                    const itemOrg = checkbox.getAttribute('data-org') || 'Unknown Organization';
-                    const itemSize = checkbox.getAttribute('data-size') || 'N/A';
-                    const itemQuantity = parseInt(checkbox.getAttribute('data-quantity'), 10) || 1;
-
-                    selectedItems.push({
-                        id: itemId,
-                        name: itemName,
-                        price: itemPrice,
-                        organization: itemOrg,
-                        size: itemSize,
-                        quantity: itemQuantity
-                    });
-                }
-            });
-
-            // Check if at least one item is selected
-            if (selectedItems.length === 0) {
-                console.error("No items selected. Please select at least one item to place an order.");
-            } else {
-                console.log("Selected Items:", selectedItems);
+        // Gather payment details
+        paymentMethodInputs.forEach(input => {
+            if (input.checked) {
+                paymentMethod = input.value;
             }
         });
+        if (paymentMethod === "gcash") {
+            referenceNumber = gcashRefInput.value.trim();
+        }
+
+        // Gather selected items
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedItems.push({
+                    name: checkbox.getAttribute("data-name"),
+                    size: checkbox.getAttribute("data-size"),
+                    price: parseFloat(checkbox.getAttribute("data-price")),
+                    org: checkbox.getAttribute("data-org"),
+                    quantity: parseInt(checkbox.getAttribute("data-quantity"), 10),
+                });
+            }
+        });
+
+        if (selectedItems.length === 0) {
+            alert("No items selected. Please select at least one item.");
+            return;
+        }
+
+        // Prepare payload
+        const payload = {
+            items: selectedItems,
+            student_id: "{{ $student_id }}",
+            firstname: "{{ $firstname }}",
+            lastname: "{{ $lastname }}",
+            middlename: "{{ $middlename }}",
+            course: "{{ $course->name }}",
+            payment_method: paymentMethod,
+            reference_number: referenceNumber,
+        };
+
+        // Send AJAX request
+        fetch("{{ route('place.order') }}", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+    },
+    body: JSON.stringify(payload),
+})
+    .then(response => {
+        if (!response.ok) {
+            // Handle unexpected response (e.g., HTML error page)
+            return response.text().then(text => {
+                console.error("Server error:", text);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert(`Order placed successfully! Order Number: ${data.order_number}`);
+            location.reload();
+        } else {
+            alert(`Failed to place order: ${data.error || "Unknown error"}`);
+        }
+    })
+    .catch(error => {
+        console.error("Error placing order:", error);
+        alert("An unexpected error occurred. Please check the console for more details.");
     });
 
+    });
+});
 
 </script>
 

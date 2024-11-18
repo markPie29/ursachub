@@ -9,6 +9,8 @@ use App\Models\Courses;
 use App\Models\Cart;;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 // use App\User;
 
 class UrsacHubController extends Controller
@@ -383,7 +385,7 @@ class UrsacHubController extends Controller
     {
         $student = Auth::guard('student')->user();
         $course = $student->course;
-        $cartItems = Cart::where('student_id', $student->id)->get();
+        $cartItems = Cart::where('student_id', $student->student_id)->get();
         $totalPrice = $cartItems->sum('price'); // Calculate total price
     
         return view('student_cart', [
@@ -414,7 +416,7 @@ class UrsacHubController extends Controller
     
         // Check if the same product (name, size, org) already exists in the cart
         $existingCartItem = Cart::where([
-            ['student_id', '=', $student->id],
+            ['student_id', '=', $student->student_id],
             ['name', '=', $product->name],
             ['size', '=', $request->size],
             ['org', '=', $product->org],
@@ -434,7 +436,7 @@ class UrsacHubController extends Controller
                 'quantity' => $request->quantity,
                 'price' => $product->price * $request->quantity, // Total price for the quantity
                 'photos' => $product->photos,
-                'student_id' => $student->id,
+                'student_id' => $student->student_id,
             ];
     
             Cart::create($cartData);
@@ -513,6 +515,98 @@ class UrsacHubController extends Controller
         }
 
         return response()->json(['success' => true, 'redirect_url' => route('order.success', $order->id)]);
+    }
+
+    public function placeOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'items' => 'required|array',
+            'items.*.name' => 'required|string',
+            'items.*.size' => 'required|string',
+            'items.*.price' => 'required|numeric',
+            'items.*.org' => 'required|string',
+            'items.*.quantity' => 'required|integer',
+            'student_id' => 'required|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'middlename' => 'nullable|string',
+            'course' => 'required|string',
+            'payment_method' => 'required|string',
+            'reference_number' => 'nullable|string',
+        ]);
+
+        // Begin a database transaction to ensure atomicity
+        DB::beginTransaction();
+
+        try {
+            $orderNumber = Str::upper(Str::random(10));
+
+            // Loop through each item in the order
+            foreach ($validated['items'] as $item) {
+                // Check if the product exists
+                $product = DB::table('products')
+                    ->where('name', $item['name'])
+                    ->where('org', $item['org'])
+                    ->first();
+
+                // If product not found
+                if (!$product) {
+                    DB::rollBack(); // Rollback the transaction if the product is not found
+                    return response()->json(['success' => false, 'message' => "Product {$item['name']} not found."], 400);
+                }
+
+                // Check stock availability based on size
+                $availableStock = $product->{$item['size']};
+
+                // If there's insufficient stock for the requested size
+                if ($availableStock < $item['quantity']) {
+                    DB::rollBack(); // Rollback the transaction if there's insufficient stock
+                    return response()->json(['success' => false, 'message' => "Insufficient stock for {$item['name']} ({$item['size']}). Available stock: {$availableStock}."], 400);
+                }
+
+                // Insert the order into the orders table
+                DB::table('orders')->insert([
+                    'name' => $item['name'],
+                    'size' => $item['size'],
+                    'price' => $item['price'],
+                    'org' => $item['org'],
+                    'quantity' => $item['quantity'],
+                    'student_id' => $validated['student_id'],
+                    'firstname' => $validated['firstname'],
+                    'lastname' => $validated['lastname'],
+                    'middlename' => $validated['middlename'],
+                    'course' => $validated['course'],
+                    'payment_method' => $validated['payment_method'],
+                    'reference_number' => $validated['reference_number'],
+                    'order_number' => $orderNumber,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+                // Update the product stock after order is placed
+                DB::table('products')
+                    ->where('id', $product->id)
+                    ->decrement($item['size'], $item['quantity']);
+                
+                // Remove the item from the cart after placing the order
+                DB::table('carts')
+                    ->where('student_id', $validated['student_id'])
+                    ->where('name', $item['name'])
+                    ->where('size', $item['size'])
+                    ->where('org', $item['org'])
+                    ->delete();
+            }
+
+            // Commit the transaction if all operations succeed
+            DB::commit();
+
+            // Return success response
+            return response()->json(['success' => true, 'order_number' => $orderNumber]);
+        } catch (\Exception $e) {
+            // Rollback the transaction if any error occurs
+            DB::rollBack();
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
 
