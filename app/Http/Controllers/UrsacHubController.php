@@ -9,6 +9,7 @@ use App\Models\Courses;
 use App\Models\Cart;;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 // use App\User;
 
 class UrsacHubController extends Controller
@@ -513,6 +514,53 @@ class UrsacHubController extends Controller
         }
 
         return response()->json(['success' => true, 'redirect_url' => route('order.success', $order->id)]);
+    }
+
+    public function placeOrder(Request $request)
+    {
+        $validated = $request->validate([
+            'items' => 'required|array',
+            'items.*.name' => 'required|string',
+            'items.*.size' => 'required|string',
+            'items.*.price' => 'required|numeric',
+            'items.*.org' => 'required|string',
+            'items.*.quantity' => 'required|integer',
+            'student_id' => 'required|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'middlename' => 'nullable|string',
+            'course' => 'required|string',
+            'payment_method' => 'required|string',
+            'reference_number' => 'nullable|string',
+        ]);
+    
+        try {
+            $orderNumber = Str::uuid();
+    
+            foreach ($validated['items'] as $item) {
+                \DB::table('orders')->insert([
+                    'name' => $item['name'],
+                    'size' => $item['size'],
+                    'price' => $item['price'],
+                    'org' => $item['org'],
+                    'quantity' => $item['quantity'],
+                    'student_id' => $validated['student_id'],
+                    'firstname' => $validated['firstname'],
+                    'lastname' => $validated['lastname'],
+                    'middlename' => $validated['middlename'],
+                    'course' => $validated['course'],
+                    'payment_method' => $validated['payment_method'],
+                    'reference_number' => $validated['reference_number'],
+                    'order_number' => $orderNumber,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+    
+            return response()->json(['success' => true, 'order_number' => $orderNumber]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
 
