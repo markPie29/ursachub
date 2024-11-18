@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\News;
 use App\Models\Courses;
-use App\Models\Cart;;
+use App\Models\Cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 // use App\User;
@@ -479,41 +480,46 @@ class UrsacHubController extends Controller
         return redirect()->route('student.cart')->with('success');
     }
     
-    public function checkout(Request $request)
-    {
-        $selectedItemIds = $request->input('selected_items');
-        $paymentMethod = $request->input('payment_method');
-        $gcashRef = $request->input('gcash_ref', null);
-        $studentId = auth()->user()->id;
-
-        // Retrieve the selected items from the cart
-        $selectedItems = Cart::whereIn('id', $selectedItemIds)->get();
-
-        if ($selectedItems->isEmpty()) {
-            return response()->json(['success' => false, 'message' => 'No items selected.']);
+    public function place_order(Request $request)
+{
+    try {
+        // Decode the JSON string from the form data
+        $orderData = json_decode($request->input('order_data'), true);
+        
+        if (!$orderData) {
+            return redirect()->back()->with('error', 'Invalid order data');
         }
 
-        // Process the order...
-        // For simplicity, assuming the order is created successfully
+        $student = Auth::guard('student')->user();
+        $orderNumber = Str::uuid()->toString();
 
+        // Create the order
         $order = Order::create([
-            'student_id' => $studentId,
-            'total_price' => $selectedItems->sum('price'),
-            'payment_method' => $paymentMethod,
-            'gcash_ref' => $gcashRef,
+            'order_number' => $orderNumber,
+            'student_id' => $student->id,
+            'payment_method' => $orderData['payment_method'],
+            'gcash_ref' => $orderData['gcash_ref'],
+            // Add any other necessary fields
         ]);
 
-        foreach ($selectedItems as $item) {
+        // Create order items
+        foreach ($orderData['items'] as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->price,
+                'name' => $item['name'],
+                'size' => $item['size'],
+                'price' => $item['price'],
+                'org' => $item['organization'],
+                'quantity' => $item['quantity'],
             ]);
         }
 
-        return response()->json(['success' => true, 'redirect_url' => route('order.success', $order->id)]);
+        return redirect()->back()->with('success', 'Order placed successfully!');
+    } catch (\Exception $e) {
+        \Log::error('Order placement failed: ' . $e->getMessage());
+        return redirect()->back()->with('error', 'Failed to place order: ' . $e->getMessage());
     }
+}
 
 
 

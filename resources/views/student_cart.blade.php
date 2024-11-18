@@ -52,10 +52,11 @@
         @endif
     </div>
 
+
     <div class="checkout-ctn">
         <div class="user-details">
             <h4>Student Information</h4>
-            <p><strong>Name:</strong>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
+            <p><strong>Name:</strong> {{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
             <p><strong>Course:</strong> {{ $course->name }}</p>
             <p><strong>Student ID:</strong> {{ $student_id }}</p>
         </div>
@@ -103,102 +104,92 @@
 @endif
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const checkboxes = document.querySelectorAll('.item-checkbox');
-        const totalPriceElement = document.getElementById('total-price');
-        let selectedOrg = null; // Variable to track the selected organization
+document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    const totalPriceElement = document.getElementById('total-price');
+    const placeOrderButton = document.getElementById('placeorder-button');
+    const paymentMethodInputs = document.querySelectorAll('input[name="payment_method"]');
+    const gcashRefInput = document.getElementById('gcash-ref');
+    const gcashRefContainer = document.getElementById('gcash-ref-container');
 
-        // Function to calculate the total price
-        function updateTotalPrice() {
-            let totalPrice = 0;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    totalPrice += parseFloat(checkbox.getAttribute('data-price'));
-                }
-            });
-            totalPriceElement.textContent = totalPrice.toFixed(2);
-        }
+    let selectedOrg = null;
 
-        // Function to handle checkbox selection
-        function handleCheckboxChange(event) {
-            const checkbox = event.target;
-            const itemOrg = checkbox.getAttribute('data-org');
-
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        checkboxes.forEach(checkbox => {
             if (checkbox.checked) {
-                // If no organization is selected, set the current one
-                if (!selectedOrg) {
-                    selectedOrg = itemOrg;
-                }
+                totalPrice += parseFloat(checkbox.getAttribute('data-price'));
+            }
+        });
+        totalPriceElement.textContent = totalPrice.toFixed(2);
+    }
 
-                // If the selected item is from a different org, uncheck it and alert the user
-                if (itemOrg !== selectedOrg) {
-                    alert(`You can only select products from the same organization (${selectedOrg}).`);
-                    checkbox.checked = false;
-                }
-            } else {
-                // If unchecked, check if all items from the current org are deselected
-                const anyChecked = Array.from(checkboxes).some(
-                    cb => cb.checked && cb.getAttribute('data-org') === selectedOrg
-                );
+    function handleCheckboxChange(event) {
+        const checkbox = event.target;
+        const itemOrg = checkbox.getAttribute('data-org');
 
-                // If no items from the org are checked, reset the selectedOrg
-                if (!anyChecked) {
-                    selectedOrg = null;
-                }
+        if (checkbox.checked) {
+            if (!selectedOrg) {
+                selectedOrg = itemOrg;
             }
 
-            // Update the total price
-            updateTotalPrice();
+            if (itemOrg !== selectedOrg) {
+                alert(`You can only select products from the same organization (${selectedOrg}).`);
+                checkbox.checked = false;
+            }
+        } else {
+            const anyChecked = Array.from(checkboxes).some(
+                cb => cb.checked && cb.getAttribute('data-org') === selectedOrg
+            );
+
+            if (!anyChecked) {
+                selectedOrg = null;
+            }
         }
 
-        // Add event listeners to all checkboxes
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', handleCheckboxChange);
+        updateTotalPrice();
+    }
+
+    function toggleGcashRefField() {
+        gcashRefContainer.style.display = paymentMethodInputs[1].checked ? 'block' : 'none';
+    }
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', handleCheckboxChange);
+    });
+
+    paymentMethodInputs.forEach(input => {
+        input.addEventListener('change', toggleGcashRefField);
+    });
+
+    toggleGcashRefField();
+    updateTotalPrice();
+
+    placeOrderButton.addEventListener('click', function() {
+        const selectedItems = [];
+        let paymentMethod = null;
+        let referenceNumber = null;
+
+        paymentMethodInputs.forEach(input => {
+            if (input.checked) {
+                paymentMethod = input.value;
+            }
         });
 
-        // Initial calculation of total price
-        updateTotalPrice();
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const paymentCash = document.getElementById('payment-cash');
-        const paymentGcash = document.getElementById('payment-gcash');
-        const gcashRefContainer = document.getElementById('gcash-ref-container');
-
-        // Function to toggle GCash reference number field
-        function toggleGcashRefField() {
-            if (paymentGcash.checked) {
-                gcashRefContainer.style.display = 'block';
-            } else {
-                gcashRefContainer.style.display = 'none';
-            }
+        if (paymentMethod === 'gcash') {
+            referenceNumber = gcashRefInput.value.trim();
         }
 
-        // Add event listeners to payment method radio buttons
-        paymentCash.addEventListener('change', toggleGcashRefField);
-        paymentGcash.addEventListener('change', toggleGcashRefField);
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const itemId = checkbox.getAttribute('data-item-id') || null;
+                const itemName = checkbox.getAttribute('data-name') || null;
+                const itemPrice = parseFloat(checkbox.getAttribute('data-price')) || 0.0;
+                const itemOrg = checkbox.getAttribute('data-org') || null;
+                const itemSize = checkbox.getAttribute('data-size') || null;
+                const itemQuantity = parseInt(checkbox.getAttribute('data-quantity'), 10) || 1;
 
-        // Initial toggle based on the default selected option
-        toggleGcashRefField();
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const placeOrderButton = document.getElementById('placeorder-button');
-        const checkboxes = document.querySelectorAll('.item-checkbox');
-
-        placeOrderButton.addEventListener('click', function() {
-            const selectedItems = [];
-
-            // Gather details of selected items
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    const itemId = checkbox.getAttribute('data-item-id') || 'Unknown ID';
-                    const itemName = checkbox.getAttribute('data-name') || 'Unknown Name';
-                    const itemPrice = parseFloat(checkbox.getAttribute('data-price')) || 0.0;
-                    const itemOrg = checkbox.getAttribute('data-org') || 'Unknown Organization';
-                    const itemSize = checkbox.getAttribute('data-size') || 'N/A';
-                    const itemQuantity = parseInt(checkbox.getAttribute('data-quantity'), 10) || 1;
-
+                if (itemId && itemName && itemOrg) {
                     selectedItems.push({
                         id: itemId,
                         name: itemName,
@@ -207,19 +198,64 @@
                         size: itemSize,
                         quantity: itemQuantity
                     });
+                } else {
+                    console.warn("Missing data attributes for item:", checkbox);
                 }
-            });
-
-            // Check if at least one item is selected
-            if (selectedItems.length === 0) {
-                console.error("No items selected. Please select at least one item to place an order.");
-            } else {
-                console.log("Selected Items:", selectedItems);
             }
         });
+
+        if (selectedItems.length === 0) {
+            alert("No items selected. Please select at least one item to place an order.");
+            return;
+        }
+        if (!paymentMethod) {
+            alert("Please select a payment method.");
+            return;
+        }
+        if (paymentMethod === 'gcash' && !referenceNumber) {
+            alert("Please enter the GCash reference number.");
+            return;
+        }
+
+        const orderData = {
+            items: selectedItems,
+            payment_method: paymentMethod,
+            gcash_ref: referenceNumber || null,
+        };
+
+        console.log("Submitting Order:", orderData);
+
+        fetch("{{ route('order.place') }}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`HTTP error! Status: ${response.status}, Body: ${text}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert("Order placed successfully!");
+                location.reload();
+            } else {
+                alert("Failed to place order: " + (data.message || "Unknown error"));
+            }
+        })
+        .catch(error => {
+            console.error("Error placing order:", error);
+            alert("An error occurred while placing your order. Please try again. Error details: " + error.message);
+        });
     });
-
-
+});
 </script>
+
 
 @endsection

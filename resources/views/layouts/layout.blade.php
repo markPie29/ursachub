@@ -15,7 +15,7 @@
     <script defer src="/script/script.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <header>
