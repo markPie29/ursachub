@@ -99,7 +99,7 @@
     --header-text-color:rgb(0, 0, 0);
     --header-color:rgba(255, 255, 255, 0.943);
     --bg-color: rgb(18, 103, 221);
-    --white-color: rgb(250, 250, 250);
+    --white-color: rgb(240, 240, 240);
     --box-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.464),rgba(0, 0, 0, 0));
     --hover-color: linear-gradient(to bottom,   rgba(247, 172, 60, 0.874),rgba(0, 0, 0, 0));
     --big-font:5rem;
@@ -111,7 +111,11 @@
 body{
     color: var(--text-color);
     background: var(--bg-color);
-    
+    /* background-image: url('../img/ursac.jpg'); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 header{
     animation-name: topslide;

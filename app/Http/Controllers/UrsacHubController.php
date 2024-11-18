@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\News;
 use App\Models\Courses;
-use App\Models\Cart;
+use App\Models\Cart;;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 // use App\User;
@@ -401,34 +401,49 @@ class UrsacHubController extends Controller
 
     public function addToCart(Request $request)
     {
-        \Log::info($request->all()); 
+        \Log::info($request->all());
     
         $request->validate([
             'size' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'product_id' => 'required|exists:products,id'  // Validate that product_id exists
+            'product_id' => 'required|exists:products,id', // Validate that product_id exists
         ]);
     
-        $product = Products::findOrFail($request->product_id);  // Retrieve the product by ID
+        $product = Products::findOrFail($request->product_id); // Retrieve the product by ID
         $student = Auth::guard('student')->user();
     
-        // Prepare cart data with required fields
-        $cartData = [
-            'name' => $product->name,
-            'org' => $product->org,
-            'size' => $request->size,
-            'quantity' => $request->quantity,
-            'price' => $product->price * $request->quantity,
-            'photos' => $product->photos,
-            'student_id' => $student->id,
-        ];
+        // Check if the same product (name, size, org) already exists in the cart
+        $existingCartItem = Cart::where([
+            ['student_id', '=', $student->id],
+            ['name', '=', $product->name],
+            ['size', '=', $request->size],
+            ['org', '=', $product->org],
+        ])->first();
     
-        // Insert into cart
-        Cart::create($cartData);
+        if ($existingCartItem) {
+            // If item exists, update the quantity and price
+            $existingCartItem->quantity += $request->quantity;
+            $existingCartItem->price = $product->price * $existingCartItem->quantity; // Update total price
+            $existingCartItem->save();
+        } else {
+            // If item does not exist, add a new entry
+            $cartData = [
+                'name' => $product->name,
+                'org' => $product->org,
+                'size' => $request->size,
+                'quantity' => $request->quantity,
+                'price' => $product->price * $request->quantity, // Total price for the quantity
+                'photos' => $product->photos,
+                'student_id' => $student->id,
+            ];
     
-        // Redirect to the student cart page with a success message
+            Cart::create($cartData);
+        }
+    
+        // Return a success response
         return response()->json(['success' => true, 'message' => 'Product added to cart successfully']);
     }
+    
     
     
     
@@ -466,78 +481,116 @@ class UrsacHubController extends Controller
     
     public function checkout(Request $request)
     {
-        try {
-            // Ensure the student is authenticated
-            $student = Auth::guard('student')->user();
-            if (!$student) {
-                return redirect()->route('student.login')->with('error', 'You must be logged in to proceed with the checkout.');
-            }
-    
-            // Retrieve course information
-            $course = $student->course;
-            if (!$course) {
-                return redirect()->route('home')->with('error', 'Course information not available.');
-            }
-    
-            // Retrieve and validate the selected items from the request
-            $selectedItems = json_decode($request->input('selected_items'), true);
-            if (empty($selectedItems)) {
-                return redirect()->route('student.cart')->with('error', 'No items selected for checkout.');
-            }
-    
-            // Fetch the cart items from the database based on selected item IDs
-            $cartItems = Cart::whereIn('id', $selectedItems)->get();
-    
-            // Check if the selected items exist in the cart
-            if ($cartItems->count() !== count($selectedItems)) {
-                return redirect()->route('student.cart')->with('error', 'Some of the selected items are no longer available in your cart.');
-            }
-    
-            // Pass data to the checkout view
-            return view('checkout', [
-                'cartItems' => $cartItems,
-                'firstname' => $student->first_name,
-                'lastname' => $student->last_name,
-                'middlename' => $student->middle_name,
-                'student_id' => $student->student_id,
-                'course' => $course, // Pass course data
-            ]);
-    
-        } catch (\Exception $e) {
-            // Log the error and return a generic error message to the user
-            \Log::error('Checkout error: ' . $e->getMessage());
-            return redirect()->route('cart.index')->with('error', 'An error occurred while processing your checkout. Please try again later.');
-        }
-    }
-    
-    
+        $selectedItemIds = $request->input('selected_items');
+        $paymentMethod = $request->input('payment_method');
+        $gcashRef = $request->input('gcash_ref', null);
+        $studentId = auth()->user()->id;
 
-    public function placeOrder(Request $request)
-    {
-        // Validate inputs
-        $request->validate([
-            'selected_items' => 'required',
-            'payment_method' => 'required',
-            'gcash_reference' => 'required_if:payment_method,gcash',
-        ]);
-    
-        // Process the order
-        $selectedItems = json_decode($request->input('selected_items'), true);
-        foreach ($selectedItems as $itemId) {
-            // Update order table (create new order)
-            Order::create([
-                'student_id' => auth()->id(),
-                'cart_item_id' => $itemId,
-                'payment_method' => $request->input('payment_method'),
-                'gcash_reference' => $request->input('gcash_reference'),
-            ]);
-    
-            // Optionally: Remove item from cart after checkout
-            Cart::destroy($itemId);
+        // Retrieve the selected items from the cart
+        $selectedItems = Cart::whereIn('id', $selectedItemIds)->get();
+
+        if ($selectedItems->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'No items selected.']);
         }
-    
-        return redirect()->route('cart.index')->with('success', 'Order placed successfully!');
+
+        // Process the order...
+        // For simplicity, assuming the order is created successfully
+
+        $order = Order::create([
+            'student_id' => $studentId,
+            'total_price' => $selectedItems->sum('price'),
+            'payment_method' => $paymentMethod,
+            'gcash_ref' => $gcashRef,
+        ]);
+
+        foreach ($selectedItems as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+                'price' => $item->price,
+            ]);
+        }
+
+        return response()->json(['success' => true, 'redirect_url' => route('order.success', $order->id)]);
     }
+
+
+
+    // public function placeorder(Request $request)
+    // {
+    //     $user = Auth::guard('student')->user();
+
+
+    //     $items = $request->input('items');
+
+    //     // Fetch cart items
+    //     $cartItems = Cart::where('student_id', $user->id)
+    //                     ->whereIn('id', array_keys($items))
+    //                     ->get();
+
+    //     // Validate cart items
+    //     foreach ($cartItems as $cartItem) {
+    //         $item = $items[$cartItem->id];
+    //         if ($cartItem->product_id != $item['product_id'] || 
+    //             $cartItem->size != $item['size'] || 
+    //             $cartItem->quantity != $item['quantity']) {
+    //             return back()->with('error', 'Mismatched cart item data. Please try again.');
+    //         }
+    //     }
+
+    //     // Check if cart items belong to the same organization
+    //     $orgs = $cartItems->pluck('org')->unique();
+    //     if ($orgs->count() > 1) {
+    //         return back()->with('error', 'You cannot place an order with products from multiple organizations.');
+    //     }
+
+    //     DB::beginTransaction();
+
+    //     try {
+    //         // Create order
+    //         $order = Order::create([
+    //             'student_id' => $user->id,
+    //             'org' => $orgs->first(),
+    //             'total_price' => $cartItems->sum('price'),
+    //             'payment_method' => $request->payment_method,
+    //             'gcash_reference' => $request->payment_method === 'gcash' ? $request->gcash_reference : null,
+    //         ]);
+
+    //         // Add items to order and update product stock
+    //         foreach ($cartItems as $cartItem) {
+    //             $product = Product::lockForUpdate()->find($cartItem->product_id);
+    //             if ($product && $product->{$cartItem->size} >= $cartItem->quantity) {
+    //                 $product->{$cartItem->size} -= $cartItem->quantity;
+    //                 $product->save();
+
+    //                 OrderItem::create([
+    //                     'order_id' => $order->id,
+    //                     'product_id' => $cartItem->product_id,
+    //                     'name' => $cartItem->name,
+    //                     'quantity' => $cartItem->quantity,
+    //                     'price' => $cartItem->price,
+    //                     'size' => $cartItem->size,
+    //                 ]);
+    //             } else {
+    //                 DB::rollBack();
+    //                 return back()->with('error', 'Insufficient stock for ' . $cartItem->name . ' (' . ucfirst($cartItem->size) . ').');
+    //             }
+    //         }
+
+    //         // Clear cart
+    //         Cart::whereIn('id', array_keys($items))->delete();
+
+    //         DB::commit();
+
+    //         return redirect()->route('student.orders')->with('success', 'Order placed successfully!');
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         Log::error('Order placement failed: ' . $e->getMessage());
+    //         return back()->with('error', 'Failed to place the order. Please try again later.');
+    //     }
+    // }
+
     
 
 
