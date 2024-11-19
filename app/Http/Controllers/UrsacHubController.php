@@ -616,17 +616,17 @@ class UrsacHubController extends Controller
         // Get the logged-in student's ID
         $student = Auth::guard('student')->user();
         $studentId = $student->student_id;
-    
-        // Fetch orders with status grouped by order number using the query builder
-        $orders = DB::table('orders')
-            ->where('student_id', $studentId)
+
+        // Fetch grouped orders with their details directly from the Order model
+        $orders = Orders::where('student_id', $studentId)
             ->select('order_number', 'name', 'size', 'quantity', 'price', 'org', 'status', 'created_at')
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy('order_number');
-    
+
         return view('student_orders', compact('orders'));
     }
+
 
 
 
