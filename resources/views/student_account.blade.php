@@ -13,6 +13,7 @@
             <h2>{{ $student_id }}</h2>
             <p><strong>Course:</strong> {{ $course->name }}</p>
         </div>
+        <a href="{{ route('student.orders') }}">Orders</a>
     </div>
 </body>
 @endsection
