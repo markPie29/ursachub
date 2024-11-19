@@ -18,9 +18,9 @@
 
 </head>
 
-<header>
+<header class="navbar-box">
         <div>
-            <a href="{{ route('student.home') }}" class="logo">URSAC Hub</a>
+            <a href="{{ route('student.home') }}" class="logo">URSAC HUB</a>
         </div>
 
         <div>

@@ -14,7 +14,8 @@
 <div class="background">
     <div class="content">
         <div class="title">URSAC HUB</div>
-        <div class="subtitle">Your One-Stop Shop for Campus Merchandise and Updates</div>
+        <div class="subtitle">Your One-Stop Shop for Campus</div>
+        <div class="subtitle">Merchandise and Updates</div>
     </div>
 </div>
 
