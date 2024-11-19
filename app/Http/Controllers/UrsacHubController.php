@@ -626,6 +626,27 @@ class UrsacHubController extends Controller
 
         return view('student_orders', compact('orders'));
     }
+    public function adminOrders()
+{
+    $org_name = auth('admin')->user()->org; // Replace with the logic to get the logged-in admin's org
+    $orders = Orders::where('org', $org_name)->get(); // Filter orders by org
+    return view('admin_vieworders', compact('orders', 'org_name'));
+}
+
+public function updateOrderStatus(Request $request, $id)
+{
+    $order = Orders::findOrFail($id);
+    $newStatus = $request->input('status');
+
+    // Validate the status
+    if (in_array($newStatus, ['pending', 'to be claimed'])) {
+        $order->status = $newStatus;
+        $order->save();
+        return back()->with('success', "Order #{$order->id} status updated to '{$newStatus}'.");
+    }
+
+    return back()->withErrors(['Invalid status value.']);
+}
 
 
 
