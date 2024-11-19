@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\News;
 use App\Models\Courses;
-use App\Models\Cart;;
+use App\Models\Cart;
+use App\Models\Orders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -579,6 +580,7 @@ class UrsacHubController extends Controller
                     'payment_method' => $validated['payment_method'],
                     'reference_number' => $validated['reference_number'],
                     'order_number' => $orderNumber,
+                    'status' => 'pending',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -608,6 +610,24 @@ class UrsacHubController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function studentOrders()
+    {
+        // Get the logged-in student's ID
+        $student = Auth::guard('student')->user();
+        $studentId = $student->student_id;
+    
+        // Fetch orders with status grouped by order number using the query builder
+        $orders = DB::table('orders')
+            ->where('student_id', $studentId)
+            ->select('order_number', 'name', 'size', 'quantity', 'price', 'org', 'status', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('order_number');
+    
+        return view('student_orders', compact('orders'));
+    }
+
 
 
 

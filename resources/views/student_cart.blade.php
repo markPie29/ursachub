@@ -102,8 +102,19 @@
 </div>
 @endif
 
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; width: 300px;">
+        <h3>Confirm Your Order</h3>
+        <p>Are you sure you want to place this order?</p>
+        <button id="confirm-proceed" class="btn btn-success" disabled>Proceed</button>
+        <button id="confirm-cancel" class="btn btn-danger">Cancel</button>
+        <p id="timer-message" style="margin-top: 10px; color: gray;">You can proceed in <span id="timer-countdown">5</span> seconds...</p>
+    </div>
+</div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const checkboxes = document.querySelectorAll('.item-checkbox');
         const totalPriceElement = document.getElementById('total-price');
         let selectedOrg = null; // Variable to track the selected organization
@@ -158,116 +169,130 @@
 
         // Initial calculation of total price
         updateTotalPrice();
-    });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const paymentCash = document.getElementById('payment-cash');
-        const paymentGcash = document.getElementById('payment-gcash');
-        const gcashRefContainer = document.getElementById('gcash-ref-container');
+        // Modal and order confirmation logic
+        const placeOrderButton = document.getElementById("placeorder-button");
+        const confirmationModal = document.getElementById("confirmation-modal");
+        const confirmProceedButton = document.getElementById("confirm-proceed");
+        const confirmCancelButton = document.getElementById("confirm-cancel");
+        const timerMessage = document.getElementById("timer-message");
+        const timerCountdown = document.getElementById("timer-countdown");
 
-        // Function to toggle GCash reference number field
-        function toggleGcashRefField() {
-            if (paymentGcash.checked) {
-                gcashRefContainer.style.display = 'block';
-            } else {
-                gcashRefContainer.style.display = 'none';
-            }
+        let proceedTimer;
+
+        // Function to show confirmation modal
+        function showConfirmationModal() {
+            confirmationModal.style.display = "flex";
+            confirmProceedButton.disabled = true;
+
+            // Start the countdown timer
+            let secondsRemaining = 5;
+            timerCountdown.textContent = secondsRemaining;
+
+            proceedTimer = setInterval(() => {
+                secondsRemaining--;
+                timerCountdown.textContent = secondsRemaining;
+
+                if (secondsRemaining <= 0) {
+                    clearInterval(proceedTimer);
+                    confirmProceedButton.disabled = false;
+                    timerMessage.textContent = "You can now proceed.";
+                }
+            }, 1000);
         }
 
-        // Add event listeners to payment method radio buttons
-        paymentCash.addEventListener('change', toggleGcashRefField);
-        paymentGcash.addEventListener('change', toggleGcashRefField);
-
-        // Initial toggle based on the default selected option
-        toggleGcashRefField();
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-    const placeOrderButton = document.getElementById("placeorder-button");
-    const checkboxes = document.querySelectorAll(".item-checkbox");
-    const paymentMethodInputs = document.getElementsByName("payment_method");
-    const gcashRefInput = document.getElementById("gcash-ref");
-
-    placeOrderButton.addEventListener("click", function () {
-        const selectedItems = [];
-        let paymentMethod = "";
-        let referenceNumber = null;
-
-        // Gather payment details
-        paymentMethodInputs.forEach(input => {
-            if (input.checked) {
-                paymentMethod = input.value;
-            }
-        });
-        if (paymentMethod === "gcash") {
-            referenceNumber = gcashRefInput.value.trim();
+        // Function to close confirmation modal
+        function closeConfirmationModal() {
+            confirmationModal.style.display = "none";
+            clearInterval(proceedTimer);
+            timerMessage.textContent = "You can proceed in 5 seconds...";
         }
 
-        // Gather selected items
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                selectedItems.push({
-                    name: checkbox.getAttribute("data-name"),
-                    size: checkbox.getAttribute("data-size"),
-                    price: parseFloat(checkbox.getAttribute("data-price")),
-                    org: checkbox.getAttribute("data-org"),
-                    quantity: parseInt(checkbox.getAttribute("data-quantity"), 10),
-                });
-            }
+        // Event listener for Place Order button
+        placeOrderButton.addEventListener("click", function () {
+            showConfirmationModal();
         });
 
-        if (selectedItems.length === 0) {
-            alert("No items selected. Please select at least one item.");
-            return;
-        }
+        // Event listener for Cancel button
+        confirmCancelButton.addEventListener("click", function () {
+            closeConfirmationModal();
+        });
 
-        // Prepare payload
-        const payload = {
-            items: selectedItems,
-            student_id: "{{ $student_id }}",
-            firstname: "{{ $firstname }}",
-            lastname: "{{ $lastname }}",
-            middlename: "{{ $middlename }}",
-            course: "{{ $course->name }}",
-            payment_method: paymentMethod,
-            reference_number: referenceNumber,
-        };
+        // Event listener for Proceed button
+        confirmProceedButton.addEventListener("click", function () {
+            closeConfirmationModal();
 
-        // Send AJAX request
-        fetch("{{ route('place.order') }}", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-    },
-    body: JSON.stringify(payload),
-})
-    .then(response => {
-        if (!response.ok) {
-            // Handle unexpected response (e.g., HTML error page)
-            return response.text().then(text => {
-                console.error("Server error:", text);
-                throw new Error(`HTTP error! Status: ${response.status}`);
+            // Proceed with order submission (your existing fetch code)
+            const selectedItems = [];
+            const checkboxes = document.querySelectorAll(".item-checkbox");
+            const paymentMethodInputs = document.getElementsByName("payment_method");
+            const gcashRefInput = document.getElementById("gcash-ref");
+
+            let paymentMethod = "";
+            let referenceNumber = null;
+
+            // Gather payment details
+            paymentMethodInputs.forEach(input => {
+                if (input.checked) {
+                    paymentMethod = input.value;
+                }
             });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            alert(`Order placed successfully! Order Number: ${data.order_number}`);
-            location.reload();
-        } else {
-            alert(`Failed to place order: ${data.error || "Unknown error"}`);
-        }
-    })
-    .catch(error => {
-        console.error("Error placing order:", error);
-        alert("An unexpected error occurred. Please check the console for more details.");
-    });
+            if (paymentMethod === "gcash") {
+                referenceNumber = gcashRefInput.value.trim();
+            }
 
-    });
-});
+            // Gather selected items
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedItems.push({
+                        name: checkbox.getAttribute("data-name"),
+                        size: checkbox.getAttribute("data-size"),
+                        price: parseFloat(checkbox.getAttribute("data-price")),
+                        org: checkbox.getAttribute("data-org"),
+                        quantity: parseInt(checkbox.getAttribute("data-quantity"), 10),
+                    });
+                }
+            });
 
+            if (selectedItems.length === 0) {
+                alert("No items selected. Please select at least one item.");
+                return;
+            }
+
+            const payload = {
+                items: selectedItems,
+                student_id: "{{ $student_id }}",
+                firstname: "{{ $firstname }}",
+                lastname: "{{ $lastname }}",
+                middlename: "{{ $middlename }}",
+                course: "{{ $course->name }}",
+                payment_method: paymentMethod,
+                reference_number: referenceNumber,
+            };
+
+            fetch("{{ route('place.order') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Order placed successfully! Order Number: ${data.order_number}`);
+                        location.reload();
+                    } else {
+                        alert(`Failed to place order: ${data.error || "Unknown error"}`);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error placing order:", error);
+                    alert("An unexpected error occurred. Please check the console for more details.");
+                });
+        });
+    });
 </script>
 
 @endsection

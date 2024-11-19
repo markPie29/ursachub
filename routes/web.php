@@ -76,6 +76,7 @@ Route::prefix('student')->group(function () {
         Route::post('/cart/remove/{itemId}', [UrsacHubController::class, 'removeItem'])->name('cart.remove');
         Route::post('/cart/checkout', [UrsacHubController::class, 'checkout'])->name('cart.checkout');
         Route::post('/place-order', [UrsacHubController::class, 'placeOrder'])->name('place.order');
+        Route::get('/orders', [UrsacHubController::class, 'studentOrders'])->name('student.orders');
         Route::get('news', [UrsacHubController::class, 'news_page'])->name('news_page');
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');

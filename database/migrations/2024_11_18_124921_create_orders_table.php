@@ -28,6 +28,7 @@ return new class extends Migration
         $table->string('payment_method');
         $table->string('reference_number')->nullable();
         $table->string('order_number');
+        $table->string('status')->nullable();
         $table->timestamps();
     });
 }
