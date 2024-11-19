@@ -8,6 +8,7 @@ use App\Models\News;
 use App\Models\Courses;
 use App\Models\Cart;
 use App\Models\Orders;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -389,6 +390,9 @@ class UrsacHubController extends Controller
         $cartItems = Cart::where('student_id', $student->student_id)->get();
         $totalPrice = $cartItems->sum('price'); // Calculate total price
     
+        // Fetch admin details for the organizations
+        $admins = Admin::all(); // Get all admins (with their GCash details)
+    
         return view('student_cart', [
             'firstname' => $student->first_name,
             'lastname' => $student->last_name,
@@ -397,8 +401,10 @@ class UrsacHubController extends Controller
             'course' => $course, // Pass course data
             'cartItems' => $cartItems, // Pass cart items
             'totalPrice' => $totalPrice, // Pass total price
+            'admins' => $admins, // Pass all admins to the view
         ]);
     }
+    
     
     
 
@@ -627,26 +633,37 @@ class UrsacHubController extends Controller
         return view('student_orders', compact('orders'));
     }
     public function adminOrders()
-{
-    $org_name = auth('admin')->user()->org; // Replace with the logic to get the logged-in admin's org
-    $orders = Orders::where('org', $org_name)->get(); // Filter orders by org
-    return view('admin_vieworders', compact('orders', 'org_name'));
-}
+    {
+        $org_name = auth('admin')->user()->org; 
 
-public function updateOrderStatus(Request $request, $id)
-{
-    $order = Orders::findOrFail($id);
-    $newStatus = $request->input('status');
+        $orders = Orders::where('org', $org_name)
+        ->select('order_number', 'name', 'size', 'quantity', 'price', 'org', 'status', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('order_number');
 
-    // Validate the status
-    if (in_array($newStatus, ['pending', 'to be claimed'])) {
-        $order->status = $newStatus;
-        $order->save();
-        return back()->with('success', "Order #{$order->id} status updated to '{$newStatus}'.");
+        return view('admin_vieworders', compact('orders', 'org_name'));
     }
 
-    return back()->withErrors(['Invalid status value.']);
-}
+    public function updateOrderStatus(Request $request, $order_number)
+    {
+        $newStatus = $request->input('status');
+
+        // Validate the status
+        if (!in_array($newStatus, ['pending', 'to be claimed'])) {
+            return back()->withErrors(['Invalid status value.']);
+        }
+    
+        // Update all orders with the given order number
+        $updatedOrders = Orders::where('order_number', $order_number)->update(['status' => $newStatus]);
+    
+        if ($updatedOrders) {
+            return back()->with('success', "Order #{$order_number} status updated to '{$newStatus}' for all items.");
+        }
+    
+        return back()->withErrors(['Failed to update the order status.']);
+    }
+    
 
 
 

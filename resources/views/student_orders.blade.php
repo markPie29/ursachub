@@ -25,6 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php $orderTotal = 0; @endphp <!-- Initialize total for this order -->
                         @foreach ($orderItems as $item)
                             <tr>
                                 <td>{{ $item->name }}</td>
@@ -33,9 +34,13 @@
                                 <td>₱{{ number_format($item->price, 2) }}</td>
                                 <td>{{ $item->org }}</td>
                             </tr>
+                            @php $orderTotal += $item->price; @endphp <!-- Accumulate total -->
                         @endforeach
                     </tbody>
                 </table>
+                <div class="text-end mt-3">
+                    <strong>Total Price:</strong> ₱{{ number_format($orderTotal, 2) }}
+                </div>
             </div>
         </div>
     @empty

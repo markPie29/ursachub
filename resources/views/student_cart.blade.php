@@ -74,9 +74,17 @@
                 <input type="radio" name="payment_method" id="payment-gcash" value="gcash">
                 <label for="payment-gcash">GCash</label>
             </div>
+
+            <!-- GCash reference input, hidden by default -->
             <div id="gcash-ref-container" style="display: none; margin-top: 10px;">
                 <label for="gcash-ref">Reference Number:</label>
                 <input type="text" id="gcash-ref" name="gcash_ref" class="form-control" placeholder="Enter reference number">
+                
+                <!-- GCash details for the organization -->
+                <div id="gcash-org-details" style="margin-top: 10px; display: none;">
+                    <p><strong>GCash Name:</strong> <span id="gcash-name"></span></p>
+                    <p><strong>GCash Number:</strong> <span id="gcash-number"></span></p>
+                </div>
             </div>
         </div>
 
@@ -117,7 +125,97 @@
     document.addEventListener("DOMContentLoaded", function () {
         const checkboxes = document.querySelectorAll('.item-checkbox');
         const totalPriceElement = document.getElementById('total-price');
+        const gcashRefContainer = document.getElementById("gcash-ref-container");
+        const gcashOrgDetails = document.getElementById("gcash-org-details");
+        const gcashNameElement = document.getElementById("gcash-name");
+        const gcashNumberElement = document.getElementById("gcash-number");
+        const admins = @json($admins); // Pass admins from the controller to JavaScript
+
+        let selectedOrg = null;
+
+        // Function to update total price
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    totalPrice += parseFloat(checkbox.getAttribute('data-price'));
+                }
+            });
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+        }
+
+        // Function to set GCash details for the selected organization
+        function updateGcashDetails(org) {
+            const admin = admins.find(admin => admin.org === org);
+            if (admin) {
+                gcashNameElement.textContent = admin.gcash_name || "Not provided";
+                gcashNumberElement.textContent = admin.gcash_number || "Not provided";
+                gcashOrgDetails.style.display = "block";
+            } else {
+                gcashOrgDetails.style.display = "none";
+            }
+        }
+
+        // Event listener for checkbox changes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const itemOrg = checkbox.getAttribute('data-org');
+
+                if (checkbox.checked) {
+                    // If no organization is selected, set the current one
+                    if (!selectedOrg) {
+                        selectedOrg = itemOrg;
+                        if (document.getElementById("payment-gcash").checked) {
+                            updateGcashDetails(selectedOrg);
+                        }
+                    }
+
+                    // Prevent selection of items from a different organization
+                    if (itemOrg !== selectedOrg) {
+                        alert(`You can only select products from the same organization (${selectedOrg}).`);
+                        checkbox.checked = false;
+                    }
+                } else {
+                    // If unchecked, check if all items from the current org are deselected
+                    const anyChecked = Array.from(checkboxes).some(
+                        cb => cb.checked && cb.getAttribute('data-org') === selectedOrg
+                    );
+
+                    // If no items from the org are checked, reset the selectedOrg
+                    if (!anyChecked) {
+                        selectedOrg = null;
+                        gcashOrgDetails.style.display = "none"; // Hide GCash details
+                    }
+                }
+
+                updateTotalPrice();
+            });
+        });
+
+        // Event listener for payment method change
+        const paymentMethodInputs = document.getElementsByName("payment_method");
+        paymentMethodInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                if (document.getElementById("payment-gcash").checked && selectedOrg) {
+                    gcashRefContainer.style.display = "block";
+                    updateGcashDetails(selectedOrg);
+                } else {
+                    gcashRefContainer.style.display = "none";
+                    gcashOrgDetails.style.display = "none";
+                }
+            });
+        });
+
+        // Initial calculation of total price
+        updateTotalPrice();
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll('.item-checkbox');
+        const totalPriceElement = document.getElementById('total-price');
         let selectedOrg = null; // Variable to track the selected organization
+        const gcashRefContainer = document.getElementById("gcash-ref-container"); // GCash reference input container
 
         // Function to calculate the total price
         function updateTotalPrice() {
@@ -169,6 +267,18 @@
 
         // Initial calculation of total price
         updateTotalPrice();
+
+        // Show GCash reference number input when GCash payment method is selected
+        const paymentMethodInputs = document.getElementsByName("payment_method");
+        paymentMethodInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                if (document.getElementById("payment-gcash").checked) {
+                    gcashRefContainer.style.display = "block";
+                } else {
+                    gcashRefContainer.style.display = "none";
+                }
+            });
+        });
 
         // Modal and order confirmation logic
         const placeOrderButton = document.getElementById("placeorder-button");
