@@ -663,6 +663,19 @@ class UrsacHubController extends Controller
     
         return back()->withErrors(['Failed to update the order status.']);
     }
+
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
+        
+        // Search products by name or other fields
+        $products = Products::where('name', 'like', '%' . $query . '%')
+            ->orWhere('org', 'like', '%' . $query . '%')
+            ->paginate(10);
+
+        return view('products_page', compact('products')); // Replace 'your-blade-template' with the actual template name
+    }
+
     
 
 

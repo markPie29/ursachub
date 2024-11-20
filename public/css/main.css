@@ -1419,6 +1419,35 @@ h3.news-headline {
 .carousel-btn:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+/* search css */
+.search-form {
+    margin: 30px auto;
+    display: flex;
+    gap: 10px;
+    width: 500px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+/* search css */
+
 
 /* Carousel Responsiveness */
 @media (max-width: 768px) {
