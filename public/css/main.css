@@ -434,6 +434,32 @@ section {
     color:var(--pure-white);
 }
 
+.home-devs {
+    background-color: var(--main-color);
+}
+.devs-ctn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5% 0;
+    background-color: var(--main-color);
+    color: var(--pure-white);
+}
+
+.devs-ctn a {
+    color: var(--pure-white);
+}
+
+
+
+
+
+
+
+
+
+
+
 .account-ctn {
     display: flex;
     flex-direction: column;
@@ -615,13 +641,13 @@ section {
     background-color: var(--white-color);
     border-radius: 10px;
 }
-.products-header {
+.news-products-header {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: auto;
 }
 
-.products-header h1 {
+.news-products-header h1 {
     color: var(--main-color);
     text-align: left;
     font-size: 4rem;
@@ -1219,24 +1245,20 @@ section {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center-align the text content */
-    text-align: center; /* Center-align the text */
-    gap: 10px; /* Add spacing between elements */
+    align-items: left; 
+    text-align: left; 
 }
 
-h3.news-headline {
-    font-size: 1.5rem;
-    margin: 0;
-    font-weight: bold !important;
-    text-transform: uppercase; /* Match the style in your image */
+.news-headline {
+    margin-top: 20px;
+    font-size: 0.9rem;
     text-overflow: ellipsis;
     overflow: hidden;
-   
 }
 
 .news-org {
     font-size: 1rem;
-    color: #333;
+    color: var(--main-color);
     margin: 0;
     font-weight: bold;
 }
@@ -1260,7 +1282,6 @@ h3.news-headline {
     width: 100%;
     height: 250px; /* Fixed height for consistency across cards */
     overflow: hidden; /* Ensures any overflowing parts of the image are hidden */
-    margin-top: 10px;
     border-top: 1px solid #ddd; /* Optional: Separator line between content and image */
     display: flex; /* Flexbox to ensure alignment if needed */
     align-items: center; /* Center-align image vertically */
@@ -1270,8 +1291,8 @@ h3.news-headline {
 }
 
 .news-card-image img {
-    max-width: 100%; /* Let the width adjust naturally */
-    height: auto; /* Ensure the height fills the container */
+    min-width: 100%; 
+    max-height: 500px;
     object-fit: cover; /* Ensure the image fills the container without distortion */
     border-radius: 12px 12px 0 0; /* Optional: Rounded corners matching the card */
     display: block; /* Remove inline spacing or gaps for images */
@@ -1340,7 +1361,6 @@ h3.news-headline {
     align-items: stretch; /* Make children stretch to fill container */
    
     width: 85%; /* Full width */
-    height: 85%; /* Full height of the viewport */
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px; /* Optional: remove border-radius for full stretch */
@@ -1951,34 +1971,35 @@ h3.news-headline {
 }
 
 /* Full-screen background setup */
-body, html {
+/* body, html {
     height: 100%;
     font-family: Arial, sans-serif;
-}
+} */
 
 /* Background image and overlay */
-.background {
-    background-image: url('images.jpg');
-    background-size: cover;
-    background-position: center;
+.home-hero-background {
     position: relative;
-    height: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.776);
 }
 
 /* Semi-transparent overlay for better text contrast */
-.background::before {
+.home-hero-background::before {
     content: "";
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 1;
+    background-image: url('/img/ursac.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: -1;
 }
 
 /* Centered text container */
-.content {
+.home-hero-content {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1988,14 +2009,27 @@ body, html {
 }
 
 /* Styling for the title and subtitle */
-.title {
-    font-size: 8em;
-    font-weight: bold;
-    color: #2967aa; /* Bright blue color */
-    margin-bottom: 10px;
+.home-hero-title {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--main-color);
+    font-size: 8rem;
+    letter-spacing: var(--logo-letter-spacing);
+    animation: scale 3s ease-in-out infinite;
+    white-space: nowrap; 
 }
 
-.subtitle {
-    font-size: 1.2em;
-    color: #060d58; /* Dark grey for subtitle */
+.home-hero-subtitle {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--main-color);
+    animation: scale 3s ease-in-out infinite ;
+}
+
+.home-news {
+    background-color: rgba(255, 255, 255, 0.776);
+}
+
+.home-products {
+    background-color: rgba(255, 255, 255, 0.776);
 }

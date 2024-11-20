@@ -32,7 +32,7 @@
                 @foreach($products as $product)
                 <a href="{{ route('show_eachprodpage_admin', $product->id) }} ">
                     <div>
-                        {{ $product->name }} - {{ $product->price }} - {{ $product->org }}
+                        {{ $product->name }} - Php {{ $product->price }}
                     </div>
                 </a>
 
@@ -44,7 +44,7 @@
                 @foreach($news as $news)
                 <a href="{{ route('show_eachnewspage_admin', $news->id) }} ">
                     <div>
-                        {{ $news->org }} - {{ $news->headline }} - {{ $news->content }}
+                    {{ $news->headline }}
                     </div>
                 </a>
                 @endforeach

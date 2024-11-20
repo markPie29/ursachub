@@ -8,7 +8,7 @@
 <body>   
     <section class="filler-div"></section>
     
-    <div class='products-header'>
+    <div class='news-products-header'>
         <h1>Products</h1>
 
         <form action="{{ route('search_products') }}" method="GET" class="search-form">

@@ -19,7 +19,14 @@ class UrsacHubController extends Controller
 {
 
     public function home() {
-        return view ('home');
+        // Fetch the latest 2 news
+        $news = News::orderBy('created_at', 'desc')->take(2)->get();
+    
+        // Fetch the latest 3 products
+        $products = Products::orderBy('created_at', 'desc')->take(3)->get();
+    
+        // Pass the data to the view
+        return view('home', compact('news', 'products'));
     }
     public function admin()
     {
@@ -229,7 +236,7 @@ class UrsacHubController extends Controller
         $news->delete();
 
         // Redirect with a success message
-        return redirect('/');
+        return redirect()->route('admin.account')->with('success', 'News deleted successfully.');
     }
 
     public function editStock(Request $request, $id, $size)
@@ -318,7 +325,7 @@ class UrsacHubController extends Controller
 
         // Save the updated news
         $news->save();
-        return redirect('/');
+        return redirect()->route('admin.account')->with('success', 'News edited successfully.');
     }
 
 
@@ -353,7 +360,7 @@ class UrsacHubController extends Controller
         $news->photos = json_encode($photoPaths);
         $news->save();
     
-        return redirect('/');
+        return redirect()->route('admin.account')->with('success', 'News added successfully.');
     }
 
     public function addnewspage()
@@ -674,6 +681,18 @@ class UrsacHubController extends Controller
             ->paginate(10);
 
         return view('products_page', compact('products')); // Replace 'your-blade-template' with the actual template name
+    }
+
+    public function searchNews(Request $request)
+    {
+        $query = $request->input('query');
+        
+        // Search products by name or other fields
+        $news = News::where('headline', 'like', '%' . $query . '%')
+            ->orWhere('org', 'like', '%' . $query . '%')
+            ->paginate(10);
+
+        return view('news_page', compact('news')); // Replace 'your-blade-template' with the actual template name
     }
 
     

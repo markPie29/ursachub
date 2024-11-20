@@ -7,8 +7,14 @@
 </section>
 
 <body>
-    <div class="news-page-header">
-        <h2>News Page</h2>  
+
+    <div class='news-products-header'>
+        <h1>News</h1>
+
+        <form action="{{ route('search_news') }}" method="GET" class="search-form">
+            <input type="text" name="query" placeholder="Search for news..." value="{{ request('query') }}">
+            <button type="submit">Search</button>
+        </form>
     </div>
 
     <div class="news-container">
@@ -16,10 +22,9 @@
         <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card">
             <!-- News Content at the Top -->
             <div class="news-card-content">
-                <h3 class="news-headline"  title ="{{ $newsx->headline }}"></h3>
-                    {{Str::limit($newsx->headline, 30, '...')}}
                 <p class="news-org">{{ $newsx->org }}</p>
-                <p class="news-timestamp">{{ $newsx->timestamp }}</p>
+                <p class="news-timestamp">{{ $newsx->updated_at }}</p>
+                <h3 class="news-headline" id = "news-headline"> {{ $newsx->headline }} </h3>
             </div>
 
             <!-- Image at the Bottom -->
@@ -92,4 +97,16 @@
     </div>
 </body>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const headlines = document.querySelectorAll(".news-headline");
+    const maxChars = 80; // Limit to 30 characters
+
+    headlines.forEach((headline) => {
+      if (headline.textContent.length > maxChars) {
+        headline.textContent = headline.textContent.substring(0, maxChars) + "...";
+      }
+    });
+  });
+</script>
 @endsection
