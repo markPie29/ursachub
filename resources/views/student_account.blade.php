@@ -12,8 +12,8 @@
             <h2> {{ $lastname }}, {{ $firstname }} {{ $middlename }} </h2>
             <h2>{{ $student_id }}</h2>
             <p><strong>Course:</strong> {{ $course->name }}</p>
+            <a href="{{ route('student.orders') }}">View My Orders</a>
         </div>
-        <a href="{{ route('student.orders') }}">Orders</a>
     </div>
 </body>
 @endsection

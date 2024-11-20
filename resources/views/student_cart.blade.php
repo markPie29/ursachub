@@ -6,18 +6,14 @@
 
 <div class="cart-container">
     <div class="cart-items-ctn">
-        <h1>Your Cart</h1>
+        <h1>Cart</h1>
         @if($cartItems->isEmpty())
             <p>Your cart is currently empty.</p>
         @else
             @foreach($cartItems as $item)
                 <div class="cart-item">
+                                
                     <div class="cart-item-details">
-                        <p><strong>Product:</strong> {{ $item->name }}</p>
-                        <p><strong>Organization:</strong> {{ $item->org }}</p>
-                        <p><strong>Size:</strong> {{ ucfirst($item->size) }}</p>
-                        <p><strong>Quantity:</strong> {{ $item->quantity }}</p>
-                        <p><strong>Price:</strong> ${{ number_format($item->price, 2) }}</p>
                         <input type="checkbox" 
                                 class="item-checkbox" 
                                 data-item-id="{{ $item->id }}" 
@@ -26,6 +22,14 @@
                                 data-quantity="{{ $item->quantity }}" 
                                 data-price="{{ $item->price }}" 
                                 data-org="{{ $item->org }}">
+                                
+                        <div class="cart-item-details-only">
+                            <h3>{{ $item->name }}</h3>
+                            <p>{{ $item->org }}</p>
+                            <p>Size: <strong>{{ ucfirst($item->size) }}</strong></p>
+                            <p>Quantity: <strong>{{ $item->quantity }}</strong></p>
+                            <p>₱{{ number_format($item->price, 2) }}</p>
+                        </div>
                     </div>
 
                     <div class="cart-item-images">
@@ -33,9 +37,7 @@
                             $photos = json_decode($item->photos, true);
                         @endphp
                         @if(is_array($photos) && count($photos) > 0)
-                            @foreach($photos as $photo)
-                                <img src="{{ asset('storage/' . $photo) }}" alt="Product Image" width="50">
-                            @endforeach
+                            <img src="{{ asset('storage/' . $photos[0]) }}" alt="Product Image" width="50">
                         @else
                             <span>No images available</span>
                         @endif
@@ -50,7 +52,9 @@
                 </div>
             @endforeach
         @endif
+ 
     </div>
+  
 
     <div class="checkout-ctn">
         <div class="user-details">
