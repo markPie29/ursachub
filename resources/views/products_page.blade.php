@@ -7,13 +7,16 @@
 
 <body>   
     <section class="filler-div"></section>
+    
+    <div class='products-header'>
+        <h1>Products</h1>
 
-    <h1>Products</h1>
+        <form action="{{ route('search_products') }}" method="GET" class="search-form">
+            <input type="text" name="query" placeholder="Search for products..." value="{{ request('query') }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
-    <form action="{{ route('search_products') }}" method="GET" class="search-form">
-        <input type="text" name="query" placeholder="Search for products..." value="{{ request('query') }}">
-        <button type="submit">Search</button>
-    </form>
 
 <div class="products-ctn">
     @foreach($products as $product)

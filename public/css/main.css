@@ -601,6 +601,18 @@ section {
     background-color: var(--white-color);
     border-radius: 10px;
 }
+.products-header {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: auto;
+}
+
+.products-header h1 {
+    color: var(--white-color);
+    text-align: left;
+    font-size: 4rem;
+    margin-left: 10%;
+}
 /* pagination */
 .products-ctn {
     display: grid;
