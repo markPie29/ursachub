@@ -534,12 +534,7 @@ class UrsacHubController extends Controller
     public function placeOrder(Request $request)
     {
         $validated = $request->validate([
-            'items' => 'required|array',
-            'items.*.name' => 'required|string',
-            'items.*.size' => 'required|string',
-            'items.*.price' => 'required|numeric',
-            'items.*.org' => 'required|string',
-            'items.*.quantity' => 'required|integer',
+            'items' => 'required|json',
             'student_id' => 'required|string',
             'firstname' => 'required|string',
             'lastname' => 'required|string',
@@ -547,6 +542,7 @@ class UrsacHubController extends Controller
             'course' => 'required|string',
             'payment_method' => 'required|string',
             'reference_number' => 'nullable|string',
+            'gcash_photo' => 'nullable|image|max:2048', // Max 2MB
         ]);
 
         // Begin a database transaction to ensure atomicity
@@ -554,9 +550,16 @@ class UrsacHubController extends Controller
 
         try {
             $orderNumber = Str::upper(Str::random(10));
+            $items = json_decode($validated['items'], true);
+
+            // Handle photo upload
+            $photoPath = null;
+            if ($request->hasFile('gcash_photo')) {
+                $photoPath = $request->file('gcash_photo')->store('gcash_proofs', 'public');
+            }
 
             // Loop through each item in the order
-            foreach ($validated['items'] as $item) {
+            foreach ($items as $item) {
                 // Check if the product exists
                 $product = DB::table('products')
                     ->where('name', $item['name'])
@@ -592,6 +595,7 @@ class UrsacHubController extends Controller
                     'course' => $validated['course'],
                     'payment_method' => $validated['payment_method'],
                     'reference_number' => $validated['reference_number'],
+                    'gcash_proof' => $photoPath,
                     'order_number' => $orderNumber,
                     'status' => 'pending',
                     'created_at' => now(),
@@ -623,6 +627,8 @@ class UrsacHubController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+
 
     public function studentOrders()
     {

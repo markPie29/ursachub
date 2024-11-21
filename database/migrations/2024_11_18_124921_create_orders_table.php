@@ -29,6 +29,9 @@ return new class extends Migration
         $table->string('reference_number')->nullable();
         $table->string('order_number');
         $table->string('status')->nullable();
+        $table->string('gcash_proof')->nullable(); // Proof of payment photo
+        $table->string('claimed_by')->nullable();  // Name of the person who claimed the order
+        $table->timestamp('claimed_at')->nullable(); // Date and time the order was claimed
         $table->timestamps();
     });
 }
