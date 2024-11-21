@@ -31,7 +31,6 @@
                         <strong class="add-product-organization">- {{ $org }} -</strong>
                     </div>
 
-                    {{-- Course Selection using Checkboxes --}}
                     <label for="courses" class="add-product-label">Available for Courses:</label>
                     <div id="courses" class="add-product-courses">
                         @foreach($courses as $course)
@@ -51,30 +50,17 @@
                 <!-- Right Side: Stock Sizes -->
                 <div class="add-product-right">
                     <h3 class="add-product-subtitle">Enter Stocks for Sizes:</h3>
-                    <div class="add-product-size">
-                        <label for="small" class="add-product-label">Small:</label>
-                        <input type="number" name="small" id="small" class="add-product-input" value="{{ old('small') }}" min="0" required placeholder="Enter stocks for Small">
-                    </div>
-                    <div class="add-product-size">
-                        <label for="medium" class="add-product-label">Medium:</label>
-                        <input type="number" name="medium" id="medium" class="add-product-input" value="{{ old('medium') }}" min="0" required placeholder="Enter stocks for Medium">
-                    </div>
-                    <div class="add-product-size">
-                        <label for="large" class="add-product-label">Large:</label>
-                        <input type="number" name="large" id="large" class="add-product-input" value="{{ old('large') }}" min="0" required placeholder="Enter stocks for Large">
-                    </div>
-                    <div class="add-product-size">
-                        <label for="extralarge" class="add-product-label">Extra Large:</label>
-                        <input type="number" name="extralarge" id="extralarge" class="add-product-input" value="{{ old('extralarge') }}" min="0" required placeholder="Enter stocks for Extra Large">
-                    </div>
-                    <div class="add-product-size">
-                        <label for="double_extralarge" class="add-product-label">Double Extra Large:</label>
-                        <input type="number" name="double_extralarge" id="double_extralarge" class="add-product-input" value="{{ old('double_extralarge') }}" min="0" required placeholder="Enter stocks for Double Extra Large">
-                    </div>
+                    @foreach(['small', 'medium', 'large', 'extralarge', 'double_extralarge'] as $size)
+                        <div class="add-product-size">
+                            <label for="{{ $size }}" class="add-product-label">{{ ucfirst($size) }}:</label>
+                            <input type="number" name="{{ $size }}" id="{{ $size }}" class="add-product-input" value="{{ old($size) }}" min="0" required placeholder="Enter stocks for {{ ucfirst($size) }}">
+                        </div>
+                    @endforeach
+
                     <div class="add-product-field">
                         <label for="photos" class="add-product-label">Photos (max 5):</label>
-                        <input type="file" name="photos[]" id="photos" class="add-product-input" multiple>
-                        <p id="photoSizeError" style="color: red; display: none;">The total size of uploaded photos must not exceed 20MB.</p>
+                        <input type="file" id="photos" class="add-product-input" multiple accept="image/*" onchange="handleProductImageUpload(event)">
+                        <div id="imagePreview" class="add-product-preview"></div>
                     </div>
                 </div>
             </div>
@@ -83,23 +69,85 @@
         </form>
     </div>
 
-    {{-- JavaScript for Photo Size Validation --}}
     <script>
-        document.getElementById('addProductForm').addEventListener('submit', function (e) {
-            const files = document.getElementById('photos').files;
-            let totalSize = 0;
+        let selectedFiles = [];
 
-            // Calculate total size of uploaded files
-            for (let i = 0; i < files.length; i++) {
-                totalSize += files[i].size; // Size in bytes
-            }
+        function handleProductImageUpload(event) {
+            const files = Array.from(event.target.files);
+            const preview = document.getElementById('imagePreview');
+            const maxFiles = 5;
 
-            // Convert bytes to megabytes and check if it exceeds 20MB
-            if (totalSize > 20 * 1024 * 1024) {
-                e.preventDefault(); // Prevent form submission
-                const errorElement = document.getElementById('photoSizeError');
-                errorElement.style.display = 'block'; // Show error message
+            files.forEach(file => {
+                if (selectedFiles.length < maxFiles && file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
+
+                    const fileIndex = selectedFiles.length - 1;
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const imageContainer = document.createElement('div');
+                        imageContainer.classList.add('image-container');
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        img.style.maxWidth = '150px';
+                        img.style.maxHeight = '150px';
+
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = 'Remove';
+                        removeButton.classList.add('remove-button');
+                        removeButton.onclick = function () {
+                            removeProductImage(fileIndex);
+                        };
+
+                        imageContainer.appendChild(img);
+                        imageContainer.appendChild(removeButton);
+                        preview.appendChild(imageContainer);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            if (selectedFiles.length >= maxFiles) {
+                event.target.disabled = true;
             }
-        });
+        }
+
+        function removeProductImage(index) {
+            selectedFiles.splice(index, 1);
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, i) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageContainer = document.createElement('div');
+                    imageContainer.classList.add('image-container');
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    img.style.maxWidth = '150px';
+                    img.style.maxHeight = '150px';
+
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remove';
+                    removeButton.classList.add('remove-button');
+                    removeButton.onclick = function () {
+                        removeProductImage(i);
+                    };
+
+                    imageContainer.appendChild(img);
+                    imageContainer.appendChild(removeButton);
+                    preview.appendChild(imageContainer);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            if (selectedFiles.length < 5) {
+                document.getElementById('photos').disabled = false;
+            }
+        }
     </script>
 @endsection
