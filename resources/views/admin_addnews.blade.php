@@ -18,7 +18,7 @@
         @endif
 
         {{-- News Form --}}
-        <form action="/admin/addnews" method="POST" enctype="multipart/form-data" class="publish-news-form" id="publishNewsForm">
+        <form action="{{ route('admin.addnews') }}" method="POST" enctype="multipart/form-data" class="publish-news-form" id="publishNewsForm">
             @csrf
 
             <div class="publish-news-field">
@@ -38,7 +38,7 @@
 
             <div class="publish-news-field">
                 <label for="photos" class="publish-news-label">Photos (max 5):</label>
-                <input type="file" id="newsPhotos" class="publish-news-input" multiple accept="image/*" onchange="handleNewsImageUpload(event)">
+                <input type="file" name="photos[]" id="newsPhotos" class="publish-news-input" multiple accept="image/*" onchange="handleNewsImageUpload(event)">
                 <div id="newsImagePreview" class="publish-news-preview"></div>
             </div>
 
@@ -54,11 +54,12 @@
             const preview = document.getElementById('newsImagePreview');
             const maxFiles = 5;
 
-            files.forEach(file => {
-                if (newsSelectedFiles.length < maxFiles && file.type.startsWith('image/')) {
-                    newsSelectedFiles.push(file);
+            preview.innerHTML = ''; // Clear previous preview
+            newsSelectedFiles = []; // Reset selected files
 
-                    const fileIndex = newsSelectedFiles.length - 1;
+            files.forEach((file, index) => {
+                if (index < maxFiles && file.type.startsWith('image/')) {
+                    newsSelectedFiles.push(file);
 
                     const reader = new FileReader();
                     reader.onload = function (e) {
@@ -75,7 +76,7 @@
                         removeButton.textContent = 'Remove';
                         removeButton.classList.add('remove-button');
                         removeButton.onclick = function () {
-                            removeNewsImage(fileIndex);
+                            removeNewsImage(index);
                         };
 
                         imageContainer.appendChild(img);
@@ -86,13 +87,16 @@
                 }
             });
 
-            if (newsSelectedFiles.length >= maxFiles) {
-                event.target.disabled = true;
-            }
+            updateFileInput();
         }
 
         function removeNewsImage(index) {
             newsSelectedFiles.splice(index, 1);
+            updatePreview();
+            updateFileInput();
+        }
+
+        function updatePreview() {
             const preview = document.getElementById('newsImagePreview');
             preview.innerHTML = '';
 
@@ -121,10 +125,17 @@
                 };
                 reader.readAsDataURL(file);
             });
+        }
 
-            if (newsSelectedFiles.length < 5) {
-                document.getElementById('newsPhotos').disabled = false;
-            }
+        function updateFileInput() {
+            const fileInput = document.getElementById('newsPhotos');
+            const dataTransfer = new DataTransfer();
+            
+            newsSelectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            
+            fileInput.files = dataTransfer.files;
         }
     </script>
 @endsection

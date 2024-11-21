@@ -16,7 +16,7 @@
         @endif
 
         {{-- Product Form --}}
-        <form action="/admin/addprod" method="POST" enctype="multipart/form-data" class="add-product-form" id="addProductForm">
+        <form action="{{ route('admin.addprod') }}" method="POST" enctype="multipart/form-data" class="add-product-form" id="addProductForm">
             @csrf
             <div class="add-product-row">
                 <!-- Left Side: Product Details -->

@@ -46,7 +46,7 @@
                     <div class="cart-item-remove">
                         <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <button type="submit" class="cart-btn">Remove</button>
                         </form>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
         <!-- Hidden input to store selected payment method -->
         <input type="hidden" id="selected-payment-method" name="payment_method">
 
-        <button type="button" class="btn btn-primary mt-3" id="placeorder-button">Place Order</button>
+        <button type="button" class="cart-btn" id="placeorder-button">Place Order</button>
     </div>
 
     <!-- Order message div (hidden initially) -->
@@ -126,8 +126,8 @@
     <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; width: 300px;">
         <h3>Confirm Your Order</h3>
         <p>Are you sure you want to place this order?</p>
-        <button id="confirm-proceed" class="btn btn-success" disabled>Proceed</button>
-        <button id="confirm-cancel" class="btn btn-danger">Cancel</button>
+        <button id="confirm-proceed" class="cart-btn" disabled>Proceed</button>
+        <button id="confirm-cancel" class="cart-btn">Cancel</button>
         <p id="timer-message" style="margin-top: 10px; color: gray;">You can proceed in <span id="timer-countdown">5</span> seconds...</p>
     </div>
 </div>

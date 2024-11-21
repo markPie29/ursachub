@@ -57,7 +57,7 @@ class UrsacHubController extends Controller
 
     public function products_page() {
 
-        $products = Products::paginate(6);
+        $products = Products::paginate(12);
 
         return view('products_page', [
             'products' => $products
@@ -66,7 +66,7 @@ class UrsacHubController extends Controller
 
     public function news_page() {
 
-        $news = News::paginate(2);
+        $news = News::paginate(8);
 
         return view('news_page', [
             'news' => $news

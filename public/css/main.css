@@ -209,22 +209,6 @@ section {
     border: 1px solid #ccc;
     outline: none;
 } */
-.btn{
-    background: var(--main-color);
-    border: 0;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all .3s;
-    margin-top: 10px;
-    padding: 0px 10px;
-
- 
-}
-.btn:hover{
-    opacity: 0.82;
-}
 .submit{
     width: 100%;
 }
@@ -579,7 +563,7 @@ section {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: var(--main-color);
 }
 
 /* Links and Error Handling */
@@ -1709,6 +1693,22 @@ section {
 .cart-remove-btn {
 }
 
+.cart-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--main-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-top: 10px;
+}
+
+.cart-btn:hover {
+    background-color: #0255ae;
+}
 
 .checkout-ctn {
     flex: 1;
