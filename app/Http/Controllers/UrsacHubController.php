@@ -34,23 +34,42 @@ class UrsacHubController extends Controller
         if (Auth::guard('admin')->check()) {
             // Get the authenticated admin user
             $admin = Auth::guard('admin')->user();
-            $org = $admin->org; // Assuming 'org' is a field in the admin table
             
             // Fetch data based on the authenticated admin's organization
-            $products = Products::where('org', $org)->get(); 
-            $news = News::where('org', $org)->get();
+            $products = Products::where('org', $admin->org)->get(); 
+            $news = News::where('org', $admin->org)->get();
     
             // Pass the organization name, products, and news to the view
-            return view('admin_account', [
-                'org_name' => $org,
-                'org_name_full' => $admin->org_name_full ?? null, // Adjust if the full name field is different
-                'products' => $products,
-                'news' => $news
-            ]);
+            return view('admin_account', compact('admin','news','products'));
         }
     
         // Redirect to the admin login page if not authenticated
         return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+    }
+
+
+    public function uploadLogo(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ensure it's an image
+        ]);
+
+        // Handle the file upload
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('logos', $fileName, 'public'); // Save in the 'public/logos' directory
+
+            // Update the profile_photo column for the admin
+            $admin = Admin::find(auth('admin')->id()); // Assumes the admin is logged in
+            $admin->logo = $filePath;
+            $admin->save();
+
+            return redirect()->route('admin.account')->with('success', 'Logo uploaded successfully!');
+        }
+
+        return redirect()->route('admin.account')->with('error', 'Error in Uploading the Logo');
     }
     
 
@@ -699,6 +718,43 @@ class UrsacHubController extends Controller
             ->paginate(10);
 
         return view('news_page', compact('news')); // Replace 'your-blade-template' with the actual template name
+    }
+
+    public function searchOrgs(Request $request)
+    {
+        $query = $request->input('query');
+        
+        $orgs = Admin::where('org', 'like', '%' . $query . '%')
+        ->orderBy('org', 'asc') // Sort by 'org' in ascending order (A-Z)
+        ->get();
+
+        return view('orgs_page', compact('orgs')); 
+    }
+
+    public function orgs_page()
+    {
+        $orgs = Admin::orderBy('name', 'asc')->get();
+    
+        return view('orgs_page', [
+            'orgs' => $orgs
+        ]);
+    }
+
+    public function show_eachorgs ($id) 
+    {
+        $student = Auth::guard('student')->user();
+        $org = Admin::FindOrFail($id);
+        
+        $products = Products::where('org', $org->org)->get(); 
+        $news = News::where('org', $org->org)->get();
+
+        // Pass the organization name, products, and news to the view
+        return view('show_eachorg', [
+            'org' => $org,
+            'products' => $products,
+            'news' => $news,
+        ]);
+
     }
 
     

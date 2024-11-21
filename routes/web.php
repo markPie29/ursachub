@@ -60,6 +60,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/product/{id}/update-restrictions', [UrsacHubController::class, 'updateRestrictions'])->name('update_restrictions');
         Route::get('/orders', [UrsacHubController::class, 'adminOrders'])->name('admin.orders');
         Route::put('/orders/{order}', [UrsacHubController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+        Route::post('/upload-logo', [UrsacHubController::class, 'uploadLogo'])->name('upload.logo');
     });
 });
 
@@ -85,6 +86,8 @@ Route::prefix('student')->group(function () {
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');
         Route::get('news/{id}', [UrsacHubController::class, 'show_eachnewspage'])->name('show_eachnewspage');
-        
+        Route::get('orgs', [UrsacHubController::class, 'orgs_page'])->name('orgs_page');
+        Route::get('orgs/{id}', [UrsacHubController::class, 'show_eachorgs'])->name('show_eachorgs');
+        Route::get('/search-orgs', [UrsacHubController::class, 'searchOrgs'])->name('search_orgs');
     });
 });

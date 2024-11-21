@@ -27,7 +27,7 @@
             <ul class="navbar">
                 <li><a href="{{ route('news_page') }}">News</a></li>
                 <li><a href="{{ route('products_page') }}">Products</a></li>
-                <li><a href="">Organizations</a></li>
+                <li><a href="{{ route('orgs_page') }}">Organizations</a></li>
             </ul>
         </div>
 
