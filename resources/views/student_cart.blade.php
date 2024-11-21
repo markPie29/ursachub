@@ -351,9 +351,14 @@
                     paymentMethod = input.value;
                 }
             });
-            if (paymentMethod === "gcash") {
-                referenceNumber = gcashRefInput.value.trim();
-            }
+            // if (paymentMethod === "gcash") {
+            //     if (!gcashRefInput.value === "") {
+            //         referenceNumber = gcashRefInput.value.trim();
+            //     } else {
+            //         alert("Reference number is required");
+            //     }
+                
+            // }
 
             // Gather selected items
             checkboxes.forEach(checkbox => {

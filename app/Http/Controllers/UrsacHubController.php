@@ -547,38 +547,46 @@ class UrsacHubController extends Controller
             'course' => 'required|string',
             'payment_method' => 'required|string',
             'reference_number' => 'nullable|string',
+            'gcash_proof' => 'nullable|file|image|max:2048', // Correct validation for file upload
         ]);
-
-        // Begin a database transaction to ensure atomicity
+    
         DB::beginTransaction();
-
+    
         try {
+            $gcashProofPath = null;
+    
+            // Handle GCash proof upload
+            if ($request->hasFile('gcash_proof')) {
+                $gcashProofFile = $request->file('gcash_proof');
+                $gcashProofPath = $gcashProofFile->store('proof_photos', 'public');
+            }
+    
             $orderNumber = Str::upper(Str::random(10));
-
-            // Loop through each item in the order
+    
+            // Process each item in the order
             foreach ($validated['items'] as $item) {
-                // Check if the product exists
                 $product = DB::table('products')
                     ->where('name', $item['name'])
                     ->where('org', $item['org'])
                     ->first();
-
-                // If product not found
+    
                 if (!$product) {
-                    DB::rollBack(); // Rollback the transaction if the product is not found
-                    return response()->json(['success' => false, 'message' => "Product {$item['name']} not found."], 400);
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Product {$item['name']} not found.",
+                    ], 400);
                 }
-
-                // Check stock availability based on size
+    
                 $availableStock = $product->{$item['size']};
-
-                // If there's insufficient stock for the requested size
                 if ($availableStock < $item['quantity']) {
-                    DB::rollBack(); // Rollback the transaction if there's insufficient stock
-                    return response()->json(['success' => false, 'message' => "Insufficient stock for {$item['name']} ({$item['size']}). Available stock: {$availableStock}."], 400);
+                    DB::rollBack();
+                    return response()->json([
+                        'success' => false,
+                        'message' => "Insufficient stock for {$item['name']} ({$item['size']}). Available stock: {$availableStock}.",
+                    ], 400);
                 }
-
-                // Insert the order into the orders table
+    
                 DB::table('orders')->insert([
                     'name' => $item['name'],
                     'size' => $item['size'],
@@ -592,18 +600,17 @@ class UrsacHubController extends Controller
                     'course' => $validated['course'],
                     'payment_method' => $validated['payment_method'],
                     'reference_number' => $validated['reference_number'],
+                    'gcash_proof' => $gcashProofPath,
                     'order_number' => $orderNumber,
                     'status' => 'pending',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-
-                // Update the product stock after order is placed
+    
                 DB::table('products')
                     ->where('id', $product->id)
                     ->decrement($item['size'], $item['quantity']);
-                
-                // Remove the item from the cart after placing the order
+    
                 DB::table('carts')
                     ->where('student_id', $validated['student_id'])
                     ->where('name', $item['name'])
@@ -611,18 +618,23 @@ class UrsacHubController extends Controller
                     ->where('org', $item['org'])
                     ->delete();
             }
-
-            // Commit the transaction if all operations succeed
+    
             DB::commit();
-
-            // Return success response
-            return response()->json(['success' => true, 'order_number' => $orderNumber]);
+    
+            return response()->json([
+                'success' => true,
+                'order_number' => $orderNumber,
+            ]);
         } catch (\Exception $e) {
-            // Rollback the transaction if any error occurs
             DB::rollBack();
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
+    
+
 
     public function studentOrders()
     {
