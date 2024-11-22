@@ -669,7 +669,6 @@ class UrsacHubController extends Controller
         $org_name = auth('admin')->user()->org; 
 
         $orders = Orders::where('org', $org_name)
-        ->select('order_number', 'name', 'size', 'quantity', 'price', 'payment_method', 'reference_number', 'gcash_proof',  'org', 'status', 'created_at')
         ->orderBy('created_at', 'desc')
         ->get()
         ->groupBy('order_number');

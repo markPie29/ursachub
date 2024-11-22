@@ -49,7 +49,7 @@
                             </td>
                             <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                             <td>{{ ucfirst($order->status) }}</td>
-                            <td>{{ $order->claimed_at ? $order->claimed_at->format('d-m-Y H:i') : 'Not claimed' }}</td>
+                            <td>{{ $order->claimed_at }}</td>
                         </tr>
                     @endforeach
                 </tbody>
