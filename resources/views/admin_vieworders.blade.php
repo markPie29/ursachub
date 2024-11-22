@@ -55,19 +55,21 @@
                 </tbody>
             </table>
 
-            <!-- Consolidated action for the entire order group -->
-            <form action="{{ route('admin.updateOrderStatus', $order_number) }}" method="POST" class="mt-3">
+            <!-- Separate buttons for each status change in a single row -->
+            <form action="{{ route('admin.updateOrderStatus', $order_number) }}" method="POST" class="mt-3 d-flex justify-content-center">
                 @csrf
                 @method('PUT')
-                @if($orderGroup->first()->status === 'pending')
-                    <button type="submit" name="status" value="to be claimed" class="btn btn-lg btn-primary">
+                <div class="btn-group" role="group" aria-label="Change order status">
+                    <button type="submit" name="status" value="pending" class="btn btn-lg btn-secondary" {{ $orderGroup->first()->status === 'pending' ? 'disabled' : '' }}>
+                        Change to: Pending
+                    </button>
+                    <button type="submit" name="status" value="to be claimed" class="btn btn-lg btn-primary" {{ $orderGroup->first()->status === 'to be claimed' ? 'disabled' : '' }}>
                         Change to: To Be Claimed
                     </button>
-                @elseif($orderGroup->first()->status === 'to be claimed')
-                    <button type="button" class="btn btn-lg btn-success" onclick="openClaimedModal('{{ $order_number }}')">
+                    <button type="button" class="btn btn-lg btn-success" onclick="openClaimedModal('{{ $order_number }}')" {{ $orderGroup->first()->status === 'claimed' ? 'disabled' : '' }}>
                         Change to: Claimed
                     </button>
-                @endif
+                </div>
             </form>
         @empty
             <p>No orders found for {{ $org_name }}</p>
@@ -134,8 +136,24 @@
         text-align: center;
     }
 
-    .btn {
-        margin-top: 10px;
+    .btn-group {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn-group .btn {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .btn-group .btn:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+
+    .btn-group .btn:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
     }
 
     .alert {

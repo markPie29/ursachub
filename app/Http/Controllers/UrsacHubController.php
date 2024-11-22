@@ -677,44 +677,44 @@ class UrsacHubController extends Controller
     }
 
     public function updateOrderStatus(Request $request, $order_number)
-    {
-        $orders = Orders::where('order_number', $order_number)->get();
+{
+    $orders = Orders::where('order_number', $order_number)->get();
 
-        if ($orders->isEmpty()) {
-            return back()->with('error', 'Order not found.');
-        }
-
-        $currentStatus = $orders->first()->status;
-        $newStatus = $request->input('status');
-
-        if ($currentStatus === 'pending' && $newStatus === 'claimed') {
-            return back()->with('error', 'Cannot change status directly from pending to claimed. Please set to "to be claimed" first.');
-        }
-
-        if ($newStatus === 'claimed') {
-            $request->validate([
-                'claimed_by' => 'required|string|max:255',
-            ]);
-
-            foreach ($orders as $order) {
-                $order->status = $newStatus;
-                $order->claimed_by = $request->input('claimed_by');
-                $order->claimed_at = now(); // This uses Laravel's now() helper function
-                $order->save();
-            }
-            return back()->with('success', 'Order status updated to claimed successfully.');
-        }
-
-        if ($newStatus === 'to be claimed') {
-            foreach ($orders as $order) {
-                $order->status = $newStatus;
-                $order->save();
-            }
-            return back()->with('success', 'Order status updated to to be claimed successfully.');
-        }
-
-        return back()->with('error', 'Invalid status change requested.');
+    if ($orders->isEmpty()) {
+        return back()->with('error', 'Order not found.');
     }
+
+    $newStatus = $request->input('status');
+
+    // Validate the new status
+    if (!in_array($newStatus, ['pending', 'to be claimed', 'claimed'])) {
+        return back()->with('error', 'Invalid status provided.');
+    }
+
+    if ($newStatus === 'claimed') {
+        $request->validate([
+            'claimed_by' => 'required|string|max:255',
+        ]);
+
+        foreach ($orders as $order) {
+            $order->status = $newStatus;
+            $order->claimed_by = $request->input('claimed_by');
+            $order->claimed_at = now();
+            $order->save();
+        }
+    } else {
+        foreach ($orders as $order) {
+            $order->status = $newStatus;
+            if ($newStatus !== 'claimed') {
+                $order->claimed_by = null;
+                $order->claimed_at = null;
+            }
+            $order->save();
+        }
+    }
+
+    return back()->with('success', "Order status updated to {$newStatus} successfully.");
+}
 
     public function searchProducts(Request $request)
     {
