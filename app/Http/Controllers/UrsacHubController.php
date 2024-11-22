@@ -765,8 +765,8 @@ class UrsacHubController extends Controller
         $student = Auth::guard('student')->user();
         $org = Admin::FindOrFail($id);
         
-        $products = Products::where('org', $org->org)->get(); 
-        $news = News::where('org', $org->org)->get();
+        $products = Products::where('org', $org->org)->paginate(); 
+        $news = News::where('org', $org->org)->paginate();
 
         // Pass the organization name, products, and news to the view
         return view('show_eachorg', [
