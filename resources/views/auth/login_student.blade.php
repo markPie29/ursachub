@@ -10,8 +10,8 @@
 
         <!-- Login div starts here -->
         <div class="login-1">
-            <h2 class="text-1">Student Login</h2>
-            <h2 class="text-2">Login</h2>
+            <h2 class="text-1">Welcome to URSAC Hub!</h2>
+            <h2 class="text-2">Student Login</h2>
 
             <div class="form-group inputBox-1">
                 <label for="student_id">Student ID</label>
@@ -42,7 +42,7 @@
 
             <!-- Registration prompt inside the container -->
             <div class="register-prompt">
-                <p>Don't have an account? <a href="{{ route('student.register') }}">Register here</a></p>
+                <p>Don't have an account? <a href="{{ route('student.register') }}">Register here.</a></p>
             </div>
         </div>
         <!-- Login div ends here -->

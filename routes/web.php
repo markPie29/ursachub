@@ -46,20 +46,21 @@ Route::prefix('admin')->group(function () {
     
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
-        Route::post('addnews', [UrsacHubController::class, 'addnews']);
+        Route::post('addnews', [UrsacHubController::class, 'addnews'])->name('admin.addnews');
         Route::get('addnewspage', [UrsacHubController::class, 'addnewspage'])->name('addnewspage');
         Route::get('news_admin/{id}', [UrsacHubController::class, 'show_eachnewspage_admin'])->name('show_eachnewspage_admin');
         Route::put('news/{id}/edit', [UrsacHubController::class, 'editNews'])->name('editNews');
         Route::delete('news/{id}', [UrsacHubController::class, 'delete_news'])->name('delete_news');
         Route::get('products_admin/{id}', [UrsacHubController::class, 'show_eachprodpage_admin'])->name('show_eachprodpage_admin');
         Route::get('/addprodpage', [UrsacHubController::class, 'addprodpage'])->name('addprodpage');
-        Route::post('addprod', [UrsacHubController::class, 'addprod']);
+        Route::post('addprod', [UrsacHubController::class, 'addprod'])->name('admin.addprod');
         Route::delete('products/{id}', [UrsacHubController::class, 'delete_prod'])->name('delete_prod');
         Route::put('products/{id}/edit_stock/{size}', [UrsacHubController::class, 'editStock'])->name('edit_stock');
         Route::post('/product/{id}/toggle-edit-mode', [UrsacHubController::class, 'toggleEditMode'])->name('toggle_edit_mode');
         Route::put('/product/{id}/update-restrictions', [UrsacHubController::class, 'updateRestrictions'])->name('update_restrictions');
         Route::get('/orders', [UrsacHubController::class, 'adminOrders'])->name('admin.orders');
         Route::put('/orders/{order}', [UrsacHubController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+        Route::post('/upload-logo', [UrsacHubController::class, 'uploadLogo'])->name('upload.logo');
     });
 });
 
@@ -85,6 +86,8 @@ Route::prefix('student')->group(function () {
         Route::get('products', [UrsacHubController::class, 'products_page'])->name('products_page');
         Route::get('products/{id}', [UrsacHubController::class, 'show_eachprodpage'])->name('show_eachprodpage');
         Route::get('news/{id}', [UrsacHubController::class, 'show_eachnewspage'])->name('show_eachnewspage');
-        
+        Route::get('orgs', [UrsacHubController::class, 'orgs_page'])->name('orgs_page');
+        Route::get('orgs/{id}', [UrsacHubController::class, 'show_eachorgs'])->name('show_eachorgs');
+        Route::get('/search-orgs', [UrsacHubController::class, 'searchOrgs'])->name('search_orgs');
     });
 });

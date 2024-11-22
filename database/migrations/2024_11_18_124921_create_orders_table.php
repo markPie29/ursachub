@@ -34,7 +34,7 @@ return new class extends Migration
             $table->timestamp('claimed_at')->nullable(); // Date and time the order was claimed
             $table->timestamps();
         });
-}
+    }
 
     /**
      * Reverse the migrations.

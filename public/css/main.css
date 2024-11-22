@@ -209,22 +209,6 @@ section {
     border: 1px solid #ccc;
     outline: none;
 } */
-.btn{
-    background: var(--main-color);
-    border: 0;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 15px;
-    cursor: pointer;
-    transition: all .3s;
-    margin-top: 10px;
-    padding: 0px 10px;
-
- 
-}
-.btn:hover{
-    opacity: 0.82;
-}
 .submit{
     width: 100%;
 }
@@ -478,6 +462,10 @@ section {
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+.admin-logo img{
+    width: 100px;
+    height: 100px;
+}
 .main-details {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -542,6 +530,8 @@ section {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
+    color: #007bff;
 }
 
 .text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
@@ -579,7 +569,7 @@ section {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: var(--main-color);
 }
 
 /* Links and Error Handling */
@@ -1709,6 +1699,22 @@ section {
 .cart-remove-btn {
 }
 
+.cart-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--main-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-top: 10px;
+}
+
+.cart-btn:hover {
+    background-color: #0255ae;
+}
 
 .checkout-ctn {
     flex: 1;
@@ -2032,4 +2038,140 @@ section {
 
 .home-products {
     background-color: rgba(255, 255, 255, 0.776);
+}
+/* Card Style 1 */
+.card-style-1 {
+    background: #fff;
+    border-radius: 10px;
+    padding: 50px; /* Increased padding for more space inside */
+    width: 700px; /* Balanced width */
+    height: 600px; /* Added height for balance */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card-style-1 .icon {
+    margin-bottom: 15px; /* Adjusted for better spacing */
+}
+
+.card-style-1 .role {
+    font-size: 1.3rem; /* Slightly larger for better readability */
+    color: #1d4ed8;
+    margin-bottom: 10px;
+}
+
+.card-style-1 .course {
+    font-weight: bold;
+    color: #1d4ed8;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.card-style-1 .info .name,
+.card-style-1 .info .student-id {
+    background: #1d4ed8;
+    color: white;
+    padding: 15px; /* Increased padding */
+    border-radius: 8px; /* Slightly rounded corners */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card-style-1 .info .label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.card-style-1 .orders-link {
+    margin-top: 30px; /* More spacing from the content above */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+    color: #555;
+}
+
+.card-style-1 .orders-link:hover {
+    color: #0c4a7e;
+}
+
+/* Filler Div for Name and Student ID */
+.profile-card .filler {
+    background: #1d4ed8;
+    padding: 15px; /* Adjusted padding */
+    border-radius: 25px;
+    color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-align: center;
+    width: fit-content;
+}
+
+.profile-section {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.orgs-ctn {
+    display: grid;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the cards */
+    padding: 20px;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1000px; /* Optional: Limit container width to keep layout centered */
+    margin: 0 auto; /* Center the container on the page */
+}
+
+.orgs-card {
+    background-color: var(--pure-white);
+    color: var(--main-color);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 3%;
+    width: 440px;
+    height: 150px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: -1px 3px 3px 1px rgba(0,0,0,0.1);
+    transition: 0.2s ease;
+    align-items: center;
+}
+
+.orgs-card:hover {
+    transform: scale(1.03);
+}
+
+.orgs-page-name {
+    flex: 2;
+}
+
+.orgs-page-name p{
+    font-weight: bolder;
+    font-size: 1.1rem;
+    text-align: start;
+}
+
+.orgs-page-logo {
+    flex: 1;
+}
+
+.orgs-page-logo img {
+    width: 100px;
+    height: 100px;
 }
