@@ -669,7 +669,7 @@ class UrsacHubController extends Controller
         $org_name = auth('admin')->user()->org; 
 
         $orders = Orders::where('org', $org_name)
-        ->select('order_number', 'name', 'size', 'quantity', 'price', 'org', 'status', 'created_at')
+        ->select('order_number', 'name', 'size', 'quantity', 'price', 'payment_method', 'reference_number', 'gcash_proof',  'org', 'status', 'created_at')
         ->orderBy('created_at', 'desc')
         ->get()
         ->groupBy('order_number');
@@ -679,21 +679,42 @@ class UrsacHubController extends Controller
 
     public function updateOrderStatus(Request $request, $order_number)
     {
+        $orders = Orders::where('order_number', $order_number)->get();
+
+        if ($orders->isEmpty()) {
+            return back()->with('error', 'Order not found.');
+        }
+
+        $currentStatus = $orders->first()->status;
         $newStatus = $request->input('status');
 
-        // Validate the status
-        if (!in_array($newStatus, ['pending', 'to be claimed'])) {
-            return back()->withErrors(['Invalid status value.']);
+        if ($currentStatus === 'pending' && $newStatus === 'claimed') {
+            return back()->with('error', 'Cannot change status directly from pending to claimed. Please set to "to be claimed" first.');
         }
-    
-        // Update all orders with the given order number
-        $updatedOrders = Orders::where('order_number', $order_number)->update(['status' => $newStatus]);
-    
-        if ($updatedOrders) {
-            return back()->with('success', "Order #{$order_number} status updated to '{$newStatus}' for all items.");
+
+        if ($newStatus === 'claimed') {
+            $request->validate([
+                'claimed_by' => 'required|string|max:255',
+            ]);
+
+            foreach ($orders as $order) {
+                $order->status = $newStatus;
+                $order->claimed_by = $request->input('claimed_by');
+                $order->claimed_at = now(); // This uses Laravel's now() helper function
+                $order->save();
+            }
+            return back()->with('success', 'Order status updated to claimed successfully.');
         }
-    
-        return back()->withErrors(['Failed to update the order status.']);
+
+        if ($newStatus === 'to be claimed') {
+            foreach ($orders as $order) {
+                $order->status = $newStatus;
+                $order->save();
+            }
+            return back()->with('success', 'Order status updated to to be claimed successfully.');
+        }
+
+        return back()->with('error', 'Invalid status change requested.');
     }
 
     public function searchProducts(Request $request)
@@ -758,88 +779,5 @@ class UrsacHubController extends Controller
     }
 
     
-
-
-
-
-
-    // public function placeorder(Request $request)
-    // {
-    //     $user = Auth::guard('student')->user();
-
-
-    //     $items = $request->input('items');
-
-    //     // Fetch cart items
-    //     $cartItems = Cart::where('student_id', $user->id)
-    //                     ->whereIn('id', array_keys($items))
-    //                     ->get();
-
-    //     // Validate cart items
-    //     foreach ($cartItems as $cartItem) {
-    //         $item = $items[$cartItem->id];
-    //         if ($cartItem->product_id != $item['product_id'] || 
-    //             $cartItem->size != $item['size'] || 
-    //             $cartItem->quantity != $item['quantity']) {
-    //             return back()->with('error', 'Mismatched cart item data. Please try again.');
-    //         }
-    //     }
-
-    //     // Check if cart items belong to the same organization
-    //     $orgs = $cartItems->pluck('org')->unique();
-    //     if ($orgs->count() > 1) {
-    //         return back()->with('error', 'You cannot place an order with products from multiple organizations.');
-    //     }
-
-    //     DB::beginTransaction();
-
-    //     try {
-    //         // Create order
-    //         $order = Order::create([
-    //             'student_id' => $user->id,
-    //             'org' => $orgs->first(),
-    //             'total_price' => $cartItems->sum('price'),
-    //             'payment_method' => $request->payment_method,
-    //             'gcash_reference' => $request->payment_method === 'gcash' ? $request->gcash_reference : null,
-    //         ]);
-
-    //         // Add items to order and update product stock
-    //         foreach ($cartItems as $cartItem) {
-    //             $product = Product::lockForUpdate()->find($cartItem->product_id);
-    //             if ($product && $product->{$cartItem->size} >= $cartItem->quantity) {
-    //                 $product->{$cartItem->size} -= $cartItem->quantity;
-    //                 $product->save();
-
-    //                 OrderItem::create([
-    //                     'order_id' => $order->id,
-    //                     'product_id' => $cartItem->product_id,
-    //                     'name' => $cartItem->name,
-    //                     'quantity' => $cartItem->quantity,
-    //                     'price' => $cartItem->price,
-    //                     'size' => $cartItem->size,
-    //                 ]);
-    //             } else {
-    //                 DB::rollBack();
-    //                 return back()->with('error', 'Insufficient stock for ' . $cartItem->name . ' (' . ucfirst($cartItem->size) . ').');
-    //             }
-    //         }
-
-    //         // Clear cart
-    //         Cart::whereIn('id', array_keys($items))->delete();
-
-    //         DB::commit();
-
-    //         return redirect()->route('student.orders')->with('success', 'Order placed successfully!');
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         Log::error('Order placement failed: ' . $e->getMessage());
-    //         return back()->with('error', 'Failed to place the order. Please try again later.');
-    //     }
-    // }
-
-    
-
-
-
 
 }
