@@ -786,6 +786,30 @@ class UrsacHubController extends Controller
 
     }
 
+    public function trackOrders(Request $request)
+    {
+        // Get the organization name from the authenticated admin user
+        $org_name = auth('admin')->user()->org;
+    
+        // Base query: Filter orders by the organization name
+        $query = Orders::where('org', $org_name);
+    
+        // Apply search filter if 'search' input exists
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('order_number', 'like', '%' . $search . '%');
+            });
+        }
+    
+        // Fetch and group orders by order number, ordered by creation date
+        $orders = $query->orderBy('created_at', 'desc')->get()->groupBy('order_number');
+    
+        // Return the view with the filtered and grouped orders
+        return view('admin_vieworders', compact('orders', 'org_name'));
+    }
+
     
 
 }
