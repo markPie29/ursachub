@@ -23,10 +23,10 @@
             <input type="text" class="form-control" id="student_id" name="student_id" required>
         </div>
         <div class="form-group">
-            <label for="course">Course</label>
+            <label for="course">Program</label>
 
             <select class="form-control" id="course" name="course_id" required>
-                <option value="" disabled selected>Select your course</option>
+                <option value="" disabled selected>Select your program</option>
                 @foreach($courses as $course)
                     <option value="{{ $course->id }}">{{ $course->name }}</option>
                 @endforeach
