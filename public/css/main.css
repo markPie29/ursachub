@@ -542,6 +542,8 @@ section {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
+    color: #007bff;
 }
 
 .text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
@@ -2032,4 +2034,92 @@ section {
 
 .home-products {
     background-color: rgba(255, 255, 255, 0.776);
+}
+
+/* Card Style 1 */
+.card-style-1 {
+    background: #fff;
+    border-radius: 10px;
+    padding: 50px; /* Increased padding for more space inside */
+    width: 700px; /* Balanced width */
+    height: 600px; /* Added height for balance */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card-style-1 .icon {
+    margin-bottom: 15px; /* Adjusted for better spacing */
+}
+
+.card-style-1 .role {
+    font-size: 1.3rem; /* Slightly larger for better readability */
+    color: #1d4ed8;
+    margin-bottom: 10px;
+}
+
+.card-style-1 .course {
+    font-weight: bold;
+    color: #1d4ed8;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.card-style-1 .info .name,
+.card-style-1 .info .student-id {
+    background: #1d4ed8;
+    color: white;
+    padding: 15px; /* Increased padding */
+    border-radius: 8px; /* Slightly rounded corners */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card-style-1 .info .label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.card-style-1 .orders-link {
+    margin-top: 30px; /* More spacing from the content above */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+    color: #555;
+}
+
+.card-style-1 .orders-link:hover {
+    color: #0c4a7e;
+}
+
+/* Filler Div for Name and Student ID */
+.profile-card .filler {
+    background: #1d4ed8;
+    padding: 15px; /* Adjusted padding */
+    border-radius: 25px;
+    color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    text-align: center;
+    width: fit-content;
+}
+
+.profile-section {
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
