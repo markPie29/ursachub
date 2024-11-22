@@ -8,7 +8,7 @@
     <h2>{{ $org_name }}</h2>
 
     <!-- Search Form -->
-    <form action="{{ route('admin.trackOrders') }}" method="GET" class="mb-4">
+    <form action="{{ route('admin.trackOrders') }}" method="GET" class="mb-4 d-flex">
         <div class="input-group">
             <input 
                 type="text" 
@@ -17,7 +17,11 @@
                 class="form-control" 
                 placeholder="Search by Product Name or Order Number"
             >
+            <div class="btn-group"> 
             <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary ml-2">Refresh</a>
+            </div>
+
         </div>
     </form>
 
