@@ -4,7 +4,6 @@
     <div class="add-product-container">
         <h1 class="add-product-title">Add New Product</h1>
 
-        {{-- Display validation errors --}}
         @if($errors->any())
             <div class="add-product-alert">
                 <ul class="add-product-errors">
@@ -15,7 +14,6 @@
             </div>
         @endif
 
-        {{-- Product Form --}}
         <form action="{{ route('admin.addprod') }}" method="POST" enctype="multipart/form-data" class="add-product-form" id="addProductForm">
             @csrf
             <div class="add-product-row">
@@ -59,7 +57,7 @@
 
                     <div class="add-product-field">
                         <label for="photos" class="add-product-label">Photos (max 5):</label>
-                        <input type="file" id="photos" class="add-product-input" multiple accept="image/*" onchange="handleProductImageUpload(event)">
+                        <input type="file" name="photos[]" id="photos" class="add-product-input" multiple accept="image/*" onchange="handleProductImageUpload(event)">
                         <div id="imagePreview" class="add-product-preview"></div>
                     </div>
                 </div>
@@ -77,11 +75,12 @@
             const preview = document.getElementById('imagePreview');
             const maxFiles = 5;
 
-            files.forEach(file => {
-                if (selectedFiles.length < maxFiles && file.type.startsWith('image/')) {
-                    selectedFiles.push(file);
+            preview.innerHTML = ''; // Clear previous previews
+            selectedFiles = [];
 
-                    const fileIndex = selectedFiles.length - 1;
+            files.forEach((file, index) => {
+                if (index < maxFiles && file.type.startsWith('image/')) {
+                    selectedFiles.push(file);
 
                     const reader = new FileReader();
                     reader.onload = function (e) {
@@ -98,7 +97,7 @@
                         removeButton.textContent = 'Remove';
                         removeButton.classList.add('remove-button');
                         removeButton.onclick = function () {
-                            removeProductImage(fileIndex);
+                            removeProductImage(index);
                         };
 
                         imageContainer.appendChild(img);
@@ -109,9 +108,7 @@
                 }
             });
 
-            if (selectedFiles.length >= maxFiles) {
-                event.target.disabled = true;
-            }
+            updateFileInput();
         }
 
         function removeProductImage(index) {
@@ -145,8 +142,19 @@
                 reader.readAsDataURL(file);
             });
 
-            if (selectedFiles.length < 5) {
-                document.getElementById('photos').disabled = false;
+            updateFileInput();
+        }
+
+        function updateFileInput() {
+            const fileInput = document.getElementById('photos');
+            if (selectedFiles.length > 0) {
+                const dataTransfer = new DataTransfer();
+                selectedFiles.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+                fileInput.files = dataTransfer.files;
+            } else {
+                fileInput.value = '';
             }
         }
     </script>
