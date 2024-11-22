@@ -677,56 +677,65 @@ class UrsacHubController extends Controller
     }
 
     public function updateOrderStatus(Request $request, $order_number)
-{
-    $orders = Orders::where('order_number', $order_number)->get();
-
-    if ($orders->isEmpty()) {
-        return back()->with('error', 'Order not found.');
-    }
-
-    $newStatus = $request->input('status');
-
-    // Validate the new status
-    if (!in_array($newStatus, ['pending', 'to be claimed', 'claimed'])) {
-        return back()->with('error', 'Invalid status provided.');
-    }
-
-    if ($newStatus === 'claimed') {
-        $request->validate([
-            'claimed_by' => 'required|string|max:255',
-        ]);
-
-        foreach ($orders as $order) {
-            $order->status = $newStatus;
-            $order->claimed_by = $request->input('claimed_by');
-            $order->claimed_at = now();
-            $order->save();
-        }
-    } else {
-        foreach ($orders as $order) {
-            $order->status = $newStatus;
-            if ($newStatus !== 'claimed') {
-                $order->claimed_by = null;
-                $order->claimed_at = null;
-            }
-            $order->save();
-        }
-    }
-
-    return back()->with('success', "Order status updated to {$newStatus} successfully.");
-}
-
-    public function searchProducts(Request $request)
     {
-        $query = $request->input('query');
-        
-        // Search products by name or other fields
-        $products = Products::where('name', 'like', '%' . $query . '%')
-            ->orWhere('org', 'like', '%' . $query . '%')
-            ->paginate(10);
+        $orders = Orders::where('order_number', $order_number)->get();
 
-        return view('products_page', compact('products')); // Replace 'your-blade-template' with the actual template name
+        if ($orders->isEmpty()) {
+            return back()->with('error', 'Order not found.');
+        }
+
+        $currentStatus = $orders->first()->status;
+        $newStatus = $request->input('status');
+
+        // Prevent status change if the order is already claimed
+        if ($currentStatus === 'claimed') {
+            return back()->with('error', 'Cannot change status of a claimed order.');
+        }
+
+        if ($newStatus === 'claimed') {
+            $request->validate([
+                'claimed_by' => 'required|string|max:255',
+            ]);
+
+            foreach ($orders as $order) {
+                $order->status = $newStatus;
+                $order->claimed_by = $request->input('claimed_by');
+                $order->claimed_at = now();
+                $order->save();
+            }
+            return back()->with('success', 'Order status updated to claimed successfully.');
+        }
+
+        foreach ($orders as $order) {
+            $order->status = $newStatus;
+            $order->save();
+        }
+        return back()->with('success', "Order status updated to {$newStatus} successfully.");
     }
+
+    public function searchOrders(Request $request)
+    {
+        $search = $request->input('search');
+    
+        // Get the organization name from the authenticated admin
+        $org_name = auth('admin')->user()->org;
+    
+        // Fetch orders that match the product name or order number,
+        // belong to the admin's organization, and exclude 'claimed' status
+        $orders = Orders::where('org', $org_name)
+            ->where('status', '!=', 'claimed')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                      ->orWhere('order_number', 'LIKE', "%$search%");
+            })
+            ->orderBy('created_at', 'desc') // Sort by creation date
+            ->get()
+            ->groupBy('order_number');
+    
+        return view('admin_vieworders', compact('orders', 'org_name'));
+    }
+
+    
 
     public function searchNews(Request $request)
     {
