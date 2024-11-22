@@ -986,7 +986,7 @@ section {
     border-radius: 10px;
     color: #1c1e21; /* Dark text for readability */
     font-family: 'Arial', sans-serif;
-    max-width: 600px;
+    max-width: 1600px;
     margin: 20px auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -1021,6 +1021,7 @@ section {
 .add-product-field {
     display: flex;
     flex-direction: column;
+    padding-bottom: 5%;
 }
 
 .add-product-label {
@@ -1032,6 +1033,7 @@ section {
 .add-product-input {
     padding: 10px;
     border: 1px solid #ccd0d5; 
+    max-width: 600px;
     border-radius: 5px;
     font-size: 1rem;
     background-color: #fff; 
@@ -1052,13 +1054,18 @@ section {
 
 .add-product-courses {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 30px;
+    padding-bottom: 5%;
+}
+
+.add-product-checkbox {
+    margin-right: 15px ;
 }
 
 .add-product-course-item {
     display: flex;
-    align-items: center;
+    align-items: column;
 }
 
 .add-product-subtitle {
@@ -1075,6 +1082,7 @@ section {
     background-color: #1877f2; 
     color: #fff; 
     border: none;
+    align-self: center;
     border-radius: 5px;
     padding: 10px;
     font-size: 1.1rem;
@@ -1088,6 +1096,20 @@ section {
 
 .add-product-button:active {
     background-color: #0d4a8a; 
+}
+
+.add-product-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-product-left,
+.add-product-right {
+    width: 48%;
+}
+
+.add-product-right {
+    padding-left: 20px;
 }
 /* add news css */
 .publish-news-header {
