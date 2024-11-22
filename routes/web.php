@@ -61,6 +61,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/orders', [UrsacHubController::class, 'adminOrders'])->name('admin.orders');
         Route::put('/orders/{order}', [UrsacHubController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
         Route::post('/upload-logo', [UrsacHubController::class, 'uploadLogo'])->name('upload.logo');
+        Route::get('/track-orders', [UrsacHubController::class, 'trackOrders'])->name('admin.trackOrders');
+        Route::get('/admin/track-orders', [UrsacHubController::class, 'trackOrders'])->name('admin.trackOrders');
+    Route::get('/admin/finished-orders', [UrsacHubController::class, 'finishedOrders'])->name('admin.finishedOrders');
+
     });
 });
 

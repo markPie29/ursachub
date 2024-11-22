@@ -687,46 +687,56 @@ class UrsacHubController extends Controller
         $currentStatus = $orders->first()->status;
         $newStatus = $request->input('status');
 
-        if ($currentStatus === 'pending' && $newStatus === 'claimed') {
-            return back()->with('error', 'Cannot change status directly from pending to claimed. Please set to "to be claimed" first.');
+        // Prevent status change if the order is already claimed
+        if ($currentStatus === 'claimed') {
+            return back()->with('error', 'Cannot change status of a claimed order.');
         }
 
         if ($newStatus === 'claimed') {
             $request->validate([
                 'claimed_by' => 'required|string|max:255',
+
             ]);
 
             foreach ($orders as $order) {
                 $order->status = $newStatus;
                 $order->claimed_by = $request->input('claimed_by');
-                $order->claimed_at = now(); // This uses Laravel's now() helper function
+                $order->claimed_at = now();
                 $order->save();
             }
             return back()->with('success', 'Order status updated to claimed successfully.');
         }
 
-        if ($newStatus === 'to be claimed') {
-            foreach ($orders as $order) {
-                $order->status = $newStatus;
-                $order->save();
-            }
-            return back()->with('success', 'Order status updated to to be claimed successfully.');
+        foreach ($orders as $order) {
+            $order->status = $newStatus;
+            $order->save();
         }
-
-        return back()->with('error', 'Invalid status change requested.');
+        return back()->with('success', "Order status updated to {$newStatus} successfully.");
     }
 
-    public function searchProducts(Request $request)
+    public function searchOrders(Request $request)
     {
-        $query = $request->input('query');
-        
-        // Search products by name or other fields
-        $products = Products::where('name', 'like', '%' . $query . '%')
-            ->orWhere('org', 'like', '%' . $query . '%')
-            ->paginate(10);
-
-        return view('products_page', compact('products')); // Replace 'your-blade-template' with the actual template name
+        $search = $request->input('search');
+    
+        // Get the organization name from the authenticated admin
+        $org_name = auth('admin')->user()->org;
+    
+        // Fetch orders that match the product name or order number,
+        // belong to the admin's organization, and exclude 'claimed' status
+        $orders = Orders::where('org', $org_name)
+            ->where('status', '!=', 'claimed')
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%$search%")
+                      ->orWhere('order_number', 'LIKE', "%$search%");
+            })
+            ->orderBy('created_at', 'desc') // Sort by creation date
+            ->get()
+            ->groupBy('order_number');
+    
+        return view('admin_vieworders', compact('orders', 'org_name'));
     }
+
+    
 
     public function searchNews(Request $request)
     {
@@ -776,6 +786,41 @@ class UrsacHubController extends Controller
         ]);
 
     }
+
+    public function trackOrders(Request $request)
+    {
+        // Get the organization name from the authenticated admin user
+        $org_name = auth('admin')->user()->org;
+    
+        // Base query: Filter orders by the organization name
+        $query = Orders::where('org', $org_name);
+    
+        // Apply search filter if 'search' input exists
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('order_number', 'like', '%' . $search . '%');
+            });
+        }
+    
+        // Fetch and group orders by order number, ordered by creation date
+        $orders = $query->orderBy('created_at', 'desc')->get()->groupBy('order_number');
+    
+        // Return the view with the filtered and grouped orders
+        return view('admin_vieworders', compact('orders', 'org_name'));
+    }
+
+    public function finishedOrders(Request $request)
+{
+    $org_name = 'Your Organization'; // Or fetch dynamically as needed
+    $orders = Orders::where('status', 'claimed')
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->groupBy('order_number');
+
+    return view('admin_finishedorders', compact('orders', 'org_name'));
+}
 
     
 

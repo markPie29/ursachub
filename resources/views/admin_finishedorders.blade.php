@@ -3,37 +3,18 @@
 @section('content')
 <section class="filler"></section>
 
-    <!-- Button to Finished Orders -->
-    <div class="mb-4">
-        <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">View Finished Orders</a>
-    </div>
-
-
 <div class="orders-container">
-    <h1>Track Orders</h1>
+    <h1>Finished Orders</h1>
     <h2>{{ $org_name }}</h2>
 
-    <!-- Search Form -->
-    <form action="{{ route('admin.trackOrders') }}" method="GET" class="mb-4 d-flex">
-        <div class="input-group">
-            <input 
-                type="text" 
-                name="search" 
-                value="{{ request('search') }}" 
-                class="form-control" 
-                placeholder="Search by Product Name or Order Number"
-            >
-            <div class="btn-group"> 
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary ml-2">Refresh</a>
-            </div>
-
-        </div>
-    </form>
+    <!-- Button to Track Orders -->
+    <div class="mb-4">
+        <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary">Back to Track Orders</a>
+    </div>
 
     <div class="orders-table-container">
         @forelse ($orders as $order_number => $orderGroup)
-            @if($orderGroup->first()->status === 'claimed')
+            @if($orderGroup->first()->status !== 'claimed')
                 @continue
             @endif
             <h3>Order Number: {{ $order_number }}</h3>
@@ -83,25 +64,8 @@
                     @endforeach
                 </tbody>
             </table>
-
-            <!-- Status change buttons -->
-            <form action="{{ route('admin.updateOrderStatus', $order_number) }}" method="POST" class="mt-3 d-flex justify-content-center">
-                @csrf
-                @method('PUT')
-                <div class="btn-group" role="group" aria-label="Change order status">
-                    <button type="submit" name="status" value="pending" class="btn btn-lg btn-secondary" {{ $orderGroup->first()->status === 'pending' ? 'disabled' : '' }}>
-                        Change to: Pending
-                    </button>
-                    <button type="submit" name="status" value="to be claimed" class="btn btn-lg btn-primary" {{ $orderGroup->first()->status === 'to be claimed' ? 'disabled' : '' }}>
-                        Change to: To Be Claimed
-                    </button>
-                    <button type="button" class="btn btn-lg btn-success" onclick="openClaimedModal('{{ $order_number }}')" {{ $orderGroup->first()->status === 'claimed' ? 'disabled' : '' }}>
-                        Change to: Claimed
-                    </button>
-                </div>
-            </form>
         @empty
-            <p>No orders found for {{ $org_name }}</p>
+            <p>No finished orders found for {{ $org_name }}</p>
         @endforelse
     </div>
 </div>
@@ -117,24 +81,6 @@
         {{ session('success') }}
     </div>
 @endif
-
-<!-- Modal for Claimed Status -->
-<div id="claimedModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Change Order Status to Claimed</h2>
-        <form id="claimedForm" action="" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="form-group">
-                <label for="claimed_by">Claimed by:</label>
-                <input type="text" id="claimed_by" name="claimed_by" required class="form-control">
-            </div>
-            <input type="hidden" name="status" value="claimed">
-            <button type="submit" class="btn btn-primary">Confirm</button>
-        </form>
-    </div>
-</div>
 
 <style>
     .orders-container {
@@ -250,25 +196,4 @@
     }
 </style>
 
-<script>
-    function openClaimedModal(orderNumber) {
-        var modal = document.getElementById("claimedModal");
-        var span = document.getElementsByClassName("close")[0];
-        var form = document.getElementById("claimedForm");
-
-        modal.style.display = "block";
-        form.action = "{{ route('admin.updateOrderStatus', '') }}/" + orderNumber;
-
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
-</script>
 @endsection
-
