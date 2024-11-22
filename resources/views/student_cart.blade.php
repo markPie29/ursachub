@@ -46,7 +46,7 @@
                     <div class="cart-item-remove">
                         <form action="{{ route('cart.remove', $item->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <button type="submit" class="cart-btn">Remove</button>
                         </form>
                     </div>
                 </div>
@@ -89,13 +89,20 @@
                     <p><strong>GCash Name:</strong> <span id="gcash-name"></span></p>
                     <p><strong>GCash Number:</strong> <span id="gcash-number"></span></p>
                 </div>
+
+                <!-- New: GCash photo upload section -->
+                <div id="gcash-photo-upload" style="display: none; margin-top: 10px;">
+                    <label for="gcash-photo">Upload Proof of Payment:</label>
+                    <input type="file" id="gcash-photo" name="gcash_photo" accept="image/*" class="form-control">
+                    <img id="gcash-photo-preview" src="#" alt="Preview" style="display: none; max-width: 200px; margin-top: 10px;">
+                </div>
             </div>
         </div>
 
         <!-- Hidden input to store selected payment method -->
         <input type="hidden" id="selected-payment-method" name="payment_method">
 
-        <button type="button" class="btn btn-primary mt-3" id="placeorder-button">Place Order</button>
+        <button type="button" class="cart-btn" id="placeorder-button">Place Order</button>
     </div>
 
     <!-- Order message div (hidden initially) -->
@@ -119,8 +126,8 @@
     <div style="background: white; padding: 20px; border-radius: 8px; text-align: center; width: 300px;">
         <h3>Confirm Your Order</h3>
         <p>Are you sure you want to place this order?</p>
-        <button id="confirm-proceed" class="btn btn-success" disabled>Proceed</button>
-        <button id="confirm-cancel" class="btn btn-danger">Cancel</button>
+        <button id="confirm-proceed" class="cart-btn" disabled>Proceed</button>
+        <button id="confirm-cancel" class="cart-btn">Cancel</button>
         <p id="timer-message" style="margin-top: 10px; color: gray;">You can proceed in <span id="timer-countdown">5</span> seconds...</p>
     </div>
 </div>
@@ -134,6 +141,9 @@
         const gcashNameElement = document.getElementById("gcash-name");
         const gcashNumberElement = document.getElementById("gcash-number");
         const admins = @json($admins); // Pass admins from the controller to JavaScript
+        const gcashPhotoUpload = document.getElementById("gcash-photo-upload");
+        const gcashPhotoInput = document.getElementById("gcash-photo");
+        const gcashPhotoPreview = document.getElementById("gcash-photo-preview");
 
         let selectedOrg = null;
 
@@ -202,87 +212,31 @@
             input.addEventListener('change', function () {
                 if (document.getElementById("payment-gcash").checked && selectedOrg) {
                     gcashRefContainer.style.display = "block";
+                    gcashPhotoUpload.style.display = "block";
                     updateGcashDetails(selectedOrg);
                 } else {
                     gcashRefContainer.style.display = "none";
+                    gcashPhotoUpload.style.display = "none";
                     gcashOrgDetails.style.display = "none";
                 }
             });
         });
 
-        // Initial calculation of total price
-        updateTotalPrice();
-    });
-
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('.item-checkbox');
-        const totalPriceElement = document.getElementById('total-price');
-        let selectedOrg = null; // Variable to track the selected organization
-        const gcashRefContainer = document.getElementById("gcash-ref-container"); // GCash reference input container
-
-        // Function to calculate the total price
-        function updateTotalPrice() {
-            let totalPrice = 0;
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    totalPrice += parseFloat(checkbox.getAttribute('data-price'));
+        // Preview uploaded photo
+        gcashPhotoInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    gcashPhotoPreview.src = e.target.result;
+                    gcashPhotoPreview.style.display = 'block';
                 }
-            });
-            totalPriceElement.textContent = totalPrice.toFixed(2);
-        }
-
-        // Function to handle checkbox selection
-        function handleCheckboxChange(event) {
-            const checkbox = event.target;
-            const itemOrg = checkbox.getAttribute('data-org');
-
-            if (checkbox.checked) {
-                // If no organization is selected, set the current one
-                if (!selectedOrg) {
-                    selectedOrg = itemOrg;
-                }
-
-                // If the selected item is from a different org, uncheck it and alert the user
-                if (itemOrg !== selectedOrg) {
-                    alert(`You can only select products from the same organization (${selectedOrg}).`);
-                    checkbox.checked = false;
-                }
-            } else {
-                // If unchecked, check if all items from the current org are deselected
-                const anyChecked = Array.from(checkboxes).some(
-                    cb => cb.checked && cb.getAttribute('data-org') === selectedOrg
-                );
-
-                // If no items from the org are checked, reset the selectedOrg
-                if (!anyChecked) {
-                    selectedOrg = null;
-                }
+                reader.readAsDataURL(file);
             }
-
-            // Update the total price
-            updateTotalPrice();
-        }
-
-        // Add event listeners to all checkboxes
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', handleCheckboxChange);
         });
 
         // Initial calculation of total price
         updateTotalPrice();
-
-        // Show GCash reference number input when GCash payment method is selected
-        const paymentMethodInputs = document.getElementsByName("payment_method");
-        paymentMethodInputs.forEach(input => {
-            input.addEventListener('change', function () {
-                if (document.getElementById("payment-gcash").checked) {
-                    gcashRefContainer.style.display = "block";
-                } else {
-                    gcashRefContainer.style.display = "none";
-                }
-            });
-        });
 
         // Modal and order confirmation logic
         const placeOrderButton = document.getElementById("placeorder-button");
@@ -336,7 +290,7 @@
         confirmProceedButton.addEventListener("click", function () {
             closeConfirmationModal();
 
-            // Proceed with order submission (your existing fetch code)
+            // Proceed with order submission
             const selectedItems = [];
             const checkboxes = document.querySelectorAll(".item-checkbox");
             const paymentMethodInputs = document.getElementsByName("payment_method");
@@ -373,24 +327,37 @@
                 return;
             }
 
-            const payload = {
-                items: selectedItems,
-                student_id: "{{ $student_id }}",
-                firstname: "{{ $firstname }}",
-                lastname: "{{ $lastname }}",
-                middlename: "{{ $middlename }}",
-                course: "{{ $course->name }}",
-                payment_method: paymentMethod,
-                reference_number: referenceNumber,
-            };
+            const formData = new FormData();
+            formData.append('items', JSON.stringify(selectedItems));
+            formData.append('student_id', "{{ $student_id }}");
+            formData.append('firstname', "{{ $firstname }}");
+            formData.append('lastname', "{{ $lastname }}");
+            formData.append('middlename', "{{ $middlename }}");
+            formData.append('course', "{{ $course->name }}");
+            formData.append('payment_method', paymentMethod);
+            formData.append('reference_number', referenceNumber);
+
+            if (paymentMethod === "gcash") {
+                const referenceNumber = gcashRefInput.value.trim();
+                if (!referenceNumber) {
+                    alert("Please enter the GCash reference number.");
+                    return;
+                }
+                formData.append('reference_number', referenceNumber);
+
+                if (!gcashPhotoInput.files[0]) {
+                    alert("Please upload the proof of payment for GCash.");
+                    return;
+                }
+                formData.append('gcash_photo', gcashPhotoInput.files[0]);
+            }
 
             fetch("{{ route('place.order') }}", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
                     "X-CSRF-TOKEN": "{{ csrf_token() }}",
                 },
-                body: JSON.stringify(payload),
+                body: formData,
             })
                 .then(response => response.json())
                 .then(data => {

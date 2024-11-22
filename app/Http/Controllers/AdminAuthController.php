@@ -54,18 +54,13 @@ class AdminAuthController extends Controller
 
             // Get the authenticated admin's organization
             $admin = Auth::guard('admin')->user();
-            $org = $admin->org;
-
-            // Fetch products that belong to the authenticated admin's organization
-            $products = Products::where('org', $org)->get(); // Adjust column name if necessary
-            $news = News::where('org', $org)->get();
-
-            // Redirect to the admin_account view directly with the organization and data
-            return view('admin_account', [
-                'org_name' => $org, // Pass the organization name
-                'products' => $products, // Pass the filtered products
-                'news' => $news, // Pass the news
-            ]);
+            
+            // Fetch data based on the authenticated admin's organization
+            $products = Products::where('org', $admin->org)->get(); 
+            $news = News::where('org', $admin->org)->get();
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_account', compact('admin','news','products'));
         }
 
         return back()->withErrors([
