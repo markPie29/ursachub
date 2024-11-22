@@ -695,6 +695,7 @@ class UrsacHubController extends Controller
         if ($newStatus === 'claimed') {
             $request->validate([
                 'claimed_by' => 'required|string|max:255',
+
             ]);
 
             foreach ($orders as $order) {
@@ -809,6 +810,17 @@ class UrsacHubController extends Controller
         // Return the view with the filtered and grouped orders
         return view('admin_vieworders', compact('orders', 'org_name'));
     }
+
+    public function finishedOrders(Request $request)
+{
+    $org_name = 'Your Organization'; // Or fetch dynamically as needed
+    $orders = Orders::where('status', 'claimed')
+                ->orderBy('created_at', 'desc')
+                ->get()
+                ->groupBy('order_number');
+
+    return view('admin_finishedorders', compact('orders', 'org_name'));
+}
 
     
 
