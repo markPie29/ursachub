@@ -1,136 +1,140 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<section class="spacer"></section>
 
-<div class="orders-container">
-    <div class="header-actions">
-        <h1 class="main-title">Track Orders</h1>
-        <h2 class="sub-title">{{ $org_name }}</h2>
+<div class="admin-main">
+    <div class="orders-container">
+        <div class="header-actions">
+            <h1 class="main-title">Track Orders</h1>
+            <h2 class="sub-title">{{ $org_name }}</h2>
 
-        <div class="controls-container">
-            <!-- View Finished Orders Button -->
-            <div class="top-right-button">
-                <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">
-                    View Finished Orders
-                </a>
-            </div>
-
-            <!-- Search Form -->
-            <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form">
-                <div class="search-input-container">
-                    <!-- Search Textbox -->
-                    <input 
-                        type="text" 
-                        name="search" 
-                        value="{{ request('search') }}" 
-                        class="form-control search-input" 
-                        placeholder="Search"
-                    >
-                    <!-- Refresh Button -->
-                    <a href="{{ route('admin.trackOrders') }}" class="refresh-icon">
-                        <img src="/path/to/refresh-icon.svg" alt="Refresh" class="refresh-icon-img">
+            <div class="controls-container">
+                <!-- View Finished Orders Button -->
+                <div class="top-right-button">
+                    <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">
+                        View Finished Orders
                     </a>
                 </div>
-                <!-- Search Button -->
-                <button type="submit" class="btn btn-primary search-btn">Search</button>
-            </form>
-        </div>
 
-    <div class="orders-table-container">
-        @forelse ($orders as $order_number => $orderGroup)
-            @if($orderGroup->first()->status === 'claimed')
-                @continue
-            @endif
-
-            <!-- Order Details -->
-            <div class="order-group">
-                <h3 class="order-number">Order Number: {{ $order_number }}</h3>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Payment Method</th>
-                            <th>Reference Number</th>
-                            <th>Proof of Payment</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderGroup as $order)
-                            <tr>
-                                <td>{{ $order->name }}</td>
-                                <td>{{ $order->size }}</td>
-                                <td>{{ $order->quantity }}</td>
-                                <td>₱{{ number_format($order->price, 2) }}</td>
-                                <td>
-                                    @if ($order->payment_method == 'cash')
-                                        <span class="badge badge-success">{{ ucfirst($order->payment_method) }}</span>
-                                    @elseif ($order->payment_method == 'gcash')
-                                        <span class="badge badge-gcash">{{ ucfirst($order->payment_method) }}</span>
-                                    @else
-                                        {{ ucfirst($order->payment_method) }}
-                                    @endif
-                                </td>
-                                <td>{{ $order->payment_method == 'gcash' ? $order->reference_number : 'N/A' }}</td>
-                                <td>
-                                    @if($order->payment_method == 'gcash' && $order->gcash_proof)
-                                        <a href="{{ asset('storage/' . $order->gcash_proof) }}" target="_blank" class="btn btn-link">View Proof</a>
-                                    @elseif($order->payment_method == 'cash' && $order->status == 'claimed')
-                                        <span class="badge badge-success">Paid</span>
-                                    @else
-                                        <span class="badge badge-warning">Pending</span>
-                                    @endif
-                                </td>
-                                <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
-                                <td>
-                                    <span class="badge badge-info">{{ ucfirst($order->status) }}</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-                <!-- Status Change Buttons -->
-                <form action="{{ route('admin.updateOrderStatus', $order_number) }}" method="POST" class="status-form">
-                    @csrf
-                    @method('PUT')
-                    <div class="button-container">
-                        <button 
-                            type="submit" 
-                            name="status" 
-                            value="pending" 
-                            class="btn btn-secondary"
-                            {{ $orderGroup->first()->status === 'pending' ? 'disabled' : '' }}>
-                            Pending
-                        </button>
-                        <button 
-                            type="submit" 
-                            name="status" 
-                            value="to be claimed" 
-                            class="btn btn-primary"
-                            {{ $orderGroup->first()->status === 'to be claimed' ? 'disabled' : '' }}>
-                            To Be Claimed
-                        </button>
-                        <button 
-                            type="button" 
-                            class="btn btn-success" 
-                            onclick="openClaimedModal('{{ $order_number }}')"
-                            {{ $orderGroup->first()->status === 'claimed' ? 'disabled' : '' }}>
-                            Claimed
-                        </button>
+                <!-- Search Form -->
+                <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form">
+                    <div class="search-input-container">
+                        <!-- Search Textbox -->
+                        <input 
+                            type="text" 
+                            name="search" 
+                            value="{{ request('search') }}" 
+                            class="form-control search-input" 
+                            placeholder="Search"
+                        >
+                        <!-- Refresh Button -->
+                        <a href="{{ route('admin.trackOrders') }}" class="refresh-icon">
+                            <img src="/path/to/refresh-icon.svg" alt="Refresh" class="refresh-icon-img">
+                        </a>
                     </div>
+                    <!-- Search Button -->
+                    <button type="submit" class="btn btn-primary search-btn">Search</button>
                 </form>
             </div>
-        @empty
-            <p class="no-orders">No orders found for {{ $org_name }}</p>
-        @endforelse
+
+        <div class="orders-table-container">
+            @forelse ($orders as $order_number => $orderGroup)
+                @if($orderGroup->first()->status === 'claimed')
+                    @continue
+                @endif
+
+                <!-- Order Details -->
+                <div class="order-group">
+                    <h3 class="order-number">Order Number: {{ $order_number }}</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Payment Method</th>
+                                <th>Reference Number</th>
+                                <th>Proof of Payment</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orderGroup as $order)
+                                <tr>
+                                    <td>{{ $order->name }}</td>
+                                    <td>{{ $order->size }}</td>
+                                    <td>{{ $order->quantity }}</td>
+                                    <td>₱{{ number_format($order->price, 2) }}</td>
+                                    <td>
+                                        @if ($order->payment_method == 'cash')
+                                            <span class="badge badge-success">{{ ucfirst($order->payment_method) }}</span>
+                                        @elseif ($order->payment_method == 'gcash')
+                                            <span class="badge badge-gcash">{{ ucfirst($order->payment_method) }}</span>
+                                        @else
+                                            {{ ucfirst($order->payment_method) }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->payment_method == 'gcash' ? $order->reference_number : 'N/A' }}</td>
+                                    <td>
+                                        @if($order->payment_method == 'gcash' && $order->gcash_proof)
+                                            <a href="{{ asset('storage/' . $order->gcash_proof) }}" target="_blank" class="btn btn-link">View Proof</a>
+                                        @elseif($order->payment_method == 'cash' && $order->status == 'claimed')
+                                            <span class="badge badge-success">Paid</span>
+                                        @else
+                                            <span class="badge badge-warning">Pending</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <span class="badge badge-info">{{ ucfirst($order->status) }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <!-- Status Change Buttons -->
+                    <form action="{{ route('admin.updateOrderStatus', $order_number) }}" method="POST" class="status-form">
+                        @csrf
+                        @method('PUT')
+                        <div class="button-container">
+                            <button 
+                                type="submit" 
+                                name="status" 
+                                value="pending" 
+                                class="btn btn-secondary"
+                                {{ $orderGroup->first()->status === 'pending' ? 'disabled' : '' }}>
+                                Pending
+                            </button>
+                            <button 
+                                type="submit" 
+                                name="status" 
+                                value="to be claimed" 
+                                class="btn btn-primary"
+                                {{ $orderGroup->first()->status === 'to be claimed' ? 'disabled' : '' }}>
+                                To Be Claimed
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn btn-success" 
+                                onclick="openClaimedModal('{{ $order_number }}')"
+                                {{ $orderGroup->first()->status === 'claimed' ? 'disabled' : '' }}>
+                                Claimed
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @empty
+                <p class="no-orders">No orders found for {{ $org_name }}</p>
+            @endforelse
+        </div>
     </div>
+
 </div>
+
+
 
 <!-- Notifications -->
 @if(session('error'))

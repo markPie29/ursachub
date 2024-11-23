@@ -1,82 +1,85 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<section class="spacer"></section>
 
-<div class="orders-container">
-    <h1 class="main-title">Finished Orders</h1>
-    <h2 class="sub-title">{{ $org_name }}</h2>
+<div class="admin-main">
+    <div class="orders-container">
+        <h1 class="main-title">Finished Orders</h1>
+        <h2 class="sub-title">{{ $org_name }}</h2>
 
-    <!-- Button to Track Orders -->
-    <div class="action-button">
-        <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary">Back to Track Orders</a>
-    </div>
+        <!-- Button to Track Orders -->
+        <div class="action-button">
+            <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary">Back to Track Orders</a>
+        </div>
 
-    <div class="orders-table-wrapper">
-        @forelse ($orders as $order_number => $orderGroup)
-            @if($orderGroup->first()->status !== 'claimed')
-                @continue
-            @endif
+        <div class="orders-table-wrapper">
+            @forelse ($orders as $order_number => $orderGroup)
+                @if($orderGroup->first()->status !== 'claimed')
+                    @continue
+                @endif
 
-            <div class="order-group">
-                <h3 class="order-number">Order Number: {{ $order_number }}</h3>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Product Name</th>
-                            <th>Size</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Payment Method</th>
-                            <th>Reference Number</th>
-                            <th>Proof of Payment</th>
-                            <th>Claimed By</th> 
-                            <th>Order Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderGroup as $order)
+                <div class="order-group">
+                    <h3 class="order-number">Order Number: {{ $order_number }}</h3>
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ $order->name }}</td>
-                                <td>{{ $order->size }}</td>
-                                <td>{{ $order->quantity }}</td>
-                                <td>₱{{ number_format($order->price, 2) }}</td>
-                                <td>
-                                    @if ($order->payment_method == 'cash')
-                                        <span class="badge badge-success">{{ ucfirst($order->payment_method) }}</span>
-                                    @elseif ($order->payment_method == 'gcash')
-                                        <span class="badge badge-gcash">{{ ucfirst($order->payment_method) }}</span>
-                                    @else
-                                        {{ ucfirst($order->payment_method) }}
-                                    @endif
-                                </td>
-                                <td>{{ $order->payment_method == 'gcash' ? $order->reference_number : 'N/A' }}</td>
-                                <td>
-                                    @if($order->payment_method == 'gcash' && $order->gcash_proof)
-                                        <a href="{{ asset('storage/' . $order->gcash_proof) }}" target="_blank" class="btn btn-link">View Proof</a>
-                                    @elseif($order->payment_method == 'cash' && $order->status == 'claimed')
-                                        <span class="badge badge-success">Paid</span>
-                                    @else
-                                        <span class="badge badge-warning">Pending</span>
-                                    @endif
-                                </td>
-                                <td>{{ $order->claimed_by ?? 'N/A' }}</td> 
-                                <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
-                                <td>
-                                    <span class="badge badge-info">{{ ucfirst($order->status) }}</span>
-                                </td>
-
+                                <th>Product Name</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Payment Method</th>
+                                <th>Reference Number</th>
+                                <th>Proof of Payment</th>
+                                <th>Claimed By</th> 
+                                <th>Order Date</th>
+                                <th>Status</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @empty
-            <p class="no-orders">No finished orders found for {{ $org_name }}</p>
-        @endforelse
+                        </thead>
+                        <tbody>
+                            @foreach ($orderGroup as $order)
+                                <tr>
+                                    <td>{{ $order->name }}</td>
+                                    <td>{{ $order->size }}</td>
+                                    <td>{{ $order->quantity }}</td>
+                                    <td>₱{{ number_format($order->price, 2) }}</td>
+                                    <td>
+                                        @if ($order->payment_method == 'cash')
+                                            <span class="badge badge-success">{{ ucfirst($order->payment_method) }}</span>
+                                        @elseif ($order->payment_method == 'gcash')
+                                            <span class="badge badge-gcash">{{ ucfirst($order->payment_method) }}</span>
+                                        @else
+                                            {{ ucfirst($order->payment_method) }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->payment_method == 'gcash' ? $order->reference_number : 'N/A' }}</td>
+                                    <td>
+                                        @if($order->payment_method == 'gcash' && $order->gcash_proof)
+                                            <a href="{{ asset('storage/' . $order->gcash_proof) }}" target="_blank" class="btn btn-link">View Proof</a>
+                                        @elseif($order->payment_method == 'cash' && $order->status == 'claimed')
+                                            <span class="badge badge-success">Paid</span>
+                                        @else
+                                            <span class="badge badge-warning">Pending</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $order->claimed_by ?? 'N/A' }}</td> 
+                                    <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <span class="badge badge-info">{{ ucfirst($order->status) }}</span>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @empty
+                <p class="no-orders">No finished orders found for {{ $org_name }}</p>
+            @endforelse
+        </div>
     </div>
 </div>
+
+
 
 <!-- Notifications -->
 @if(session('error'))

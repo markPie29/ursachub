@@ -1,4 +1,4 @@
-@extends('layouts.admin_layout')
+@extends('layouts.login_reg_layout')
 
 @section('content')
 <div class="registration-container">
