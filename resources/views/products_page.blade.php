@@ -1,9 +1,6 @@
 @extends('layouts.layout')
 
 @section('content')
-<head>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
 
 <body>   
     <section class="filler-div"></section>
