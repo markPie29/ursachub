@@ -8,28 +8,34 @@
         <h1 class="main-title">Track Orders</h1>
         <h2 class="sub-title">{{ $org_name }}</h2>
 
-        <!-- Button to Finished Orders -->
-        <div class="action-button">
-            <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">View Finished Orders</a>
-        </div>
-    </div>
-
-    <!-- Search Form -->
-    <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form">
-        <div class="input-group">
-            <input 
-                type="text" 
-                name="search" 
-                value="{{ request('search') }}" 
-                class="form-control" 
-                placeholder="Search by Product Name or Order Number"
-            >
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a href="{{ route('admin.trackOrders') }}" class="btn btn-secondary">Refresh</a>
+        <div class="controls-container">
+            <!-- View Finished Orders Button -->
+            <div class="top-right-button">
+                <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">
+                    View Finished Orders
+                </a>
             </div>
+
+            <!-- Search Form -->
+            <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form">
+                <div class="search-input-container">
+                    <!-- Search Textbox -->
+                    <input 
+                        type="text" 
+                        name="search" 
+                        value="{{ request('search') }}" 
+                        class="form-control search-input" 
+                        placeholder="Search"
+                    >
+                    <!-- Refresh Button -->
+                    <a href="{{ route('admin.trackOrders') }}" class="refresh-icon">
+                        <img src="/path/to/refresh-icon.svg" alt="Refresh" class="refresh-icon-img">
+                    </a>
+                </div>
+                <!-- Search Button -->
+                <button type="submit" class="btn btn-primary search-btn">Search</button>
+            </form>
         </div>
-    </form>
 
     <div class="orders-table-container">
         @forelse ($orders as $order_number => $orderGroup)
@@ -62,9 +68,13 @@
                                 <td>{{ $order->quantity }}</td>
                                 <td>₱{{ number_format($order->price, 2) }}</td>
                                 <td>
-                                    <span class="{{ $order->payment_method == 'cash' ? 'text-success' : 'text-primary' }}">
+                                    @if ($order->payment_method == 'cash')
+                                        <span class="badge badge-success">{{ ucfirst($order->payment_method) }}</span>
+                                    @elseif ($order->payment_method == 'gcash')
+                                        <span class="badge badge-gcash">{{ ucfirst($order->payment_method) }}</span>
+                                    @else
                                         {{ ucfirst($order->payment_method) }}
-                                    </span>
+                                    @endif
                                 </td>
                                 <td>{{ $order->payment_method == 'gcash' ? $order->reference_number : 'N/A' }}</td>
                                 <td>
@@ -224,7 +234,7 @@
     }
 
     .btn-link {
-        color: #007bff;
+        color: #FFFF;
         text-decoration: none;
     }
 
@@ -241,6 +251,11 @@
     .badge-success {
         background-color: #28a745;
         color: white;
+    }
+
+    .badge-gcash {
+        background-color: #007bff;
+        color: #ffffff;
     }
 
     .badge-warning {
@@ -293,7 +308,7 @@
     display: flex;
     justify-content: space-between; /* Distribute buttons evenly */
     align-items: center;
-    max-width: 600px; /* Limit the width of the button row */
+    max-width: 800px; /* Limit the width of the button row */
     margin: 20px auto; /* Center the container */
     gap: 10px; /* Add spacing between buttons */
 }
@@ -315,6 +330,159 @@
     opacity: 0.6; /* Dim disabled buttons */
     cursor: not-allowed;
 }
+
+.controls-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* View Finished Orders Button */
+.top-right-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.top-right-button .btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Search Input and Refresh */
+.search-input-container {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    position: relative;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.refresh-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.refresh-icon-img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.refresh-icon-img:hover {
+    transform: scale(1.1);
+}
+
+/* Search Button */
+.search-button-container {
+    text-align: left;
+    width: 50%;
+}
+
+.search-button-container .btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    width: 50%;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-button-container .btn:hover {
+    transform: scale(1.05);
+}
+
+.controls-container {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between; /* Space out search form and other elements */
+    align-items: center;
+}
+
+/* View Finished Orders Button */
+.top-right-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add spacing between search elements */
+    flex: 1; /* Allow the search form to occupy the left side */
+    max-width: 600px;
+}
+
+.search-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 300px; /* Fixed width for the search bar */
+}
+
+.refresh-icon-img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.refresh-icon-img:hover {
+    transform: scale(1.1);
+}
+
+.search-btn {
+    width: 50%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Keep the middle section blank */
+.controls-container::after {
+    content: '';
+    flex: 1;
+}
+
+
 
 </style>
 
