@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<section class="filler-div"></section>
+<section class="product-filler-div"></section>
 
 <div class="custom-container">
     <!-- Image Section with Carousel -->
@@ -28,6 +28,7 @@
     <!-- Text Section -->
     <div class="text-section">
         <h1>{{ $news->org }}</h1>
+        <h3>{{ $news->updated_at }}</h3>
         <h2>{{ $news->headline }}</h2>
         <p>{{ $news->content }}</p>
     </div>
