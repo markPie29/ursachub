@@ -47,6 +47,42 @@ class UrsacHubController extends Controller
         return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
     }
 
+    public function adminProducts()
+    {
+        // Check if the user is authenticated as an admin
+        if (Auth::guard('admin')->check()) {
+            // Get the authenticated admin user
+            $admin = Auth::guard('admin')->user();
+            
+            // Fetch data based on the authenticated admin's organization
+            $products = Products::where('org', $admin->org)->paginate(8); 
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_products', compact('admin','products'));
+        }
+    
+        // Redirect to the admin login page if not authenticated
+        return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+    }
+
+    public function adminNews()
+    {
+        // Check if the user is authenticated as an admin
+        if (Auth::guard('admin')->check()) {
+            // Get the authenticated admin user
+            $admin = Auth::guard('admin')->user();
+            
+            // Fetch data based on the authenticated admin's organization
+            $news = News::where('org', $admin->org)->paginate(12); 
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_news', compact('admin','news'));
+        }
+    
+        // Redirect to the admin login page if not authenticated
+        return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+    }
+
 
     public function uploadLogo(Request $request)
     {
