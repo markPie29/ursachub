@@ -813,7 +813,8 @@ class UrsacHubController extends Controller
 
     public function finishedOrders(Request $request)
 {
-    $org_name = 'Your Organization'; // Or fetch dynamically as needed
+    $org_name = auth('admin')->user()->org; 
+
     $orders = Orders::where('status', 'claimed')
                 ->orderBy('created_at', 'desc')
                 ->get()

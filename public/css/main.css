@@ -488,6 +488,8 @@ section {
     border-radius: 10px;
 }
 .admin-logo img{
+    width: 150px;
+    height: 150px;
 
 }
 .main-details {
