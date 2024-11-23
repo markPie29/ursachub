@@ -488,11 +488,96 @@ section {
 /* EACH ORGS STUDENT VIEW */
 
 
+/* admin sidebar */
+
+.admin-sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background-color:var(--main-color);
+    color: white;
+    transition: 0.3s ease; /* Smooth transition */
+    z-index: 1000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.admin-sidebar h1 {
+    margin-bottom: 100px;
+}
+
+.admin-sidebar a{
+    font-size: 1.1rem;
+    color: var(--pure-white);
+    margin: 20px 0;
+    border-width: 1px;
+    padding: 10px;
+    background-color: var(--main-color);
+    font-weight: bold;
+}
+
+.admin-sidebar a:hover {
+    transition: 0.5 ease;
+    color: var(--main-color);
+    background-color: var(--pure-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 1px rgba(0, 0, 0, 0.1);
+}
+
+.admin-sidebar form {
+    margin-top: 50px;
+}
+
+/* admin sidebar */
+
+
+/* admin account */
+
+.admin-main {
+    margin-left: 250px;
+}
+
+.admin-main-details {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    margin: 50px;
+    border-radius: 50px;
+    background-color: var(--pure-white);
+    align-items: center;
+    box-shadow: var(--shadows) ;
+}
+
+.admin-main-details h1{
+    font-size: 2rem;
+    color: var(--main-color);
+    margin-top: 20px;
+}
+
+
+
+
+.admin-prod-news-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.admin-prod-news-header h1 {
+    color: var(--main-color);
+    text-align: left;
+    font-size: 4rem;
+}
 
 .account-ctn {
     display: flex;
     flex-direction: column;
-    padding: 0px 12%;
 }
 .account-ctn a {
     color: var(--p-colors);
@@ -627,7 +712,8 @@ section {
 }
 
 .btn:hover {
-    background-color: var(--main-color);
+    transform: scale(1.02);
+    box-shadow: 0 4px 1px rgba(0, 0, 0, 0.1);
 }
 
 /* Links and Error Handling */
