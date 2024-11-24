@@ -20,10 +20,10 @@ class UrsacHubController extends Controller
 
     public function home() {
         // Fetch the latest 2 news
-        $news = News::orderBy('created_at', 'desc')->take(2)->get();
+        $news = News::orderBy('updated_at', 'desc')->take(2)->get();
     
         // Fetch the latest 3 products
-        $products = Products::orderBy('created_at', 'desc')->take(3)->get();
+        $products = Products::orderBy('updated_at', 'desc')->take(3)->get();
     
         // Pass the data to the view
         return view('home', compact('news', 'products'));
@@ -737,7 +737,7 @@ class UrsacHubController extends Controller
         // Fetch grouped orders with their details directly from the Order model
         $orders = Orders::where('student_id', $studentId)
             ->select('order_number', 'name', 'size', 'quantity', 'price', 'org', 'status', 'created_at')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->get()
             ->groupBy('order_number');
 
@@ -844,7 +844,7 @@ class UrsacHubController extends Controller
     $org_name = auth('admin')->user()->org; 
 
     $orders = Orders::where('status', 'claimed')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('updated_at', 'desc')
                 ->get()
                 ->groupBy('order_number');
 
