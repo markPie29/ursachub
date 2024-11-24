@@ -2172,27 +2172,20 @@ section {
     text-align: center;
     color: #007bff;
 }
+
 /* show eachnews-admin */
 /* CSS for the Edit News Blade File */
 .unique-news-container {
-    max-width: 900px;
     justify-content: center;
     padding: 20px;
-    background-color: var(--pure-white);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     display: flex;
-    margin:0 auto;
 }
 
 .unique-news-row {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.unique-news-col-md-6 {
-    width: 100%;
 }
 
 .unique-news-form-group {
@@ -2250,6 +2243,11 @@ section {
     color: var(--pure-white);
 }
 
+.unique-news-btn-secondary {
+    background-color: var(--p-colors);
+    color: var(--pure-white);
+}
+
 .unique-news-btn-primary:hover {
     background-color: var(--main-color);
 }
@@ -2273,7 +2271,38 @@ section {
 }
 
 #unique-news-view-mode {
-    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    background-color: var(--pure-white);
+    padding: 2.5%;
+}
+
+.admin-news-info {
+    text-align: left;
+}
+
+.admin-news-info h3{
+    font-size: 1rem;
+    color: var(--main-color);
+}
+
+.admin-news-info h4{
+    font-size: 0.9rem;
+    color: var(--p-colors);
+}
+
+.admin-news-info h2{
+    font-size: 2rem;
+}
+
+.admin-news-info p{
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+
+.admin-news-photos img{
+    width: auto;
 }
 
 #unique-news-edit-form {
