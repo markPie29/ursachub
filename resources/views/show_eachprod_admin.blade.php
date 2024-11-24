@@ -1,124 +1,124 @@
 @extends('layouts.admin_layout')
 
 @section('content')
-<section class="filler-div">
 
-</section>
+<div class="admin-content-wrapper">
+    <!-- Sidebar is assumed to be handled by admin_layout -->
+    <div class="content">
+        <section class="filler-div"></section>
+        
+        <div class="product-details-container">
+            <div class="product-header">
+                <h2>{{ $product->name }}</h2>
+            </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>{{ $product->name }}</h2>
-            <ul>
-                <li>Stocks (per size): </li>
-                <li>
-                    Small - {{ $product->small }}
-                    <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'small']) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <input type="number" name="small" value="{{ $product->small }}" min="0" style="width: 60px;">
-                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
-                    </form>
-                </li>
-                <li>
-                    Medium - {{ $product->medium }}
-                    <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'medium']) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <input type="number" name="medium" value="{{ $product->medium }}" min="0" style="width: 60px;">
-                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
-                    </form>
-                </li>
-                <li>
-                    Large - {{ $product->large }}
-                    <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'large']) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <input type="number" name="large" value="{{ $product->large }}" min="0" style="width: 60px;">
-                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
-                    </form>
-                </li>
-                <li>
-                    Extra Large - {{ $product->extralarge }}
-                    <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'extralarge']) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <input type="number" name="extralarge" value="{{ $product->extralarge }}" min="0" style="width: 60px;">
-                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
-                    </form>
-                </li>
-                <li>
-                    2 Extra Large - {{ $product->double_extralarge }}
-                    <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'double_extralarge']) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PUT')
-                        <input type="number" name="double_extralarge" value="{{ $product->double_extralarge }}" min="0" style="width: 60px;">
-                        <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
-                    </form>
-                </li>
-            </ul>
+            <div class="product-details">
+                <h3>Stock Availability</h3>
+                <ul class="stock-list">
+                    <li>
+                        <strong>Small:</strong> 
+                        {{ $product->small }}
+                        <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'small']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="small" value="{{ $product->small }}" min="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
+                        </form>
+                    </li>
+                    <li>
+                        <strong>Medium:</strong> 
+                        {{ $product->medium }}
+                        <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'medium']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="medium" value="{{ $product->medium }}" min="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
+                        </form>
+                    </li>
+                    <li>
+                        <strong>Large:</strong> 
+                        {{ $product->large }}
+                        <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'large']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="large" value="{{ $product->large }}" min="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
+                        </form>
+                    </li>
+                    <li>
+                        <strong>Extra Large:</strong> 
+                        {{ $product->extralarge }}
+                        <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'extralarge']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="extralarge" value="{{ $product->extralarge }}" min="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
+                        </form>
+                    </li>
+                    <li>
+                        <strong>2XL:</strong> 
+                        {{ $product->double_extralarge }}
+                        <form action="{{ route('edit_stock', ['id' => $product->id, 'size' => 'double_extralarge']) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="number" name="double_extralarge" value="{{ $product->double_extralarge }}" min="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirmEdit()">Edit</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
 
-            <p><strong>Price:</strong> ${{ $product->price }}</p>
-            @php
+            <div class="product-images">
+                <h3>Product Images</h3>
+                @php
                 $photos = json_decode($product->photos, true); // Decode the JSON column to an array
-            @endphp
+                @endphp
+                @if($photos)
+                    <div class="image-gallery">
+                        @foreach($photos as $photo)
+                            <img src="{{ asset('storage/' . $photo) }}" alt="Product Image">
+                        @endforeach
+                    </div>
+                @else
+                    <p>No images available.</p>
+                @endif
+            </div>
 
-            @if(is_array($photos) && count($photos) > 0)
-                @foreach($photos as $photo)
-                    <img src="{{ asset('storage/' . $photo) }}" alt="Product Photo" style="max-width: 100%; height: auto;">
-                @endforeach
-            @else
-                <p>No images available</p>
-            @endif
+            <div class="product-actions">
+                <p><strong>Price:</strong> ${{ $product->price }}</p>
+            </div>
 
-            <form action="{{ route('delete_prod', $product->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
-            </form>
-
-            <!-- Display allowed courses -->
-            <h3 class="mt-4">Allowed Courses</h3>
-            @if(session('edit_mode'))
-                <!-- Edit Mode -->
-                <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label>Select Courses:</label>
-                        <div>
+            <div class="course-restrictions">
+                <h3>Allowed Courses</h3>
+                @if(session('edit_mode'))
+                    <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
                             @foreach($courses as $course)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" 
-                                        name="allowed_courses[]" 
-                                        value="{{ $course->id }}" 
-                                        id="course_{{ $course->id }}"
-                                        {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="course_{{ $course->id }}">
-                                        {{ $course->name }}
-                                    </label>
+                                <div>
+                                    <input type="checkbox" name="allowed_courses[]" value="{{ $course->id }}" 
+                                    {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
+                                    <label>{{ $course->name }}</label>
                                 </div>
                             @endforeach
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-2">Update Restrictions</button>
-                </form>
-            @else
-                <!-- View Mode -->
-                @if($product->courses->count() > 0)
-                    @foreach($product->courses as $course)
-                        <p>{{ $course->name }}</p>
-                    @endforeach
+                        <button type="submit" class="btn btn-primary">Update Restrictions</button>
+                    </form>
                 @else
-                    <p>No courses allowed for this product.</p>
+                    @if($product->courses->count())
+                        @foreach($product->courses as $course)
+                            <p>{{ $course->name }}</p>
+                        @endforeach
+                    @else
+                        <p>No courses allowed for this product.</p>
+                    @endif
+                    <form action="{{ route('toggle_edit_mode', $product->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary">Update Restrictions</button>
+                    </form>
                 @endif
-                <form action="{{ route('toggle_edit_mode', $product->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-secondary">Update Restrictions</button>
-                </form>
-            @endif
-
-
+            </div>
         </div>
     </div>
 </div>

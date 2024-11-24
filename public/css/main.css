@@ -256,9 +256,9 @@ header div{
     -webkit-box-shadow: -1px 3px 3px 1px rgba(0,0,0,0.3);
     -moz-box-shadow: -1px 3px 3px 1px rgba(0,0,0,0.3);
 }
-section {
+/* section {
     padding: 3% 10%;
-}
+} */
 .container{
     display: flex;
     align-items: center;
@@ -286,32 +286,7 @@ section {
     letter-spacing: var(--logo-letter-spacing);
     margin-bottom: 10px;
 }
-/* .form-box{
-    width: 450px;
-    margin: 0px 10px;
-}
-.form-box header{
-    font-size: 25px;
-    font-weight: 600;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e6e6e6;
-    margin-bottom: 10px;
-}
-.form-box form .field{
-    display: flex;
-    margin-bottom: 10px;
-    flex-direction: column;
 
-}
-.form-box form .input input{
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    padding: 0 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    outline: none;
-} */
 .submit{
     width: 100%;
 }
@@ -638,9 +613,50 @@ section {
     gap: 10px; /* Optional: Adds space between flex items */
 }
 
-/* Basic styling for the container */
-/* Basic styling for the container */
-/* General Container Styling */
+/* admin each prod view */
+.admin-content-wrapper {
+    max-width: 1500px;
+    margin-left: 320px; 
+    padding: 20px;
+}
+
+.product-details-container {
+    max-width: 1500px;
+    margin: auto;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.product-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.stock-list {
+    list-style: none;
+    padding: 0;
+}
+
+.stock-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.image-gallery img {
+    max-width: 1500px;
+    margin-right: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    
+}
+
+.course-restrictions {
+    margin-top: 20px;
+}
+
 .container,
 .admin-container,
 .registration-container,
