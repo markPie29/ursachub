@@ -272,20 +272,28 @@ class UrsacHubController extends Controller
         return redirect()->route('admin.account')->with('success', 'News deleted successfully.');
     }
 
-    public function editStock(Request $request, $id, $size)
+    public function updateStocks(Request $request, $id)
     {
         $product = Products::findOrFail($id);
-        
-        // Validate the input
+    
+        // Validate inputs
         $request->validate([
-            $size => 'required|integer|min:0',
+            'small' => 'required|integer|min:0',
+            'medium' => 'required|integer|min:0',
+            'large' => 'required|integer|min:0',
+            'extralarge' => 'required|integer|min:0',
+            'double_extralarge' => 'required|integer|min:0',
         ]);
-        
-        // Update the corresponding size stock
-        $product->$size = $request->input($size);
+    
+        // Update stock values
+        $product->small = $request->input('small');
+        $product->medium = $request->input('medium');
+        $product->large = $request->input('large');
+        $product->extralarge = $request->input('extralarge');
+        $product->double_extralarge = $request->input('double_extralarge');
         $product->save();
-
-        return redirect()->back()->with('success', 'Stock updated successfully.');
+    
+        return redirect()->back()->with('success', 'Stocks updated successfully.');
     }
 
     public function updateRestrictions(Request $request, $id)
