@@ -4,6 +4,11 @@
     <div class="add-product-container">
         <h1 class="add-product-title">Add New Product</h1>
 
+        <div class="add-product-field"> 
+            <label for="org" class="add-product-organization">Organization:</label>
+            <strong class="add-product-organization">- {{ $org }} -</strong>
+        </div>
+
         @if($errors->any())
             <div class="add-product-alert">
                 <ul class="add-product-errors">
@@ -20,14 +25,11 @@
                 <!-- Left Side: Product Details -->
                 <div class="add-product-left">
                     <div class="add-product-field">
-                        <label for="name" class="add-product-label">Product Name:</label>
+                        <h3 for="name" class="add-product-subtitle">Product Name:</h3>
                         <input type="text" name="name" id="name" class="add-product-input" value="{{ old('name') }}" required>
                     </div>
 
-                    <div class="add-product-field"> 
-                        <label for="org" class="add-product-label">Organization:</label>
-                        <strong class="add-product-organization">- {{ $org }} -</strong>
-                    </div>
+
 
                     <label for="courses" class="add-product-label">Available for Courses:</label>
                     <div id="courses" class="add-product-courses">
