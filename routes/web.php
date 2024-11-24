@@ -58,15 +58,16 @@ Route::prefix('admin')->group(function () {
         Route::get('/addprodpage', [UrsacHubController::class, 'addprodpage'])->name('addprodpage');
         Route::post('addprod', [UrsacHubController::class, 'addprod'])->name('admin.addprod');
         Route::delete('products/{id}', [UrsacHubController::class, 'delete_prod'])->name('delete_prod');
-        Route::put('products/{id}/edit_stock/{size}', [UrsacHubController::class, 'editStock'])->name('edit_stock');
+        Route::put('/products/{id}/update-stocks', [UrsacHubController::class, 'updateStocks'])->name('update_stocks');
         Route::post('/product/{id}/toggle-edit-mode', [UrsacHubController::class, 'toggleEditMode'])->name('toggle_edit_mode');
         Route::put('/product/{id}/update-restrictions', [UrsacHubController::class, 'updateRestrictions'])->name('update_restrictions');
+        Route::put('/products/{id}/update-price', [UrsacHubController::class, 'updatePrice'])->name('update_price');
         Route::get('/orders', [UrsacHubController::class, 'adminOrders'])->name('admin.orders');
         Route::put('/orders/{order}', [UrsacHubController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
         Route::post('/upload-logo', [UrsacHubController::class, 'uploadLogo'])->name('upload.logo');
         Route::get('/track-orders', [UrsacHubController::class, 'trackOrders'])->name('admin.trackOrders');
-        Route::get('/admin/track-orders', [UrsacHubController::class, 'trackOrders'])->name('admin.trackOrders');
-    Route::get('/admin/finished-orders', [UrsacHubController::class, 'finishedOrders'])->name('admin.finishedOrders');
+        Route::get('/track-orders', [UrsacHubController::class, 'trackOrders'])->name('admin.trackOrders');
+        Route::get('/finished-orders', [UrsacHubController::class, 'finishedOrders'])->name('admin.finishedOrders');
 
     });
 });
