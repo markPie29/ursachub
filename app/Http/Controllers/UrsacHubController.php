@@ -47,6 +47,42 @@ class UrsacHubController extends Controller
         return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
     }
 
+    public function adminProducts()
+    {
+        // Check if the user is authenticated as an admin
+        if (Auth::guard('admin')->check()) {
+            // Get the authenticated admin user
+            $admin = Auth::guard('admin')->user();
+            
+            // Fetch data based on the authenticated admin's organization
+            $products = Products::where('org', $admin->org)->paginate(8); 
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_products', compact('admin','products'));
+        }
+    
+        // Redirect to the admin login page if not authenticated
+        return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+    }
+
+    public function adminNews()
+    {
+        // Check if the user is authenticated as an admin
+        if (Auth::guard('admin')->check()) {
+            // Get the authenticated admin user
+            $admin = Auth::guard('admin')->user();
+            
+            // Fetch data based on the authenticated admin's organization
+            $news = News::where('org', $admin->org)->paginate(12); 
+    
+            // Pass the organization name, products, and news to the view
+            return view('admin_news', compact('admin','news'));
+        }
+    
+        // Redirect to the admin login page if not authenticated
+        return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+    }
+
 
     public function uploadLogo(Request $request)
     {
@@ -480,7 +516,54 @@ class UrsacHubController extends Controller
     }
     
     
+    public function searchNews(Request $request)
+    {
+        $query = $request->input('query');
+        
+        // Search products by name or other fields
+        $news = News::where('headline', 'like', '%' . $query . '%')
+            ->orWhere('org', 'like', '%' . $query . '%')
+            ->paginate(10);
+
+        return view('news_page', compact('news')); // Replace 'your-blade-template' with the actual template name
+    }
+
+    public function searchOrgs(Request $request)
+    {
+        $query = $request->input('query');
+        
+        $orgs = Admin::where('org', 'like', '%' . $query . '%')
+        ->orderBy('org', 'asc') // Sort by 'org' in ascending order (A-Z)
+        ->get();
+
+        return view('orgs_page', compact('orgs')); 
+    }
+
+    public function orgs_page()
+    {
+        $orgs = Admin::orderBy('name', 'asc')->get();
     
+        return view('orgs_page', [
+            'orgs' => $orgs
+        ]);
+    }
+
+    public function show_eachorgs ($id) 
+    {
+        $student = Auth::guard('student')->user();
+        $org = Admin::FindOrFail($id);
+        
+        $products = Products::where('org', $org->org)->paginate(); 
+        $news = News::where('org', $org->org)->paginate();
+
+        // Pass the organization name, products, and news to the view
+        return view('show_eachorg', [
+            'org' => $org,
+            'products' => $products,
+            'news' => $news,
+        ]);
+
+    }
     
     
 
@@ -736,57 +819,6 @@ class UrsacHubController extends Controller
         return view('admin_vieworders', compact('orders', 'org_name'));
     }
 
-    
-
-    public function searchNews(Request $request)
-    {
-        $query = $request->input('query');
-        
-        // Search products by name or other fields
-        $news = News::where('headline', 'like', '%' . $query . '%')
-            ->orWhere('org', 'like', '%' . $query . '%')
-            ->paginate(10);
-
-        return view('news_page', compact('news')); // Replace 'your-blade-template' with the actual template name
-    }
-
-    public function searchOrgs(Request $request)
-    {
-        $query = $request->input('query');
-        
-        $orgs = Admin::where('org', 'like', '%' . $query . '%')
-        ->orderBy('org', 'asc') // Sort by 'org' in ascending order (A-Z)
-        ->get();
-
-        return view('orgs_page', compact('orgs')); 
-    }
-
-    public function orgs_page()
-    {
-        $orgs = Admin::orderBy('name', 'asc')->get();
-    
-        return view('orgs_page', [
-            'orgs' => $orgs
-        ]);
-    }
-
-    public function show_eachorgs ($id) 
-    {
-        $student = Auth::guard('student')->user();
-        $org = Admin::FindOrFail($id);
-        
-        $products = Products::where('org', $org->org)->paginate(); 
-        $news = News::where('org', $org->org)->paginate();
-
-        // Pass the organization name, products, and news to the view
-        return view('show_eachorg', [
-            'org' => $org,
-            'products' => $products,
-            'news' => $news,
-        ]);
-
-    }
-
     public function trackOrders(Request $request)
     {
         // Get the organization name from the authenticated admin user
@@ -813,7 +845,8 @@ class UrsacHubController extends Controller
 
     public function finishedOrders(Request $request)
 {
-    $org_name = 'Your Organization'; // Or fetch dynamically as needed
+    $org_name = auth('admin')->user()->org; 
+
     $orders = Orders::where('status', 'claimed')
                 ->orderBy('created_at', 'desc')
                 ->get()

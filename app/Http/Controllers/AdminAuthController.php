@@ -50,7 +50,6 @@ class AdminAuthController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
 
             // Get the authenticated admin's organization
             $admin = Auth::guard('admin')->user();

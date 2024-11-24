@@ -2,21 +2,48 @@
 
 @section('content')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URSAC HUB</title>
-</head>
+
 <body>
 
-<div class="home-hero-background">
-    <div class="home-hero-content">
-        <div class="home-hero-title">URSAC Hub</div>
-        <div class="home-hero-subtitle">Your One-Stop Shop for Campus Merchandise and Updates</div>
+<div class="carousel-home">
+    <input type="radio" name="carousel" id="slide1" checked>
+    <input type="radio" name="carousel" id="slide2">
+    <input type="radio" name="carousel" id="slide3">
+    
+    <div class="carousel-content">
+        <div class="slide slide1">
+            <div class="home-hero-background">
+                <div class="home-hero-content">
+                    <div class="home-hero-title">URSAC Hub</div>
+                    <div class="home-hero-subtitle">Your One-Stop Shop for Campus Merchandise and Updates</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide2">
+            <div class="home-hero-background">
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Campus Life</div>
+                    <div class="home-hero-subtitle">Explore Events and Activities at URSAC</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide3">
+            <div class="home-hero-background">
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Join URSAC</div>
+                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="carousel-nav">
+        <label for="slide1"></label>
+        <label for="slide2"></label>
+        <label for="slide3"></label>
     </div>
 </div>
+
 
 <hr>
 

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class='filler'></section>
+<section class='filler-div'></section>
 
 <div class="cart-container">
     <div class="cart-items-ctn">
@@ -59,7 +59,7 @@
     <div class="checkout-ctn">
         <div class="user-details">
             <h4>Student Information</h4>
-            <p><strong>Name:</strong>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
+            <p><strong>Name:</strong> {{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
             <p><strong>Course:</strong> {{ $course->name }}</p>
             <p><strong>Student ID:</strong> {{ $student_id }}</p>
         </div>

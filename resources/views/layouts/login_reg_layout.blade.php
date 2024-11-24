@@ -17,20 +17,6 @@
 
 </head>
 
-<div class="admin-sidebar">
-    <h1 class="logo">URSAC Hub</h1>
-    
-    <a href="{{ route('admin.account') }}">Account</a>
-    <a href="{{ route('admin.products') }}">Products</a>
-    <a href="{{ route('admin.news') }}">News</a>
-
-    <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
-        @csrf
-        <button type="submit" class="btn">Logout</button>
-    </form>
-
-</div>
-
 @yield('content')
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

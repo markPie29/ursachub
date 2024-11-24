@@ -46,6 +46,9 @@ Route::prefix('admin')->group(function () {
     
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
+        Route::get('/products', [UrsacHubController::class, 'adminProducts'])->name('admin.products');
+        Route::get('/news', [UrsacHubController::class, 'adminNews'])->name('admin.news');
+
         Route::post('addnews', [UrsacHubController::class, 'addnews'])->name('admin.addnews');
         Route::get('addnewspage', [UrsacHubController::class, 'addnewspage'])->name('addnewspage');
         Route::get('news_admin/{id}', [UrsacHubController::class, 'show_eachnewspage_admin'])->name('show_eachnewspage_admin');

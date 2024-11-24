@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <link rel="shortcut icon" href="icon/2.png" type="image/x-icon">
     <title>URSAC HUB</title>
     <link rel="stylesheet" href="/css/main.css">
@@ -20,34 +20,33 @@
 
 </head>
 
-<header>
-        <div>
-            <a href="{{ route('student.home') }}" class="logo">URSAC Hub</a>
-        </div>
+<header class="header-main">
+    <div>
+        <a href="{{ route('student.home') }}" class="header-text logo">URSAC Hub</a>
+        <a href="{{ route('student.home') }}" class='header-icon'><i class='bx bxs-home'></i></a>
+    </div>
 
-        <div>
-            <ul class="navbar">
-                <li><a href="{{ route('news_page') }}">News</a></li>
-                <li><a href="{{ route('products_page') }}">Products</a></li>
-                <li><a href="{{ route('orgs_page') }}">Organizations</a></li>
-            </ul>
-        </div>
+    <div>
+        <ul class="navbar">
+            <li>
+                <a href="{{ route('news_page') }}" class="header-text" >News</a>
+                <a href="{{ route('news_page') }}" class="header-icon"><i class='bx bxs-news' ></i></a>
+            </li>
+            <li>
+                <a href="{{ route('products_page') }}" class="header-text">Products</a>
+                <a href="{{ route('products_page') }}" class="header-icon"><i class='bx bxs-store-alt' ></i></a>
+            </li>
+            <li>
+                <a href="{{ route('orgs_page') }}" class="header-text">Organizations</a>
+                <a href="{{ route('orgs_page') }}" class="header-icon"><i class='bx bxs-group' ></i></a>
+            </li>
+        </ul>
+    </div>
 
-        <div class="menu-icon-div">
-            <h1 class="bx bx-menu" id="menu-icon" href=""></h1>
-        </div>
-
-   
-
-        </div>
-
-        <!-- <ul class="navbar-icons">
-            <li><a href="#home"><i class='bx bxs-home'></i></a></li>
-            <li><a href="about.html"><i class='bx bxs-user'></i></a></li>
-            <li><a href="designs.html"><i class='bx bxs-palette'></i></a></li>
-            <li><a href="softwares.html"><i class='bx bx-laptop'></i></a></li>
-        </ul> -->
-    </header>
+    <div class="menu-icon-div">
+        <h1 class="bx bx-menu" id="menu-icon" href=""></h1>
+    </div>
+</header>
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
@@ -61,7 +60,7 @@
             <li>
                 <form action="{{ route('student.logout') }}" method="POST" style="display: inline;">
                 @csrf
-                <button type="submit" class="btn btn-danger">Logout</button>
+                <button type="submit" class="btn">Logout</button>
                 </form>
             </li>
         </ul>
