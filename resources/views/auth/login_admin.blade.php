@@ -6,8 +6,9 @@
     <form method="POST" action="{{ route('admin.login') }}" class="admin-login">
         @csrf
 
-        <!-- Login div starts here -->
-        <h1>Welcome Admin!</h1>
+        <div class="welcome">
+            <h1>Welcome Admin!</h1>
+        </div>
 
         <!-- Name Field -->
         <div class="form-group inputBx">
@@ -17,7 +18,7 @@
                 class="form-control" 
                 id="name" 
                 name="name" 
-                placeholder="Enter your name" 
+                placeholder="Name" 
                 style="text-transform:uppercase"
                 required>
         </div>
@@ -41,14 +42,14 @@
                 class="form-control" 
                 id="password" 
                 name="password" 
-                placeholder="Enter your password" 
+                placeholder="Password" 
                 style="text-transform:uppercase"
                 required>
         </div>
 
         <!-- Login Button -->
         <div class="inputBx">
-            <button type="submit" class="btn btn-primary">Log In</button>
+            <button type="submit" class="btn btn-primary">Sign In</button>
         </div>
 
     </form>
