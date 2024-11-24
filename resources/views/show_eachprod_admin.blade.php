@@ -23,19 +23,19 @@
                 <button class="btn btn-primary" id="editStocksButton">Edit Stocks</button>
             </div>
 
-            <!-- Popup Modal -->
+            <!-- Edit Stocks Modal -->
             <div class="modal-overlay" id="editStocksModal" style="display: none;">
                 <div class="modal-box">
                     <div class="modal-header">
                         <strong>Edit Stocks</strong>
-                        <button class="close-modal" id="closeModal">&times;</button>
+                        <button class="close-modal" id="closeEditStocksModal">&times;</button>
                     </div>
                     <form action="{{ route('update_stocks', $product->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="small" class="form-label">Small:</label>
+                                <label for="small">Small:</label>
                                 <input type="number" id="small" name="small" value="{{ $product->small }}" min="0" required>
                             </div>
                             <div class="form-group">
@@ -62,7 +62,6 @@
                 </div>
             </div>
 
-            
             <div class="product-images">
                 @php
                 $photos = json_decode($product->photos, true); // Decode the JSON column to an array
@@ -78,55 +77,74 @@
                 @endif
             </div>
 
-            <div class="product-actions">
-                <p><strong>Price:</strong> ${{ $product->price }}</p>
+            <div class="admin-price">
+                <p><strong>Price:</strong> ₱{{ $product->price }}</p>
             </div>
 
             <div class="course-restrictions">
                 <h3>Allowed Courses</h3>
-                @if(session('edit_mode'))
+                <ul>
+                    @if($product->courses->count())
+                        @foreach($product->courses as $course)
+                            <li>{{ $course->name }}</li>
+                        @endforeach
+                    @else
+                        <li>No courses allowed for this product.</li>
+                    @endif
+                </ul>
+                <button class="btn btn-primary" id="editRestrictionsButton">Update Restrictions</button>
+            </div>
+
+            <!-- Update Restrictions Modal -->
+            <div class="modal-overlay" id="editRestrictionsModal" style="display: none;">
+                <div class="modal-box">
+                    <div class="modal-header">
+                        <strong>Update Restrictions</strong>
+                        <button class="close-modal" id="closeEditRestrictionsModal">&times;</button>
+                    </div>
                     <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
-                            @foreach($courses as $course)
-                                <div>
-                                    <input type="checkbox" name="allowed_courses[]" value="{{ $course->id }}" 
-                                    {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
-                                    <label>{{ $course->name }}</label>
-                                </div>
-                            @endforeach
+                        <div class="modal-body">
+                            <div>
+                                @foreach($courses as $course)
+                                    <div class="select-program">
+                                        <input class="program-checkbox" type="checkbox" id="course_{{ $course->id }}" name="allowed_courses[]" value="{{ $course->id }}" 
+                                        {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
+                                        <label for="course_{{ $course->id }}">{{ $course->name }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Restrictions</button>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn">Save Changes</button>
+                        </div>
                     </form>
-                @else
-                    @if($product->courses->count())
-                        @foreach($product->courses as $course)
-                            <p>{{ $course->name }}</p>
-                        @endforeach
-                    @else
-                        <p>No courses allowed for this product.</p>
-                    @endif
-                    <form action="{{ route('toggle_edit_mode', $product->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-secondary">Update Restrictions</button>
-                    </form>
-                @endif
+                </div>
             </div>
+
         </div>
     </div>
 </div>
 
-
 <script>
+    // Edit Stocks Modal
     document.getElementById('editStocksButton').addEventListener('click', function () {
         document.getElementById('editStocksModal').style.display = 'flex';
     });
 
-    document.querySelectorAll('.close-modal').forEach(button => {
-        button.addEventListener('click', function () {
-            document.getElementById('editStocksModal').style.display = 'none';
-        });
+    document.getElementById('closeEditStocksModal').addEventListener('click', function () {
+        document.getElementById('editStocksModal').style.display = 'none';
+    });
+
+    // Update Restrictions Modal
+    document.getElementById('editRestrictionsButton').addEventListener('click', function () {
+        document.getElementById('editRestrictionsModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeEditRestrictionsModal').addEventListener('click', function () {
+        document.getElementById('editRestrictionsModal').style.display = 'none';
     });
 </script>
+
 @endsection

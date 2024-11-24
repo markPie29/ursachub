@@ -657,6 +657,11 @@ header div{
     margin-top: 20px;
 }
 
+.admin-price {
+    font-size: 200%;
+    text-align: center;
+}
+
 /* admin edit stock modal box */
 
 .modal-overlay {
@@ -715,7 +720,16 @@ header div{
 }
 .btn-primary {
     max-width: 25%;
-    margin-left: 35%;
+    margin-left: 38%;
+}
+
+.select-program {
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+}
+
+.program-checkbox {
+    margin-right: 1.5%;
 }
 
 .container,
