@@ -113,7 +113,6 @@
 body{
     color: var(--text-color);
     background: var(--white-color);
-    /* background-image: url('../img/ursac.jpg'); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -614,15 +613,9 @@ header div{
 }
 
 /* admin each prod view */
-.admin-content-wrapper {
-    max-width: 1500px;
-    margin-left: 320px; 
-    padding: 20px;
-}
 
 .product-details-container {
-    max-width: 1500px;
-    margin: auto;
+    margin: 2.5%;
     background: #f9f9f9;
     border-radius: 8px;
     padding: 20px;
@@ -634,15 +627,21 @@ header div{
     text-align: center;
 }
 
+.stock-title {
+    text-align: center;
+}
+
 .stock-list {
     list-style: none;
-    padding: 0;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 
 .stock-list li {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 2.5%;
+
 }
 
 .image-gallery img {
@@ -660,6 +659,18 @@ header div{
 .admin-price {
     font-size: 200%;
     text-align: center;
+}
+
+.form-group-stocks {
+    margin-left: 20%;
+    margin-bottom: 5%;
+}
+
+.admin-gallery img {
+    max-width: 50%;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-left: 25%;
 }
 
 /* admin edit stock modal box */
@@ -711,8 +722,6 @@ header div{
 .form-group {
     font-size: large;
     font-weight: bold;
-    margin-bottom: 15px;
-    margin-left: 20%;
 }
 
 .form-group label {
@@ -722,6 +731,11 @@ header div{
     max-width: 25%;
     margin-left: 38%;
 }
+
+.btn-price {
+    max-width: 15%;
+}
+
 
 .select-program {
     padding-top: 2.5%;
@@ -1222,7 +1236,6 @@ header div{
     max-width: 1500px;
     margin: 20px auto;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    margin-left: 300px;
 }
 
 .add-product-title {
@@ -1347,6 +1360,16 @@ header div{
 .add-product-right {
     padding-left: 20px;
 }
+
+.view-product-left,
+.view-product-right {
+    width: 48%;s
+}
+
+.view-product-right {
+    padding-left: 600px;
+}
+
 /* add news css */
 .publish-news-header {
     text-align: center;
@@ -1915,8 +1938,7 @@ header div{
     border-radius: 10px;
 }
 
-.cart-remove-btn {
-}
+
 
 .cart-btn {
     width: 100%;

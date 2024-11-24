@@ -309,6 +309,19 @@ class UrsacHubController extends Controller
         
         return redirect()->back()->with('success', 'Course restrictions updated successfully!');
     }
+
+    public function updatePrice(Request $request, $id)
+    {
+        $request->validate([
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $product = Products::findOrFail($id);
+        $product->price = $request->price;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Price updated successfully.');
+    }
     
 
     public function toggleEditMode(Request $request, $id)

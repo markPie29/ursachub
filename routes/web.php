@@ -61,6 +61,7 @@ Route::prefix('admin')->group(function () {
         Route::put('/products/{id}/update-stocks', [UrsacHubController::class, 'updateStocks'])->name('update_stocks');
         Route::post('/product/{id}/toggle-edit-mode', [UrsacHubController::class, 'toggleEditMode'])->name('toggle_edit_mode');
         Route::put('/product/{id}/update-restrictions', [UrsacHubController::class, 'updateRestrictions'])->name('update_restrictions');
+        Route::put('/products/{id}/update-price', [UrsacHubController::class, 'updatePrice'])->name('update_price');
         Route::get('/orders', [UrsacHubController::class, 'adminOrders'])->name('admin.orders');
         Route::put('/orders/{order}', [UrsacHubController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
         Route::post('/upload-logo', [UrsacHubController::class, 'uploadLogo'])->name('upload.logo');
