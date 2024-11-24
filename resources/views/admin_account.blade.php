@@ -17,6 +17,9 @@
             <label for="profile_photo">Upload Logo:</label>
             <input type="file" name="profile_photo" id="profile_photo" required>
             <button type="submit">Upload</button>
+            <p class="upload-note">
+                Note: The logo should be 1080 x 1080 pixels and has no background.
+            </p>
         </form>
 
         <div class="account-addbtn-ctn">
