@@ -9,6 +9,8 @@
     <input type="radio" name="carousel" id="slide1" checked>
     <input type="radio" name="carousel" id="slide2">
     <input type="radio" name="carousel" id="slide3">
+    <input type="radio" name="carousel" id="slide4">
+    <input type="radio" name="carousel" id="slide5">
     
     <div class="carousel-content">
         <div class="slide slide1">
@@ -22,7 +24,7 @@
         <div class="slide slide2">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">Campus Life</div>
+                    <div class="home-hero-title">Check News</div>
                     <div class="home-hero-subtitle">Explore Events and Activities at URSAC</div>
                 </div>
             </div>
@@ -30,7 +32,23 @@
         <div class="slide slide3">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">Join URSAC</div>
+                    <div class="home-hero-title">Buy Products</div>
+                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide4">
+            <div class="home-hero-background">
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Orgs</div>
+                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide slide5">
+            <div class="home-hero-background">
+                <div class="home-hero-content">
+                    <div class="home-hero-title">About the devs</div>
                     <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
                 </div>
             </div>
@@ -41,6 +59,8 @@
         <label for="slide1"></label>
         <label for="slide2"></label>
         <label for="slide3"></label>
+        <label for="slide4"></label>
+        <label for="slide5"></label>
     </div>
 </div>
 

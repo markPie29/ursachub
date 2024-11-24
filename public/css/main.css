@@ -1961,10 +1961,14 @@ section {
 #slide1:checked ~ .carousel-content { transform: translateX(0); }
 #slide2:checked ~ .carousel-content { transform: translateX(-100%); }
 #slide3:checked ~ .carousel-content { transform: translateX(-200%); }
+#slide4:checked ~ .carousel-content { transform: translateX(-300%); }
+#slide5:checked ~ .carousel-content { transform: translateX(-400%); }
 
 #slide1:checked ~ .carousel-nav label:nth-child(1),
 #slide2:checked ~ .carousel-nav label:nth-child(2),
-#slide3:checked ~ .carousel-nav label:nth-child(3) {
+#slide3:checked ~ .carousel-nav label:nth-child(3),
+#slide4:checked ~ .carousel-nav label:nth-child(4),
+#slide5:checked ~ .carousel-nav label:nth-child(5) {
     background-color: var(--main-color);
 }
 
