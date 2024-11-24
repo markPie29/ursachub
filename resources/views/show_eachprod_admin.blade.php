@@ -62,8 +62,8 @@
                 </div>
             </div>
 
+            
             <div class="product-images">
-                <h3>Product Images</h3>
                 @php
                 $photos = json_decode($product->photos, true); // Decode the JSON column to an array
                 @endphp
@@ -117,67 +117,6 @@
     </div>
 </div>
 
-<style>
-    .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-
-    .modal-box {
-        background: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        width: 100%;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 10px;
-
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        padding-top: 10px;
-    }
-
-    .close-modal {
-        background: transparent;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .form-group {
-        font-size: large;
-        font-weight: bold;
-        margin-bottom: 15px;
-        margin-left: 20%;
-    }
-
-    .form-group label {
-        margin-right: 5%;
-    }
-    .btn-primary {
-        max-width: 25%;
-        margin-left: 35%;
-    }
-
-</style>
 
 <script>
     document.getElementById('editStocksButton').addEventListener('click', function () {
