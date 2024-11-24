@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<section class="product-filler-div"></section>
+<section class="filler-div"></section>
 
 <div class="product-container">
     <div class="product-row d-flex flex-row product-card">

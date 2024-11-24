@@ -21,7 +21,7 @@
                 <table class="order-table">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
+                            <th>Name</th>
                             <th>Size</th>
                             <th>Quantity</th>
                             <th>Price</th>

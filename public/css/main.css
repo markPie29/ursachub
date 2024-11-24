@@ -121,6 +121,11 @@ body{
 }
 /* header css */
 
+.filler-div {
+    height: 75px;
+}
+
+
 header{
     animation-name: topslide;
     animation-duration: 1s;
@@ -135,6 +140,7 @@ header{
     background-color: var(--main-color);
     backdrop-filter: blur(10px);
     color: var(--pure-white);
+    height: 75px;
 }
 .header-small {
     display: none;
@@ -343,22 +349,6 @@ section {
     height: 100vh; 
     letter-spacing: var(--logo-letter-spacing)
 }
-.home {
-    animation-name: slide;
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-    height: 100%;
-    width: 100%;
-    min-height: 100vh;
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    gap: 2rem;
-}
-.user-icon {
-    font-size:100px;
-}
 .hidden {
     opacity: 0;
     transition: all 0.9s;
@@ -370,45 +360,10 @@ section {
     filter: blur(0);
     transform: translateY(0);
 }
-.home img {
-    animation: top-bounce;
-    animation-duration: 10s;
-    animation-iteration-count: infinite;
-    width: 75%;
-    margin-left: 24%;
-}
-.home h1 {
-    /* animation: side-bounce;
-    animation-duration: 10s;
-    animation-iteration-count: infinite; */
-    font-size: 3rem;
-    margin: 1rem 0px;
-}
-.homeimage{
-    position: absolute;
-    background-image: url("gd-background.png");
-    opacity: 0.3;
-    width: 100%;
-    min-height: 100%; 
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.logo:hover {
-    transform: scale(1.2);
-    transition: .4s;
-}
+
 /* .icons {
     margin: 100px;
 } */
-.header-icon {
-    color: var(--pure-white);
-}
-.header-icon:hover {
-    color: var(--pure-white);
-    transition: .4s;
-}
 .navbar-icons{
     position: absolute;
     display: flex;
@@ -1743,7 +1698,57 @@ section {
 /* Responsive Design */
 
 
+@media (max-width: 768px) {
+    .order-header {
+        text-align: center;
+    }
 
+    .order-status {
+        float: none;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .order-table {
+        font-size: 0.8rem;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-card {
+        margin-bottom: 20px;
+    }
+
+    .order-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .order-date {
+        font-size: 0.8rem;
+    }
+
+    .order-status {
+        font-size: 0.7rem;
+    }
+
+    .order-table {
+        font-size: 0.5rem;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 6px;
+    }
+
+    .order-total {
+        font-size: 1rem;
+    }
+}
 
 
 
@@ -1912,15 +1917,23 @@ section {
 .home-products {
     background-color: rgba(255, 255, 255, 0.776);
 }
-/* Card Style 1 */
-.card-style-1 {
-    background: #fff;
+
+
+
+/* student account */
+
+.profile-section {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.profile-card {
+    background:var(--pure-white);
     border-radius: 10px;
     padding: 50px; /* Increased padding for more space inside */
-    width: 700px; /* Balanced width */
-    height: 600px; /* Added height for balance */
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadows);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1928,32 +1941,11 @@ section {
     margin-top: 20px;
 }
 
-.card-style-1 .icon {
-    margin-bottom: 15px; /* Adjusted for better spacing */
+.profile-icon{
+    font-size: 250px;
+    color: var(--main-color);
 }
 
-.card-style-1 .role {
-    font-size: 1.3rem; /* Slightly larger for better readability */
-    color: #1d4ed8;
-    margin-bottom: 10px;
-}
-
-.card-style-1 .course {
-    font-weight: bold;
-    color: #1d4ed8;
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-}
-
-.card-style-1 .info .name,
-.card-style-1 .info .student-id {
-    background: #1d4ed8;
-    color: white;
-    padding: 15px; /* Increased padding */
-    border-radius: 8px; /* Slightly rounded corners */
-    margin-bottom: 10px;
-    font-weight: bold;
-}
 
 .info {
     display: flex;
@@ -1962,43 +1954,27 @@ section {
     flex-direction: column;
 }
 
-.card-style-1 .info .label {
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.card-style-1 .orders-link {
-    margin-top: 30px; /* More spacing from the content above */
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-    color: #555;
-}
-
-.card-style-1 .orders-link:hover {
-    color: #0c4a7e;
-}
-
-/* Filler Div for Name and Student ID */
 .profile-card .filler {
-    background: #1d4ed8;
-    padding: 15px; /* Adjusted padding */
     border-radius: 25px;
-    color: white;
-    margin-bottom: 20px;
+    color: var(--main-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    height: 50px;
     text-align: center;
-    width: fit-content;
+    margin: 20px 0;
 }
 
-.profile-section {
-    align-items: center;
-    justify-content: center;
-    display: flex;
+.orders-link {
+    color: var(--main-color);
+    transition: 0.5s ease;
 }
+
+.orders-link:hover {
+    color: var(--p-colors);
+}
+
+
+/* student account */
 
 .orgs-ctn {
     display: grid;
@@ -2049,30 +2025,6 @@ section {
     height: 100px;
 }
 
-
-@media (max-width: 768px) {
-    .page-header {
-        padding: 15px 20px;
-    }
-
-    .page-header h1 {
-        font-size: 2rem;
-    }
-
-    .orders-container {
-        padding: 0 10px;
-    }
-
-    .order-table {
-        font-size: 0.9rem;
-    }
-
-    .order-status {
-        float: none;
-        display: block;
-        margin-top: 10px;
-    }
-}
 
 /* student orders */
 
@@ -2164,10 +2116,17 @@ section {
 
 
 @media (max-width: 768px) {
+
+
+    .filler-div {
+        height: 50px;
+    }
+
     header {
         padding: 15px;
         display: flex;
         align-items: center;
+        height: 50px;
     }
     .navbar {
         display: flex;
@@ -2311,6 +2270,32 @@ section {
         height: auto;
     }
 
+
+
+    .profile-card {
+        padding: 25px;
+    }
+    
+    .profile-icon{
+        font-size: 150px;
+    }
+    
+    .info p {
+        font-size: 0.8rem;
+    }
+
+    .info h2 {
+        font-size: 1.1rem;
+    }
+    .info h3 {
+        font-size: 0.9rem;
+    }
+    .orders-link {
+        font-size: 0.8rem;
+    }
+    
+    
+    
 
 
 }

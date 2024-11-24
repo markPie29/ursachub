@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-<section class="product-filler-div"></section>
+<section class="filler-div"></section>
 
 <div class="custom-container">
     <!-- Image Section with Carousel -->
