@@ -2167,6 +2167,11 @@ section {
     width: 100px;
     height: 100px;
 }
+
+.welcome {
+    text-align: center;
+    color: #007bff;
+}
 /* show eachnews-admin */
 /* CSS for the Edit News Blade File */
 .unique-news-container {
@@ -2615,4 +2620,4 @@ section {
     margin-top: 10px;
     font-style: italic;
   }
-  
+ 

@@ -20,7 +20,8 @@
                     class="form-control" 
                     id="student_id" 
                     name="student_id" 
-                    placeholder="Student ID" 
+                    placeholder="Student ID"
+                    style="text-transform:uppercase" 
                     required>
             </div>
 
@@ -32,11 +33,12 @@
                     id="password" 
                     name="password" 
                     placeholder="Password" 
+                    style="text-transform:uppercase"
                     required>
             </div>
 
             <div class="inputBox-3">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary">Sign In</button>
             </div>
 
 
