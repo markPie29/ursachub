@@ -12,7 +12,7 @@
             <h1>{{ $admin->org }}</h1>   
         </div>
 
-        <form action="{{ route('upload.logo') }}" method="POST" enctype="multipart/form-data">
+        <form  class="upload-logo-form" action="{{ route('upload.logo') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <label for="profile_photo">Upload Logo:</label>
             <input type="file" name="profile_photo" id="profile_photo" required>
