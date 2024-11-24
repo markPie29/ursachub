@@ -242,6 +242,7 @@ header div{
 
 .header-icon {
     display: none;
+    color: var(--pure-white);
 }
 
 
@@ -249,7 +250,10 @@ header div{
 
 
 
-
+.search-form-orders {
+    display: flex;
+    align-items: start;
+}
 
 
 .main-button {
@@ -323,6 +327,8 @@ header div{
     height: 100vh; 
     letter-spacing: var(--logo-letter-spacing)
 }
+
+/* for transitions */
 .hidden {
     opacity: 0;
     transition: all 0.9s;
@@ -334,6 +340,53 @@ header div{
     filter: blur(0);
     transform: translateY(0);
 }
+/* Reset and basic styles */
+
+.logo-loading{
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--main-color);
+    font-size: 3rem;
+    letter-spacing: var(--logo-letter-spacing);
+    /* animation: spin 1s linear infinite; */
+}
+  
+  /* Loading Screen */
+  #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--pure-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 6px solid var(--pure-white);
+    border-top: 6px solid var(--main-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  /* Spinner Animation */
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+/* for transitions */
 
 /* .icons {
     margin: 100px;
@@ -548,8 +601,7 @@ header div{
 }
 .account-addbtn-ctn {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 .account-addbtn-ctn div {
     border-radius: 50px;
@@ -824,6 +876,19 @@ header div{
     background-color: #f8d7da;
     color: #721c24;
     border-radius: 5px;
+}
+
+.form-group-restrictions {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.checkbox-wrapper {
+    margin-bottom: 10px;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    margin-right: 10px;
 }
 
 
@@ -1846,6 +1911,12 @@ header div{
     color: #6c757d;
 }
 
+.refresh-icon {
+    color: var(--main-color);
+    font-size: 50px;
+}
+
+
 /* Responsive Design */
 
 
@@ -2058,6 +2129,25 @@ header div{
     animation: scale 3s ease-in-out infinite ;
 }
 
+.home-hero-section0 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+
+.home-hero-section1 {
+
+}
+
+.home-hero-section2 {
+    
+}
+
 /* Carousel container */
 .carousel-home {
     position: relative;
@@ -2259,6 +2349,7 @@ header div{
     align-items: center;
     text-align: center;
     margin: 20px 0;
+    text-transform: uppercase;
 }
 
 .orders-link {
@@ -2268,6 +2359,35 @@ header div{
 
 .orders-link:hover {
     color: var(--p-colors);
+}
+
+/* admin orders */
+.order-controls-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.admin-search-orders {
+    padding: 8px;
+    width: 300px;
+    border-color: var(--p-colors);
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+.admin-buton-search {
+    color: var(--pure-white);
+    background-color: var(--main-color);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn-fnshd-orders {
+    width:300px;
 }
 
 

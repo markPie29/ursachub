@@ -68,5 +68,10 @@
 
     </div>
 
+
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <h1 class="logo-loading">URSAC Hub</h1>
+    </div>
 @yield('content')
 </html>

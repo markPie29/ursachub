@@ -5,7 +5,7 @@
 <body>   
     <section class="filler-div"></section>
     
-    <div class='news-products-header'>
+    <div class='news-products-header hidden'>
         <h1>Products</h1>
 
         <form action="{{ route('search_products') }}" method="GET" class="search-form">
@@ -15,9 +15,9 @@
     </div>
 
 
-<div class="products-ctn">
+<div class="products-ctn hidden">
     @foreach($products as $product)
-        <a href="{{ route('show_eachprodpage', $product->id) }}" class="products-card">
+        <a href="{{ route('show_eachprodpage', $product->id) }}" class="products-card hidden">
             <div class="card-image">
                 @php
                     $photos = json_decode($product->photos, true); 

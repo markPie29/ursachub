@@ -23,10 +23,8 @@
         </form>
 
         <div class="account-addbtn-ctn">
-            <a href="{{ route('admin.orders') }}"> <div class="main-button"><i class='bx bx-list-ul'></i> Track Orders<i class='bx bx-plus'></i></div></a>
+            <a href="{{ route('admin.orders') }}"> <div class="main-button"><i class='bx bx-list-ul'></i>Track Orders</div></a>
         </div>
-
-
     </div>
 
     

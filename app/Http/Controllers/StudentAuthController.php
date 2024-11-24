@@ -34,9 +34,9 @@ class StudentAuthController extends Controller
 
         // Create the new student record
         Student::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'middle_name' => $request->middle_name,
+            'first_name' => strtoupper($request->first_name),
+            'last_name' => strtoupper($request->last_name),
+            'middle_name' => $request->middle_name ? strtoupper($request->middle_name) : null,
             'student_id' => $request->student_id,
             'course_id' => $request->course_id,
             'password' => bcrypt($request->password), // Hash password here

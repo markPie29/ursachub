@@ -30,7 +30,7 @@
         <h1>{{ $news->org }}</h1>
         <h3>{{ $news->updated_at }}</h3>
         <h2>{{ $news->headline }}</h2>
-        <p>{{ $news->content }}</p>
+        <p>{!! Str::of($news->content)->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
     </div>
 </div>
 

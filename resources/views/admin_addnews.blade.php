@@ -38,6 +38,7 @@
 
             <div class="publish-news-field">
                 <label for="photos" class="publish-news-label">Photos (max 5):</label>
+                <span>Note: First image will be the thumbnail</span>
                 <input type="file" name="photos[]" id="newsPhotos" class="publish-news-input" multiple accept="image/*" onchange="handleNewsImageUpload(event)">
                 <div id="newsImagePreview" class="publish-news-preview"></div>
             </div>

@@ -5,7 +5,7 @@
 
 <body>
 
-<div class="carousel-home">
+<div class="carousel-home hidden">
     <input type="radio" name="carousel" id="slide1" checked>
     <input type="radio" name="carousel" id="slide2">
     <input type="radio" name="carousel" id="slide3">
@@ -23,33 +23,49 @@
         </div>
         <div class="slide slide2">
             <div class="home-hero-background">
-                <div class="home-hero-content">
-                    <div class="home-hero-title">Check News</div>
-                    <div class="home-hero-subtitle">Explore Events and Activities at URSAC</div>
+                <div class="home-hero-section0">
+                    <div class="home-hero-section1">
+                        Check News
+                    </div>
+                    <div class=".home-hero-section2">
+                        Explore Events and Activities at URSAC
+                    </div>
                 </div>
             </div>
         </div>
         <div class="slide slide3">
             <div class="home-hero-background">
-                <div class="home-hero-content">
-                    <div class="home-hero-title">Buy Products</div>
-                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                <div class="home-hero-section0">
+                    <div class="home-hero-section1">
+                        Check News
+                    </div>
+                    <div class=".home-hero-section2">
+                        Explore Events and Activities at URSAC
+                    </div>
                 </div>
             </div>
         </div>
         <div class="slide slide4">
             <div class="home-hero-background">
-                <div class="home-hero-content">
-                    <div class="home-hero-title">Orgs</div>
-                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                <div class="home-hero-section0">
+                    <div class="home-hero-section1">
+                        Check News
+                    </div>
+                    <div class=".home-hero-section2">
+                        Explore Events and Activities at URSAC
+                    </div>
                 </div>
             </div>
         </div>
         <div class="slide slide5">
             <div class="home-hero-background">
-                <div class="home-hero-content">
-                    <div class="home-hero-title">About the devs</div>
-                    <div class="home-hero-subtitle">Be Part of Our Vibrant Community</div>
+                <div class="home-hero-section0">
+                    <div class="home-hero-section1">
+                        Check News
+                    </div>
+                    <div class=".home-hero-section2">
+                        Explore Events and Activities at URSAC
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,7 +83,7 @@
 
 <hr>
 
-<div class="home-news">
+<div class="home-news hidden">
     <div class='news-products-header'>
         <h1>News</h1>
 
@@ -107,7 +123,7 @@
     </div>
 </div>
 
-<div class="home-products">
+<div class="home-products hidden">
     <div class='news-products-header'>
         <h1>Products</h1>
 
@@ -141,12 +157,12 @@
     </div>
 </div>
 
-<div class="home-devs">
+<!-- <div class="home-devs">
     <div class=devs-ctn>
         <h1>About the Developers</h1>
         <a href="">Click here to know more about the developers of this website</a>
     </div>
-</div>
+</div> -->
 
 </body>
 </html>

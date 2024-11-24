@@ -5,7 +5,6 @@
 <div class="admin-main">
     <div class="admin-content-wrapper">
         <div class="content">
-            <section class="filler-div"></section>
             
             <div class="product-details-container">
                 <div class="product-header">
@@ -109,6 +108,37 @@
                                 <div class="form-group">
                                     <label for="price">Price:</label>
                                     <input type="number" id="price" name="price" value="{{ $product->price }}" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Edit Restrictions Modal -->
+                <div class="modal-overlay" id="editRestrictionsModal" style="display: none;">
+                    <div class="modal-box">
+                        <div class="modal-header">
+                            <strong>Edit Course Restrictions</strong>
+                            <button class="close-modal" id="closeEditRestrictionsModal">&times;</button>
+                        </div>
+                        <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group-restrictions">
+                                    @foreach($courses as $course)
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" 
+                                                id="course_{{ $course->id }}" 
+                                                name="courses[]" 
+                                                value="{{ $course->id }}"
+                                                {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
+                                            <label for="course_{{ $course->id }}">{{ $course->name }}</label>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="modal-footer">

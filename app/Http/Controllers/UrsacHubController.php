@@ -301,12 +301,9 @@ class UrsacHubController extends Controller
         $product = Products::findOrFail($id);
     
         // Sync allowed courses
-        $allowedCourses = $request->input('allowed_courses', []);
+        $allowedCourses = $request->input('courses', []);
         $product->courses()->sync($allowedCourses);
     
-        // Disable edit mode after saving changes
-        session()->forget('edit_mode');
-        
         return redirect()->back()->with('success', 'Course restrictions updated successfully!');
     }
 
@@ -379,7 +376,7 @@ class UrsacHubController extends Controller
 
         // Save the updated news
         $news->save();
-        return redirect()->route('admin.account')->with('success', 'News edited successfully.');
+        return redirect()->back()->with('success', 'News updated successfully!');
     }
 
 

@@ -8,34 +8,33 @@
             <h1 class="main-title">Track Orders</h1>
             <h2 class="sub-title">{{ $org_name }}</h2>
 
-            <div class="controls-container">
-                <!-- View Finished Orders Button -->
-                <div class="top-right-button">
-                    <a href="{{ route('admin.finishedOrders') }}" class="btn btn-success">
-                        View Finished Orders
-                    </a>
-                </div>
 
-                <!-- Search Form -->
-                <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form">
-                    <div class="search-input-container">
-                        <!-- Search Textbox -->
-                        <input 
-                            type="text" 
-                            name="search" 
-                            value="{{ request('search') }}" 
-                            class="form-control search-input" 
-                            placeholder="Search"
-                        >
+            <div class="order-controls-container">
+                <form action="{{ route('admin.trackOrders') }}" method="GET" class="search-form-orders">
+                     <!-- Search Textbox -->
+                    <input 
+                        type="text" 
+                        name="search" 
+                        value="{{ request('search') }}" 
+                        class="admin-search-orders" 
+                        placeholder="Search"
+                    >
                         <!-- Refresh Button -->
-                        <a href="{{ route('admin.trackOrders') }}" class="refresh-icon">
-                            <img src="/path/to/refresh-icon.svg" alt="Refresh" class="refresh-icon-img">
-                        </a>
-                    </div>
+
+                    
+                    <a href="{{ route('admin.trackOrders') }}" class="refresh-icon">
+                        <i class='bx bx-refresh'></i>
+                    </a>
                     <!-- Search Button -->
-                    <button type="submit" class="btn btn-primary search-btn">Search</button>
+                    <button type="submit" class="admin-buton-search">Search</button>
                 </form>
+
+                <a href="{{ route('admin.finishedOrders') }}" class="btn btn-fnshd-orders">
+                    View Finished Orders
+                </a>
+
             </div>
+
 
         <div class="orders-table-container">
             @forelse ($orders as $order_number => $orderGroup)
@@ -197,10 +196,6 @@
         margin-top: 10px;
     }
 
-    .search-form {
-        margin-bottom: 20px;
-    }
-
     .input-group {
         max-width: 600px;
         margin: auto;
@@ -336,67 +331,18 @@
 }
 
 .controls-container {
-    position: relative;
+    display:flex;
     margin-bottom: 20px;
 }
 
-/* View Finished Orders Button */
-.top-right-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.top-right-button .btn {
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 8px;
-    text-align: center;
-}
 
 /* Search Form */
-.search-form {
+.search-form-orders {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    position: relative;
-    max-width: 600px;
-    margin: 0 auto;
+    align-items:center;
 }
 
-/* Search Input and Refresh */
-.search-input-container {
-    display: flex;
-    align-items: center;
-    width: 50%;
-    position: relative;
-}
-
-.search-input {
-    flex: 1;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-right: 10px;
-}
-
-.refresh-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.refresh-icon-img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.refresh-icon-img:hover {
+.refresh-icon:hover {
     transform: scale(1.1);
 }
 
@@ -419,43 +365,15 @@
     transform: scale(1.05);
 }
 
-.controls-container {
-    position: relative;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between; /* Space out search form and other elements */
-    align-items: center;
-}
-
-/* View Finished Orders Button */
-.top-right-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
 
 /* Search Form */
-.search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Add spacing between search elements */
-    flex: 1; /* Allow the search form to occupy the left side */
-    max-width: 600px;
-}
-
-.search-input-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
 .search-input {
     padding: 10px 15px;
     font-size: 16px;
-    border: 1px solid #ccc;
     border-radius: 8px;
     width: 300px; /* Fixed width for the search bar */
-}
+} 
 
 .refresh-icon-img {
     width: 24px;
@@ -468,24 +386,10 @@
     transform: scale(1.1);
 }
 
-.search-btn {
-    width: 50%;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
 
 .search-btn:hover {
     transform: scale(1.05);
 }
-
-/* Keep the middle section blank */
-.controls-container::after {
-    content: '';
-    flex: 1;
-}
-
 
 
 </style>

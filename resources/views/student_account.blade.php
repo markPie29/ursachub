@@ -7,14 +7,14 @@
 </section>
 
 <div class="profile-section">
-  <div class="profile-card">
+  <div class="profile-card hidden">
     <div class="profile-icon">
       <i class='bx bxs-user-circle'></i>
     </div>
 
     <div class="info">
       <p> {{ $course->name }}</p>
-      
+
         <div class="filler">
             <h2> {{ $lastname }}, {{ $firstname }} {{ $middlename }} </h2>
             <h3>{{ $student_id }}</h3>

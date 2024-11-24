@@ -8,7 +8,7 @@
 
 <body>
 
-    <div class='news-products-header'>
+    <div class='news-products-header hidden'>
         <h1>News</h1>
 
         <form action="{{ route('search_news') }}" method="GET" class="search-form">
@@ -17,9 +17,9 @@
         </form>
     </div>
 
-    <div class="news-container">
+    <div class="news-container hidden">
         @foreach($news as $newsx)
-        <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card">
+        <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card hidden">
             <!-- News Content at the Top -->
             <div class="news-card-content">
                 <p class="news-org">{{ $newsx->org }}</p>

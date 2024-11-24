@@ -5,13 +5,13 @@
 
 </section>
 
-<section class="page-header">
+<section class="page-header hidden">
     <h1>My Orders</h1>
 </section>
 
-<div class="orders-container">
+<div class="orders-container hidden">
     @forelse ($orders as $orderNumber => $orderItems)
-        <div class="order-card">
+        <div class="order-card hidden">
             <div class="order-header">
                 <h2>Order #{{ $orderNumber }}</h2>
                 <p class="order-date">Placed on: {{ $orderItems->first()->created_at->format('F d, Y') }}</p>

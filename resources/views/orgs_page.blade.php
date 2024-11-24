@@ -8,7 +8,7 @@
 
 <body>
 
-    <div class='news-products-header'>
+    <div class='news-products-header hidden'>
         <h1>Orgs</h1>
 
         <form action="{{ route('search_orgs') }}" method="GET" class="search-form">
@@ -17,9 +17,9 @@
         </form>
     </div>
 
-    <div class="orgs-ctn">
+    <div class="orgs-ctn hidden">
         @foreach($orgs as $org)
-            <a href="{{ route('show_eachorgs', $org->id) }}" class="orgs-card">
+            <a href="{{ route('show_eachorgs', $org->id) }}" class="orgs-card hidden">
                 <!-- Image at the Bottom -->
                 <div class="orgs-page-logo">
                     @if ($org ->logo)

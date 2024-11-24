@@ -4,14 +4,14 @@
 
 <section class='filler-div'></section>
 
-<div class="cart-container">
-    <div class="cart-items-ctn">
+<div class="cart-container hidden">
+    <div class="cart-items-ctn hidden">
         <h1>Cart</h1>
         @if($cartItems->isEmpty())
             <p>Your cart is currently empty.</p>
         @else
             @foreach($cartItems as $item)
-                <div class="cart-item">
+                <div class="cart-item hidden">
                                 
                     <div class="cart-item-details">
                         <input type="checkbox" 

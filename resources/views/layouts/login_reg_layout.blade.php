@@ -17,7 +17,27 @@
 
 </head>
 
+<div id="loading-screen">
+    <div class="spinner"></div>
+    <h1 class="logo-loading">URSAC Hub</h1>
+</div>
 @yield('content')
+
+<script>
+    // Wait until the page and all resources have fully loaded
+    window.addEventListener('load', () => {
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Hide the loading screen with a fade-out effect
+        loadingScreen.style.transition = 'opacity 0.5s ease';
+        loadingScreen.style.opacity = '0';
+
+        setTimeout(() => {
+            loadingScreen.style.display = 'none'; // Remove it from view
+            document.body.classList.remove('hidden'); // Allow scrolling
+        }, 500); // Match the transition duration
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>

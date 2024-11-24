@@ -40,3 +40,35 @@ menuIcon.addEventListener('click', () => {
 closeBtn.addEventListener('click', () => {
     sidebar.classList.remove('sidebar-open');
 });
+
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        console.log(entry)
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        } else {
+            entry.target.classList.remove('show');
+        }
+
+    });
+});
+
+const hiddenElements = document.querySelectorAll('.hidden');
+hiddenElements.forEach((el) => observer.observe(el))
+
+// Wait for the entire page to load
+window.addEventListener('load', () => {
+    // Hide the loading screen
+    const loadingScreen = document.getElementById('loading-screen');
+    loadingScreen.style.opacity = 0;
+    loadingScreen.style.transition = 'opacity 0.5s ease';
+  
+    // Remove loading screen from the DOM after transition
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+      document.body.style.overflow = 'auto'; // Enable scrolling
+      document.getElementById('content').style.display = 'block'; // Show main content
+    }, 500); // Match the CSS transition duration
+  });
+  

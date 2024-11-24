@@ -60,6 +60,7 @@
 
                         <div class="add-product-field">
                             <label for="photos" class="add-product-label">Photos (max 5):</label>
+                            <span>Note: First image will be the thumbnail</span>
                             <input type="file" name="photos[]" id="photos" class="add-product-input" multiple accept="image/*" onchange="handleProductImageUpload(event)">
                             <div id="imagePreview" class="add-product-preview"></div>
                         </div>
