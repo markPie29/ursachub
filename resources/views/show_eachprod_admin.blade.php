@@ -13,18 +13,48 @@
                     <h1>{{ $product->name }}</h1>
                 </div>
 
-                    <div class="product-details">
-                        <h3 class="stock-title">Stock Availability</h3>
-                        <ul class="stock-list">
-                            <li><strong>Small:</strong> {{ $product->small }}</li>
-                            <li><strong>Medium:</strong> {{ $product->medium }}</li>
-                            <li><strong>Large:</strong> {{ $product->large }}</li>
-                            <li><strong>Extra Large:</strong> {{ $product->extralarge }}</li>
-                            <li><strong>2XL:</strong> {{ $product->double_extralarge }}</li>
-                        </ul>
-                        <button class="btn btn-primary" id="editStocksButton">Edit Stocks</button>
+                <div class="details-wrapper">
+                    <!-- Left Side: Details -->
+                    <div class="details-left">
+                        <div class="product-details">
+                            <h3 class="stock-title">Stock Availability</h3>
+                            <ul class="stock-list">
+                                <li><strong>Small:</strong> {{ $product->small }}</li>
+                                <li><strong>Medium:</strong> {{ $product->medium }}</li>
+                                <li><strong>Large:</strong> {{ $product->large }}</li>
+                                <li><strong>Extra Large:</strong> {{ $product->extralarge }}</li>
+                                <li><strong>2XL:</strong> {{ $product->double_extralarge }}</li>
+                            </ul>
+                            <button class="btn btn-primary" id="editStocksButton">Edit Stocks</button>
+                        </div>
+
+                        <div class="admin-price">
+                            <p><strong>Price:</strong> ₱{{ $product->price }}</p>
+                            <button class="btn btn-price" id="editPriceButton">Edit Price</button>
+                        </div>
                     </div>
 
+                    <!-- Right Side: Photos -->
+                    <div class="details-right">
+                        <div class="product-col-md-6 image-carousel">
+                            @php
+                                $photos = json_decode($product->photos, true);
+                            @endphp
+
+                            @if(is_array($photos) && count($photos) > 0)
+                                <div class="carousel">
+                                    @foreach($photos as $index => $photo)
+                                        <img src="{{ asset('storage/' . $photo) }}" alt="Product Photo" class="product-image" id="image-{{ $index }}" style="display: {{ $index === 0 ? 'block' : 'none' }};">
+                                    @endforeach
+                                </div>
+                                <button class="carousel-button left" onclick="showPreviousImage()">&#10094;</button>
+                                <button class="carousel-button right" onclick="showNextImage()">&#10095;</button>
+                            @else
+                                <p class="product-no-image">No images available</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Edit Stocks Modal -->
                 <div class="modal-overlay" id="editStocksModal" style="display: none;">
@@ -65,31 +95,6 @@
                     </div>
                 </div>
 
-
-                    <div class="admin-price">
-                        <p><strong >Price:</strong> ₱{{ $product->price }} </p>
-                        <button class="btn btn-price" id="editPriceButton">Edit Price</button>
-                        
-                    </div>
-
-
-
-                    <div class="product-images">
-                        @php
-                        $photos = json_decode($product->photos, true); // Decode the JSON column to an array
-                        @endphp
-                        @if($photos)
-                            <div class="admin-gallery">
-                                @foreach($photos as $photo)
-                                    <img src="{{ asset('storage/' . $photo) }}" alt="Product Image">
-                                @endforeach
-                            </div>
-                        @else
-                            <p>No images available.</p>
-                        @endif
-                    </div>
-
-                
                 <!-- Edit Price Modal -->
                 <div class="modal-overlay" id="editPriceModal" style="display: none;">
                     <div class="modal-box">
@@ -126,41 +131,33 @@
                     </ul>
                     <button class="btn btn-primary" id="editRestrictionsButton">Update Restrictions</button>
                 </div>
-
-                <!-- Update Restrictions Modal -->
-                <div class="modal-overlay" id="editRestrictionsModal" style="display: none;">
-                    <div class="modal-box">
-                        <div class="modal-header">
-                            <strong>Update Restrictions</strong>
-                            <button class="close-modal" id="closeEditRestrictionsModal">&times;</button>
-                        </div>
-                        <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <div class="modal-body">
-                                <div>
-                                    @foreach($courses as $course)
-                                        <div class="select-program">
-                                            <input class="program-checkbox" type="checkbox" id="course_{{ $course->id }}" name="allowed_courses[]" value="{{ $course->id }}" 
-                                            {{ $product->courses->contains($course->id) ? 'checked' : '' }}>
-                                            <label for="course_{{ $course->id }}">{{ $course->name }}</label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 </div>
+
 <script>
-    // Edit Stocks Modal
+    // Carousel Initialization
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.product-image');
+
+    function showImage(index) {
+        images.forEach((img, idx) => {
+            img.style.display = idx === index ? 'block' : 'none';
+        });
+    }
+
+    function showNextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }
+
+    function showPreviousImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    }
+
+    // Modal Scripts
     document.getElementById('editStocksButton').addEventListener('click', function () {
         document.getElementById('editStocksModal').style.display = 'flex';
     });
@@ -169,7 +166,6 @@
         document.getElementById('editStocksModal').style.display = 'none';
     });
 
-    // Edit Price Modal
     document.getElementById('editPriceButton').addEventListener('click', function () {
         document.getElementById('editPriceModal').style.display = 'flex';
     });
@@ -178,7 +174,6 @@
         document.getElementById('editPriceModal').style.display = 'none';
     });
 
-    // Update Restrictions Modal
     document.getElementById('editRestrictionsButton').addEventListener('click', function () {
         document.getElementById('editRestrictionsModal').style.display = 'flex';
     });

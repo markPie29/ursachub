@@ -746,6 +746,29 @@ header div{
     margin-right: 1.5%;
 }
 
+.details-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Adds spacing between the two sections */
+    align-items: flex-start; /* Aligns content at the top */
+}
+
+.details-left, .details-right {
+    flex: 1; /* Both sections take equal space */
+    max-width: 50%; /* Ensures both sections don't exceed half width */
+}
+
+.details-right {
+    display: flex;
+    flex-direction: column; /* For stacking images vertically if needed */
+    align-items: center; /* Center-align images */
+}
+
+.carousel-item img {
+    max-width: 100%; /* Makes images responsive */
+    height: auto; /* Maintains aspect ratio */
+}
+
 .container,
 .admin-container,
 .registration-container,
