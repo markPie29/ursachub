@@ -1908,6 +1908,149 @@ section {
     animation: scale 3s ease-in-out infinite ;
 }
 
+/* Carousel container */
+.carousel-home {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Hide radio buttons */
+.carousel-home input[type="radio"] {
+    display: none;
+}
+
+/* Carousel content container */
+.carousel-content {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+}
+
+/* Individual slides */
+.slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+/* Navigation dots */
+.carousel-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-nav label {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--p-colors);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-nav label:hover {
+    background-color: var(--main-color);
+}
+
+/* Carousel logic */
+#slide1:checked ~ .carousel-content { transform: translateX(0); }
+#slide2:checked ~ .carousel-content { transform: translateX(-100%); }
+#slide3:checked ~ .carousel-content { transform: translateX(-200%); }
+
+#slide1:checked ~ .carousel-nav label:nth-child(1),
+#slide2:checked ~ .carousel-nav label:nth-child(2),
+#slide3:checked ~ .carousel-nav label:nth-child(3) {
+    background-color: var(--main-color);
+}
+
+/* HOME BACKGROUND CSS */
+.home-hero-background {
+    position: relative;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.776);
+}
+
+/* Semi-transparent overlay for better text contrast */
+.home-hero-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/ursac.png');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+/* Centered text container */
+.home-hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    width: 100%;
+}
+
+/* Styling for the title and subtitle */
+.home-hero-title {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--main-color);
+    font-size: 8rem;
+    letter-spacing: var(--logo-letter-spacing);
+    animation: scale 3s ease-in-out infinite;
+    white-space: nowrap;
+}
+
+.home-hero-subtitle {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--main-color);
+    animation: scale 3s ease-in-out infinite;
+}
+
+/* Custom background images for each slide */
+.slide1 .home-hero-background::before { background-image: url('/img/ursac.png'); }
+.slide2 .home-hero-background::before { background-image: url('/img/ursac.png'); }
+.slide3 .home-hero-background::before { background-image: url('/img/ursac.png'); }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .home-hero-title {
+        font-size: 4rem;
+    }
+    
+    .home-hero-subtitle {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-hero-title {
+        font-size: 3rem;
+    }
+    
+    .home-hero-subtitle {
+        font-size: 0.9em;
+    }
+}
+
+/* Scale animation */
+@keyframes scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
 /* HOME BACKGROUND CSS */
 
 .home-news {
