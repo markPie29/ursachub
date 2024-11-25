@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Courses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash; // <-- This is the correct import for Hash
 
 class StudentAuthController extends Controller
 {
@@ -39,7 +40,7 @@ class StudentAuthController extends Controller
             'middle_name' => $request->middle_name ? strtoupper($request->middle_name) : null,
             'student_id' => $request->student_id,
             'course_id' => $request->course_id,
-            'password' => bcrypt($request->password), // Hash password here
+            'password' => $request->password, // Hash password here
         ]);
 
         return redirect()->route('student.login')->with('success', 'Registration successful. Please log in.');
@@ -61,13 +62,35 @@ class StudentAuthController extends Controller
 
         // Attempt login with student guard
         if (Auth::guard('student')->attempt($credentials)) {
-            $request->session()->regenerate();
+
             return redirect()->route('student.home'); // Redirect to the student's home page
         }
 
         return back()->withErrors([
             'student_id' => 'The provided credentials do not match our records.',
         ])->onlyInput('student_id');
+    }
+
+    
+    public function student_update_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+    
+        $student = Auth::guard('student')->user();
+    
+        // Check if the current password matches the stored one
+        if (!Hash::check($request->current_password, $student->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+    
+        // Simply set the new password, as the model will hash it
+        $student->password = $request->password;
+        $student->save();
+    
+        return redirect()->route('student.account')->with('success', 'Password updated successfully.');
     }
 
 

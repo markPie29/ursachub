@@ -111,18 +111,16 @@ class UrsacHubController extends Controller
 
 
     public function products_page() {
-
-        $products = Products::paginate(12);
-
+        $products = Products::orderBy('updated_at', 'desc')->paginate(12);
+    
         return view('products_page', [
             'products' => $products
         ]);
     }
-
+    
     public function news_page() {
-
-        $news = News::paginate(8);
-
+        $news = News::orderBy('updated_at', 'desc')->paginate(8);
+    
         return view('news_page', [
             'news' => $news
         ]);

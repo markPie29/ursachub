@@ -13,15 +13,17 @@
     <input type="radio" name="carousel" id="slide5">
     
     <div class="carousel-content">
-        <div class="slide slide1">
+        <div class="slide slide1" data-slide="1">
             <div class="home-hero-background">
                 <div class="home-hero-content">
                     <div class="home-hero-title">URSAC Hub</div>
                     <div class="home-hero-subtitle">Your One-Stop Shop for Campus Merchandise and Updates</div>
                 </div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
             </div>
         </div>
-        <div class="slide slide2">
+        <div class="slide slide2" data-slide="2">
             <div class="home-hero-background">
                 <div class="home-hero-section0">
                     <div class="home-hero-section1">
@@ -31,9 +33,11 @@
                         Explore Events and Activities at URSAC
                     </div>
                 </div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
             </div>
         </div>
-        <div class="slide slide3">
+        <div class="slide slide3" data-slide="3">
             <div class="home-hero-background">
                 <div class="home-hero-section0">
                     <div class="home-hero-section1">
@@ -43,9 +47,11 @@
                         Explore Events and Activities at URSAC
                     </div>
                 </div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
             </div>
         </div>
-        <div class="slide slide4">
+        <div class="slide slide4" data-slide="4">
             <div class="home-hero-background">
                 <div class="home-hero-section0">
                     <div class="home-hero-section1">
@@ -55,9 +61,11 @@
                         Explore Events and Activities at URSAC
                     </div>
                 </div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
             </div>
         </div>
-        <div class="slide slide5">
+        <div class="slide slide5" data-slide="5">
             <div class="home-hero-background">
                 <div class="home-hero-section0">
                     <div class="home-hero-section1">
@@ -67,6 +75,8 @@
                         Explore Events and Activities at URSAC
                     </div>
                 </div>
+                <div class="click-area left"></div>
+                <div class="click-area right"></div>
             </div>
         </div>
     </div>

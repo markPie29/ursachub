@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Products;
 use App\Models\News;
+use Illuminate\Support\Facades\Hash; // <-- This is the correct import for Hash
 
 
 class AdminAuthController extends Controller
@@ -65,6 +66,40 @@ class AdminAuthController extends Controller
         return back()->withErrors([
             'name' => 'The provided credentials do not match our records.',
         ])->onlyInput('name');
+    }
+
+    public function admin_update_name(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+    
+        $admin = auth('admin')->user(); // Assuming the admin is authenticated
+        $admin->name = $request->name;
+        $admin->save(); // Save the updated name
+    
+        return redirect()->route('admin.account')->with('success', 'Name edited successfully');
+    }
+    
+    public function admin_update_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+    
+        $admin = Auth::guard('admin')->user();
+    
+        // Check if the current password matches the stored one
+        if (!Hash::check($request->current_password, $admin->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+    
+        // Simply set the new password, as the model will hash it
+        $admin->password = $request->password;
+        $admin->save();
+    
+        return redirect()->route('admin.account')->with('success', 'Password updated successfully.');
     }
 
     public function logout(Request $request)

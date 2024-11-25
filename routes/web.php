@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UrsacHubController;
 use App\Http\Controllers\StudentAuthController;
 use App\Http\Controllers\AdminAuthController;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,8 @@ Route::prefix('admin')->group(function () {
     
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
+        Route::put('account/update_name', [AdminAuthController::class, 'admin_update_name'])->name('admin.update_name');
+        Route::post('account/update_password', [AdminAuthController::class, 'admin_update_password'])->name('admin.update_password');
         Route::get('/products', [UrsacHubController::class, 'adminProducts'])->name('admin.products');
         Route::get('/news', [UrsacHubController::class, 'adminNews'])->name('admin.news');
 
@@ -81,6 +84,7 @@ Route::prefix('student')->group(function () {
     Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [UrsacHubController::class, 'home'])->name('student.home');
         Route::get('account', [UrsacHubController::class, 'student_account'])->name('student.account');
+        Route::post('account/update_password', [StudentAuthController::class, 'student_update_password'])->name('student.update_password');
         Route::get('cart', [UrsacHubController::class, 'student_cart'])->name('student.cart');
         Route::post('/cart/{productId}', [UrsacHubController::class, 'addToCart'])->name('cart.add');
         Route::post('/cart/update/{id}', [UrsacHubController::class, 'updateCartQuantity'])->name('cart.update');

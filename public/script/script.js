@@ -83,3 +83,21 @@ window.addEventListener('load', () => {
         y.type = "password";
     }
 }
+
+document.querySelectorAll('.slide').forEach(slide => {
+    const totalSlides = 5; // Total number of slides
+    const currentSlide = parseInt(slide.getAttribute('data-slide'));
+
+    // Left area click: Go to the previous slide
+    slide.querySelector('.click-area.left').addEventListener('click', () => {
+        const prevSlide = currentSlide === 1 ? totalSlides : currentSlide - 1;
+        document.getElementById(`slide${prevSlide}`).checked = true;
+    });
+
+    // Right area click: Go to the next slide
+    slide.querySelector('.click-area.right').addEventListener('click', () => {
+        const nextSlide = currentSlide === totalSlides ? 1 : currentSlide + 1;
+        document.getElementById(`slide${nextSlide}`).checked = true;
+    });
+});
+
