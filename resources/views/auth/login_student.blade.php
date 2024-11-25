@@ -37,7 +37,7 @@
                     required>
             </div>
 
-            <button onclick=showPassword() class="show-password"><i class='bx bx-show-alt'></i></button></>
+            <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
             
 
             <div class="inputBox-3">

@@ -742,6 +742,12 @@ header div{
     margin-left: 38%;
 }
 
+.btn-reg {
+    max-width: 30%;
+    margin-left: 70%;
+    
+}
+
 .btn-price {
     margin-top: 5%;
     max-width: 25%;
