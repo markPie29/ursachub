@@ -28,7 +28,7 @@
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
         <a href="#" onclick="showPasswordwC()" class="show-password">Show Password</a>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-reg">Register</button>
     </form>
     @if ($errors->any())
     <div class="alert alert-danger">
