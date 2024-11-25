@@ -636,6 +636,7 @@ header div{
 
 .stock-title {
     text-align: center;
+    font-size: 2rem;
 }
 
 .stock-list {
@@ -648,6 +649,7 @@ header div{
     display: flex;
     justify-content: space-between;
     margin-bottom: 2.5%;
+    font-size: 1.5rem;
 
 }
 
@@ -666,6 +668,7 @@ header div{
 .admin-price {
     font-size: 200%;
     text-align: center;
+    margin-top: 5rem;
 }
 
 .form-group-stocks {
@@ -740,7 +743,8 @@ header div{
 }
 
 .btn-price {
-    max-width: 15%;
+    margin-top: 5%;
+    max-width: 25%;
 }
 
 
