@@ -49,6 +49,7 @@ Route::prefix('admin')->group(function () {
         Route::get('account', [UrsacHubController::class, 'admin'])->name('admin.account');
         Route::put('account/update_name', [AdminAuthController::class, 'admin_update_name'])->name('admin.update_name');
         Route::post('account/update_password', [AdminAuthController::class, 'admin_update_password'])->name('admin.update_password');
+        Route::post('account/update_gcash', [AdminAuthController::class, 'admin_update_gcash'])->name('admin.update_gcash');
         Route::get('/products', [UrsacHubController::class, 'adminProducts'])->name('admin.products');
         Route::get('/news', [UrsacHubController::class, 'adminNews'])->name('admin.news');
 

@@ -102,6 +102,29 @@ class AdminAuthController extends Controller
         return redirect()->route('admin.account')->with('success', 'Password updated successfully.');
     }
 
+    public function admin_update_gcash(Request $request)
+    {
+        $request->validate([
+            'gcash_name' => 'required|string',
+            'gcash_number' => 'required|string',
+        ]);
+    
+        // Get the authenticated admin
+        $admin = Auth::guard('admin')->user();
+    
+        // Update the gcash_name and gcash_number
+        $admin->gcash_name = $request->gcash_name;
+        $admin->gcash_number = $request->gcash_number;
+    
+        // Save the changes
+        $admin->save();
+    
+        // Redirect back with a success message
+        return redirect()->route('admin.account')->with('success', 'GCash details updated successfully.');
+    }
+    
+
+
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout(); // or 'student' as needed

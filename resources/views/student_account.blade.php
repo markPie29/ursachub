@@ -55,6 +55,8 @@
                   <label for="password_confirmation">Confirm New Password:</label>
                   <input type="password" name="password_confirmation" id="password_confirmation" required>
 
+                  <a href="#" onclick=showPasswordwCN() class="show-password">Show Password</a>
+
                   <button class="btn" type="submit">Update Password</button>
               </form>
           </div>
