@@ -93,6 +93,22 @@ function showPasswordwC() {
     }
 }
 
+function showPasswordwCN() {
+    var x = document.getElementById("password");
+    var y = document.getElementById("password_confirmation");
+    var z = document.getElementById("current_password");
+
+    if (x.type === "password" && y.type === "password" && z.type === "password") {
+        x.type = "text";
+        y.type = "text";
+        z.type = "text";
+    } else {
+        x.type = "password";
+        y.type = "password";
+        z.type = "password";
+    }
+}
+
 document.querySelectorAll('.slide').forEach(slide => {
     const totalSlides = 5; // Total number of slides
     const currentSlide = parseInt(slide.getAttribute('data-slide'));

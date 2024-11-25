@@ -561,6 +561,7 @@ header div{
     width: 40%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    width: 75%;
 }
 .close-modal {
     color: var(--p-colors);
@@ -2530,6 +2531,7 @@ header div{
     color: #000000;
     font-size: 0.65rem;
     text-decoration: underline;
+    margin: 20px 0;
 }
 
 

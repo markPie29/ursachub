@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <body>
 
 <div class="carousel-home hidden">
@@ -17,7 +16,7 @@
             <div class="home-hero-background">
                 <div class="home-hero-content">
                     <div class="home-hero-title">URSAC Hub</div>
-                    <div class="home-hero-subtitle">Your One-Stop Shop for Campus Merchandise and Updates</div>
+                    <div class="home-hero-subtitle">Your One-Stop Shop for Campus Merchandise, Updates, and More</div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -25,13 +24,9 @@
         </div>
         <div class="slide slide2" data-slide="2">
             <div class="home-hero-background">
-                <div class="home-hero-section0">
-                    <div class="home-hero-section1">
-                        Check News
-                    </div>
-                    <div class=".home-hero-section2">
-                        Explore Events and Activities at URSAC
-                    </div>
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Stay Updated</div>
+                    <div class="home-hero-subtitle">Keep yourself informed.</div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -39,13 +34,9 @@
         </div>
         <div class="slide slide3" data-slide="3">
             <div class="home-hero-background">
-                <div class="home-hero-section0">
-                    <div class="home-hero-section1">
-                        Check News
-                    </div>
-                    <div class=".home-hero-section2">
-                        Explore Events and Activities at URSAC
-                    </div>
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Buy Products</div>
+                    <div class="home-hero-subtitle">Browse and purchase campus merchandise.</div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -53,13 +44,9 @@
         </div>
         <div class="slide slide4" data-slide="4">
             <div class="home-hero-background">
-                <div class="home-hero-section0">
-                    <div class="home-hero-section1">
-                        Check News
-                    </div>
-                    <div class=".home-hero-section2">
-                        Explore Events and Activities at URSAC
-                    </div>
+                <div class="home-hero-content">
+                    <div class="home-hero-title">Follow Orgs</div>
+                    <div class="home-hero-subtitle">Support student organizations on campus.</div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -67,13 +54,9 @@
         </div>
         <div class="slide slide5" data-slide="5">
             <div class="home-hero-background">
-                <div class="home-hero-section0">
-                    <div class="home-hero-section1">
-                        Check News
-                    </div>
-                    <div class=".home-hero-section2">
-                        Explore Events and Activities at URSAC
-                    </div>
+                <div class="home-hero-content">
+                    <div class="home-hero-title">About Us</div>
+                    <div class="home-hero-subtitle">This website is developed by young and bright students.</div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -89,7 +72,6 @@
         <label for="slide5"></label>
     </div>
 </div>
-
 
 <hr>
 
@@ -176,6 +158,5 @@
 
 </body>
 </html>
-
 
 @endsection
