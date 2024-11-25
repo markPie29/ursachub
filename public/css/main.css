@@ -2390,6 +2390,12 @@ header div{
     width:300px;
 }
 
+.show-password {
+    color: #000000;
+    font-size: 0.65rem;
+    text-decoration: underline;
+}
+
 
 /* student account */
 

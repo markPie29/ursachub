@@ -45,9 +45,8 @@
                 placeholder="Password" 
                 style="text-transform:uppercase"
                 required>
+            <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
         </div>
-
-        <button onclick=showPassword() class="show-password"><i class='bx bx-show-alt'></i></button></>
 
         <!-- Login Button -->
         <div class="inputBx">
@@ -68,3 +67,4 @@
     @endif
 </div>
 @endsection
+
