@@ -20,5 +20,10 @@ class Student extends Authenticatable
     {
         return $this->belongsTo(Courses::class, 'course_id'); // Ensure correct foreign key 'course_id'
     }
+    
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }
 

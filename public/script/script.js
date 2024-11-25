@@ -97,3 +97,4 @@ document.querySelectorAll('.slide').forEach(slide => {
         document.getElementById(`slide${nextSlide}`).checked = true;
     });
 });
+
