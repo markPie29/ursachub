@@ -43,9 +43,9 @@
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
 
-        <button onclick=showPassword() class="show-password"><i class='bx bx-show-alt'></i></button></>
+        <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
         
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-reg">Register</button>
         
     </form>
     @if ($errors->any())

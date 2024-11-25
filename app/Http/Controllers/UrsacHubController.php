@@ -88,7 +88,7 @@ class UrsacHubController extends Controller
     {
         // Validate the request
         $request->validate([
-            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Ensure it's an image
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:20480', // Ensure it's an image
         ]);
 
         // Handle the file upload
