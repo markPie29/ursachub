@@ -2268,6 +2268,26 @@ header div{
 .slide2 .home-hero-background::before { background-image: url('/img/ursac.png'); }
 .slide3 .home-hero-background::before { background-image: url('/img/ursac.png'); }
 
+.click-area {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 3; /* Ensure it’s above other elements */
+}
+
+.click-area.left {
+    left: 0;
+}
+
+.click-area.right {
+    right: 0;
+}
+
+.click-area {
+    cursor: pointer;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .home-hero-title {

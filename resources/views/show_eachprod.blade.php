@@ -80,23 +80,52 @@
 <script>
     // Image Carousel Script
     let currentIndex = 0;
-    const images = document.querySelectorAll('.product-image');
+    let autoScrollInterval;
 
+    // Function to show a specific image
     function showImage(index) {
-        images.forEach((img, idx) => {
-            img.style.display = idx === index ? 'block' : 'none';
+        const images = document.querySelectorAll('.product-image');
+        images.forEach((img, i) => {
+            img.style.display = i === index ? 'block' : 'none';
         });
+        currentIndex = index;
     }
 
+    // Function to show the next image
     function showNextImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
+        const images = document.querySelectorAll('.product-image');
+        const nextIndex = (currentIndex + 1) % images.length;
+        showImage(nextIndex);
     }
 
+    // Function to show the previous image
     function showPreviousImage() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
+        const images = document.querySelectorAll('.product-image');
+        const prevIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(prevIndex);
     }
+
+    // Function to start auto-scroll
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(showNextImage, 2000); // Change every 3 seconds
+    }
+
+    // Function to stop auto-scroll (optional, e.g., when interacting manually)
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    // Initialize the carousel
+    document.addEventListener('DOMContentLoaded', () => {
+        showImage(0); // Show the first image
+        startAutoScroll(); // Start auto-scrolling
+
+        // Optional: Pause auto-scroll when hovering over the carousel
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', stopAutoScroll);
+        carousel.addEventListener('mouseleave', startAutoScroll);
+    });
+
 
     // Customizable Error Message Function
     function showError(message) {
