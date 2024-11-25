@@ -42,7 +42,11 @@
             <label for="password_confirmation">Confirm Password</label>
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
+
+        <button onclick=showPassword() class="show-password"><i class='bx bx-show-alt'></i></button></>
+        
         <button type="submit" class="btn btn-primary">Register</button>
+        
     </form>
     @if ($errors->any())
     <div class="alert alert-danger">

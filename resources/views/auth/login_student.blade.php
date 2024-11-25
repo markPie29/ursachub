@@ -37,6 +37,9 @@
                     required>
             </div>
 
+            <button onclick=showPassword() class="show-password"><i class='bx bx-show-alt'></i></button></>
+            
+
             <div class="inputBox-3">
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </div>

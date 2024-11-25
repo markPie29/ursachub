@@ -510,6 +510,20 @@ class UrsacHubController extends Controller
         // Return a success response
         return response()->json(['success' => true, 'message' => 'Product added to cart successfully']);
     }
+
+    public function searchProducts(Request $request)
+    {
+        $query = $request->input('query');
+        
+        // Search products by name or other fields
+        $products = Products::where('name', 'like', '%' . $query . '%')
+            ->orWhere('org', 'like', '%' . $query . '%')
+            ->paginate(12);
+
+        return view('products_page', compact('products')); // Replace 'your-blade-template' with the actual template name
+    }
+    
+
     
     
     public function searchNews(Request $request)
