@@ -45,7 +45,7 @@
                 placeholder="Password" 
                 style="text-transform:uppercase"
                 required>
-            <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
+            <a href="#" onclick=showPassword() class="show-password">Show Password</a>
         </div>
 
         <!-- Login Button -->

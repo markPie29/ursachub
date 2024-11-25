@@ -52,7 +52,7 @@
     <div class="sidebar" id="sidebar">
         <i class='bx bx-x' id="close-btn"></i> <!-- Close button -->
         <div class="sidebar-header">
-            <h2>Account & Product Details</h2>
+            <h2>Account & Cart Details</h2>
         </div>
         <ul>
             <li><a href="{{ route('student.account') }}"><i class='bx bx-user'></i> Account</a></li>

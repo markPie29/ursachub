@@ -43,7 +43,7 @@
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
 
-        <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
+        <a href="#" onclick="showPasswordwC()" class="show-password">Show Password</a>
         
         <button type="submit" class="btn btn-reg">Register</button>
         

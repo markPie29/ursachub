@@ -27,7 +27,7 @@
             <label for="password_confirmation">Confirm Password</label>
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
-        <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
+        <a href="#" onclick="showPasswordwC()" class="show-password">Show Password</a>
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
     @if ($errors->any())
