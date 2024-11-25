@@ -25,7 +25,7 @@
             </form>
 
             <div class="modal-buttons">
-                <button class="open-modal">Edit Name and Password</button>
+                <button class="open-modal">Edit Name, Password, or GCash</button>
             </div>
 
         </div>
@@ -44,6 +44,7 @@
                 <div class="tab-buttons">
                     <button class="tab-link active btn" data-tab="editNameTab">Edit Name</button>
                     <button class="tab-link btn" data-tab="editPasswordTab">Edit Password</button>
+                    <button class="tab-link btn" data-tab="editGCashTab">Edit GCash</button>
                 </div>
 
                 {{-- Tab Content --}}
@@ -74,9 +75,30 @@
                         <label for="password_confirmation">Confirm New Password:</label>
                         <input type="password" name="password_confirmation" id="password_confirmation" required>
 
+                        <a href="#" onclick=showPasswordwCN() class="show-password">Show Password</a>
+
                         <button class="btn" type="submit">Update Password</button>
                     </form>
                 </div>
+
+                <div class="tab-content" id="editGCashTab">
+                    <form action="{{ route('admin.update_gcash') }}" method="POST">
+                        @csrf
+                        @method('POST')  <!-- Use POST method since we’re updating the resource -->
+                        
+                        <!-- Current Password -->
+                        <label for="gcash_name">GCash Name: </label>
+                        <input type="text" name="gcash_name" id="gcash_name" value="{{ $admin->gcash_name }}" required>
+                        
+                        <!-- New Password -->
+                        <label for="gcash_number">GCash Number: </label>
+                        <input type="text" name="gcash_number" id="gcash_number" value="{{ $admin->gcash_number }}" required>
+                        
+                        <button class="btn" type="submit">Update GCash Details</button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
 
