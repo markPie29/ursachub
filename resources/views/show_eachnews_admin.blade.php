@@ -56,7 +56,7 @@
                         <h2 id="unique-news-display-headline">{{ $news->headline }}</h2>
                         <h3 id="unique-news-display-org">{{ $news->org }}</h3>
                         <h4 id="unique-news-display-content">{{ $news->updated_at }}</h4>
-                        <p id="unique-news-display-content">{{ $news->content }}</p>
+                        <p id="unique-news-display-content">{!! Str::of($news->content)->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
                    
                     </div>
 

@@ -148,6 +148,7 @@ class UrsacHubController extends Controller
         return view('show_eachprod_admin', compact('product', 'courses'));
     }
 
+
     public function show_eachnewspage($id)
     {
         $news = News::findOrFail($id);
@@ -390,7 +391,7 @@ class UrsacHubController extends Controller
         // Set other fields
         $news->org = $org;
         $news->headline = $request->input('headline');
-        $news->content = $request->input('content');
+        $news->content = nl2br($request->input('content'));
     
         // Array to store each photo path
         $photoPaths = [];
@@ -551,7 +552,7 @@ class UrsacHubController extends Controller
 
     public function orgs_page()
     {
-        $orgs = Admin::orderBy('name', 'asc')->get();
+        $orgs = Admin::orderBy('org', 'asc')->get();
     
         return view('orgs_page', [
             'orgs' => $orgs

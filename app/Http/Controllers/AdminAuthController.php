@@ -14,7 +14,7 @@ class AdminAuthController extends Controller
 {
     public function showRegisterForm()
     {
-    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress', 'Association of Stenographers Aiming for Progress', "Bartender's Society",
+    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress',"Bachelor of Elementary Education Society", "Bartender's Society",
     'Christian Brotherhood International', 'College of Business Administration - Student Council', 'College of Education - Student Council', 'College of Hospitality Industry - Student Council', 'CORO URSAC', 'Elevate University of Rizal System Antipolo Chapter', 'Environmental Army Society', 'Hiyas ng Rizal Dance Troup', 
     'Hospitality Management Society', 'Kapulungang Filipino', 'Litera Organization', 'Radicals Organization', 'Red Cross Youth Council', 'Tipolo Student Publication', 'Tourism Society Organization', 'University Supreme Student Government', 'URSAC - Fierce Group Facilitator', 'URSAC - Social Studies Organization for UNESCO', 'URSAC Extensionist'];
         return view('auth.register_admin',compact('organizations'));
@@ -35,7 +35,7 @@ class AdminAuthController extends Controller
 
     public function showLoginForm()
     {
-    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress', 'Association of Stenographers Aiming for Progress', "Bartender's Society",
+    $organizations = ['Association of Civil Engineering Students', 'Association of Concerned Computer Engineering Students', 'College of Engineering - Student Council', 'Association of Junior Administrator', 'Association of Stenographers Aiming for Progress',"Bachelor of Elementary Education Society", "Bartender's Society",
     'Christian Brotherhood International', 'College of Business Administration - Student Council', 'College of Education - Student Council', 'College of Hospitality Industry - Student Council', 'CORO URSAC', 'Elevate University of Rizal System Antipolo Chapter', 'Environmental Army Society', 'Hiyas ng Rizal Dance Troup', 
     'Hospitality Management Society', 'Kapulungang Filipino', 'Litera Organization', 'Radicals Organization', 'Red Cross Youth Council', 'Tipolo Student Publication', 'Tourism Society Organization', 'University Supreme Student Government', 'URSAC - Fierce Group Facilitator', 'URSAC - Social Studies Organization for UNESCO', 'URSAC Extensionist'];
         return view('auth.login_admin',compact('organizations'));
