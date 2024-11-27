@@ -20,7 +20,7 @@
         </div>
         <div class="form-group">
             <label for="student_id" class="label-registration">Student ID</label>
-            <input type="text" class="form-control" id="student_id" name="student_id" required>
+            <input type="text" placeholder="AC202X-XXXXX" class="form-control" id="student_id" name="student_id" required>
         </div>
         <div class="form-group">
             <label for="course" class="label-registration">Program</label>
