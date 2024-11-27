@@ -30,9 +30,12 @@
                             <input type="text" name="name" id="name" class="add-product-input" value="{{ old('name') }}" required>
                         </div>
 
+                        <!-- "Select All" Checkbox -->
+                        <label for="select_all_courses" class="add-product-label">
+                            <input type="checkbox" id="select_all_courses"> Available Programs
+                        </label>
 
-
-                        <label for="courses" class="add-product-label">Available for Courses:</label>
+                        <!-- Courses List -->
                         <div id="courses" class="add-product-courses">
                             @foreach($courses as $course)
                                 <div class="add-product-course-item">
@@ -71,7 +74,18 @@
             </form>
         </div>
     </div>
+
+    <!-- JavaScript Section -->
     <script>
+        // "Select All" Functionality
+        document.getElementById('select_all_courses').addEventListener('change', function () {
+            const checkboxes = document.querySelectorAll('.add-product-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+
+        // Product Image Upload Functionality
         let selectedFiles = [];
 
         function handleProductImageUpload(event) {
