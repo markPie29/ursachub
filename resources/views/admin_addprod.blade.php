@@ -63,10 +63,19 @@
 
                         <div class="add-product-field">
                             <label for="photos" class="add-product-label">Photos (max 5):</label>
-                            <span>Note: First image will be the thumbnail</span>
-                            <input type="file" name="photos[]" id="photos" class="add-product-input" multiple accept="image/*" onchange="handleProductImageUpload(event)">
+                            <span>Note: The first image will be the thumbnail.</span>
+                            <input 
+                                type="file" 
+                                name="photos[]" 
+                                id="photos" 
+                                class="add-product-input" 
+                                multiple 
+                                accept="image/*" 
+                                onchange="handleProductImageUpload(event)"
+                            >
                             <div id="imagePreview" class="add-product-preview"></div>
                         </div>
+
                     </div>
                 </div>
 
@@ -76,104 +85,92 @@
     </div>
 
     <!-- JavaScript Section -->
-    <script>
-        // "Select All" Functionality
-        document.getElementById('select_all_courses').addEventListener('change', function () {
-            const checkboxes = document.querySelectorAll('.add-product-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
+<script>
+    // "Select All" Functionality
+    document.getElementById('select_all_courses').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.add-product-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+    
+    let selectedFiles = []; // To store uploaded files
+
+    function handleProductImageUpload(event) {
+        const files = Array.from(event.target.files); // Convert FileList to Array
+        const maxFiles = 5;
+
+        // Add new files, ensuring we don't exceed the limit
+        files.forEach(file => {
+            if (selectedFiles.length < maxFiles && !selectedFiles.some(f => f.name === file.name)) {
+                selectedFiles.push(file);
+            }
         });
 
-        // Product Image Upload Functionality
-        let selectedFiles = [];
+        // Render the preview
+        renderPreview();
+        updateFileInput();
+    }
 
-        function handleProductImageUpload(event) {
-            const files = Array.from(event.target.files);
-            const preview = document.getElementById('imagePreview');
-            const maxFiles = 5;
+    function renderPreview() {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = ''; // Clear existing previews
 
-            preview.innerHTML = ''; // Clear previous previews
-            selectedFiles = [];
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
 
-            files.forEach((file, index) => {
-                if (index < maxFiles && file.type.startsWith('image/')) {
-                    selectedFiles.push(file);
+            reader.onload = function (e) {
+                const imageContainer = document.createElement('div');
+                imageContainer.classList.add('image-container');
 
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const imageContainer = document.createElement('div');
-                        imageContainer.classList.add('image-container');
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '150px';
 
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.classList.add('remove-button');
 
-                        const removeButton = document.createElement('button');
-                        removeButton.textContent = 'Remove';
-                        removeButton.classList.add('remove-button');
-                        removeButton.onclick = function () {
-                            removeProductImage(index);
-                        };
-
-                        imageContainer.appendChild(img);
-                        imageContainer.appendChild(removeButton);
-                        preview.appendChild(imageContainer);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            updateFileInput();
-        }
-
-        function removeProductImage(index) {
-            selectedFiles.splice(index, 1);
-            const preview = document.getElementById('imagePreview');
-            preview.innerHTML = '';
-
-            selectedFiles.forEach((file, i) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imageContainer = document.createElement('div');
-                    imageContainer.classList.add('image-container');
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = file.name;
-                    img.style.maxWidth = '150px';
-                    img.style.maxHeight = '150px';
-
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = 'Remove';
-                    removeButton.classList.add('remove-button');
-                    removeButton.onclick = function () {
-                        removeProductImage(i);
-                    };
-
-                    imageContainer.appendChild(img);
-                    imageContainer.appendChild(removeButton);
-                    preview.appendChild(imageContainer);
+                removeButton.onclick = function () {
+                    removeProductImage(index);
                 };
-                reader.readAsDataURL(file);
-            });
 
-            updateFileInput();
-        }
+                imageContainer.appendChild(img);
 
-        function updateFileInput() {
-            const fileInput = document.getElementById('photos');
-            if (selectedFiles.length > 0) {
-                const dataTransfer = new DataTransfer();
-                selectedFiles.forEach(file => {
-                    dataTransfer.items.add(file);
-                });
-                fileInput.files = dataTransfer.files;
-            } else {
-                fileInput.value = '';
-            }
-        }
-    </script>
+                // Add a label for the first image
+                if (index === 0) {
+                    const thumbnailLabel = document.createElement('span');
+                    thumbnailLabel.textContent = 'Thumbnail';
+                    thumbnailLabel.classList.add('thumbnail-label');
+                    imageContainer.appendChild(thumbnailLabel);
+                }
+
+                imageContainer.appendChild(removeButton);
+                preview.appendChild(imageContainer);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removeProductImage(index) {
+        selectedFiles.splice(index, 1); // Remove the selected file
+        renderPreview(); // Re-render the preview
+        updateFileInput(); // Update the input
+    }
+
+    function updateFileInput() {
+        const fileInput = document.getElementById('photos');
+        const dataTransfer = new DataTransfer();
+
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        fileInput.files = dataTransfer.files; // Update input files
+    }
+</script>
+
 @endsection
