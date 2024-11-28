@@ -953,13 +953,18 @@ header div{
 .admin-login .form-control,
 .admin-registration .form-control {
     width: 100%;
-    padding: 10px;s
+    padding: 10px;
     font-size: 1em;
     border-radius: 5px;
     border: 1px solid #ddd;
     outline: none;
     margin-bottom: 15px;
 }
+
+.label-registration {
+    color: #666666;
+}
+
 
 /* Button Styling */
 .btn {
