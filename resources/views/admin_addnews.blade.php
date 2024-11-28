@@ -38,105 +38,102 @@
 
             <div class="publish-news-field">
                 <label for="photos" class="publish-news-label">Photos (max 5):</label>
-                <span>Note: First image will be the thumbnail</span>
-                <input type="file" name="photos[]" id="newsPhotos" class="publish-news-input" multiple accept="image/*" onchange="handleNewsImageUpload(event)">
+                <span>Note: The first image will be the thumbnail.</span>
+                <input 
+                    type="file" 
+                    name="photos[]" 
+                    id="newsPhotos" 
+                    class="publish-news-input" 
+                    multiple 
+                    accept="image/*" 
+                    onchange="handleNewsImageUpload(event)"
+                >
                 <div id="newsImagePreview" class="publish-news-preview"></div>
             </div>
+
 
             <button type="submit" class="publish-news-button">Publish News</button>
         </form>
     </div>
 
     <script>
-        let newsSelectedFiles = [];
+    let newsSelectedFiles = []; // To store uploaded files
 
-        function handleNewsImageUpload(event) {
-            const files = Array.from(event.target.files);
-            const preview = document.getElementById('newsImagePreview');
-            const maxFiles = 5;
+    function handleNewsImageUpload(event) {
+        const files = Array.from(event.target.files); // Convert FileList to an array
+        const maxFiles = 5;
 
-            preview.innerHTML = ''; // Clear previous preview
-            newsSelectedFiles = []; // Reset selected files
+        // Add files while ensuring no duplicates and max limit is maintained
+        files.forEach(file => {
+            if (newsSelectedFiles.length < maxFiles && !newsSelectedFiles.some(f => f.name === file.name)) {
+                newsSelectedFiles.push(file);
+            }
+        });
 
-            files.forEach((file, index) => {
-                if (index < maxFiles && file.type.startsWith('image/')) {
-                    newsSelectedFiles.push(file);
+        renderNewsPreview(); // Update preview
+        updateNewsFileInput(); // Sync the file input
+    }
 
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const imageContainer = document.createElement('div');
-                        imageContainer.classList.add('image-container');
+    function renderNewsPreview() {
+        const preview = document.getElementById('newsImagePreview');
+        preview.innerHTML = ''; // Clear existing previews
 
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
+        newsSelectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
 
-                        const removeButton = document.createElement('button');
-                        removeButton.textContent = 'Remove';
-                        removeButton.classList.add('remove-button');
-                        removeButton.onclick = function () {
-                            removeNewsImage(index);
-                        };
+            reader.onload = function (e) {
+                const imageContainer = document.createElement('div');
+                imageContainer.classList.add('image-container');
 
-                        imageContainer.appendChild(img);
-                        imageContainer.appendChild(removeButton);
-                        preview.appendChild(imageContainer);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = file.name;
+                img.style.maxWidth = '150px';
+                img.style.maxHeight = '150px';
 
-            updateFileInput();
-        }
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.classList.add('remove-button');
 
-        function removeNewsImage(index) {
-            newsSelectedFiles.splice(index, 1);
-            updatePreview();
-            updateFileInput();
-        }
-
-        function updatePreview() {
-            const preview = document.getElementById('newsImagePreview');
-            preview.innerHTML = '';
-
-            newsSelectedFiles.forEach((file, i) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imageContainer = document.createElement('div');
-                    imageContainer.classList.add('image-container');
-
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = file.name;
-                    img.style.maxWidth = '150px';
-                    img.style.maxHeight = '150px';
-
-                    const removeButton = document.createElement('button');
-                    removeButton.textContent = 'Remove';
-                    removeButton.classList.add('remove-button');
-                    removeButton.onclick = function () {
-                        removeNewsImage(i);
-                    };
-
-                    imageContainer.appendChild(img);
-                    imageContainer.appendChild(removeButton);
-                    preview.appendChild(imageContainer);
+                removeButton.onclick = function () {
+                    removeNewsImage(index);
                 };
-                reader.readAsDataURL(file);
-            });
-        }
 
-        function updateFileInput() {
-            const fileInput = document.getElementById('newsPhotos');
-            const dataTransfer = new DataTransfer();
-            
-            newsSelectedFiles.forEach(file => {
-                dataTransfer.items.add(file);
-            });
-            
-            fileInput.files = dataTransfer.files;
-        }
-    </script>
+                imageContainer.appendChild(img);
+
+                // Add a "Thumbnail" label to the first image
+                if (index === 0) {
+                    const thumbnailLabel = document.createElement('span');
+                    thumbnailLabel.textContent = 'Thumbnail';
+                    thumbnailLabel.classList.add('thumbnail-label');
+                    imageContainer.appendChild(thumbnailLabel);
+                }
+
+                imageContainer.appendChild(removeButton);
+                preview.appendChild(imageContainer);
+            };
+
+            reader.readAsDataURL(file); // Read the file to generate preview
+        });
+    }
+
+    function removeNewsImage(index) {
+
+        newsSelectedFiles.splice(index, 1); // Remove the selected image
+        renderNewsPreview(); // Update the preview
+        updateNewsFileInput(); // Sync the file input
+    }
+
+    function updateNewsFileInput() {
+        const fileInput = document.getElementById('newsPhotos');
+        const dataTransfer = new DataTransfer();
+
+        newsSelectedFiles.forEach(file => {
+            dataTransfer.items.add(file); // Add each file to the DataTransfer
+        });
+
+        fileInput.files = dataTransfer.files; // Update the input's files property
+    }
+</script>
+
 @endsection

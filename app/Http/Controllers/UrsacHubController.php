@@ -55,7 +55,7 @@ class UrsacHubController extends Controller
             $admin = Auth::guard('admin')->user();
             
             // Fetch data based on the authenticated admin's organization
-            $products = Products::where('org', $admin->org)->paginate(8); 
+            $products = Products::where('org', $admin->org)->paginate(9); 
     
             // Pass the organization name, products, and news to the view
             return view('admin_products', compact('admin','products'));
@@ -73,7 +73,7 @@ class UrsacHubController extends Controller
             $admin = Auth::guard('admin')->user();
             
             // Fetch data based on the authenticated admin's organization
-            $news = News::where('org', $admin->org)->paginate(12); 
+            $news = News::where('org', $admin->org)->paginate(8); 
     
             // Pass the organization name, products, and news to the view
             return view('admin_news', compact('admin','news'));
