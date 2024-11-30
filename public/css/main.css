@@ -2318,25 +2318,6 @@ header div{
     animation: scale 3s ease-in-out infinite ;
 }
 
-.home-hero-section0 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-}
-
-.home-hero-section1 {
-
-}
-
-.home-hero-section2 {
-    
-}
-
 /* Carousel container */
 .carousel-home {
     position: relative;
@@ -2434,6 +2415,101 @@ header div{
     width: 100%;
 }
 
+.home-hero-intro {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+}
+
+.home-hero-intro img {
+    max-width: 80%;
+}
+
+.home-hero-intro h1 {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--main-color);
+    font-size: 4rem;
+    letter-spacing: var(--logo-letter-spacing);
+    animation: scale 3s ease-in-out infinite;
+    white-space: nowrap;
+}
+
+.home-hero-intro p {
+    font-size: 1.3em;
+    font-weight: 500;
+    color: var(--main-color-drk);
+    animation: scale 3s ease-in-out infinite;
+}
+
+.home-hero-devs {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10%;
+}
+
+.home-hero-devs-title {
+    color: var(--main-color);
+    font-size: 5rem;
+}
+
+.home-hero-devs-subtitle {
+    color: var(--main-color-drk);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.home-hero-links {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.home-hero-links a {
+    backdrop-filter: blur(50px);
+    box-shadow: var(--shadows);
+    color: var(--main-color-drk);
+    padding: 10%;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s ease-in-out;
+    animation: scale 3s ease-in-out infinite
+}
+
+.home-hero-links a:hover {
+    transform: translateY(-5%);
+    background-color: var(--main-color-drk);
+    color: var(--pure-white);
+}
+
+.home-hero-links img {
+    width: 100%;
+}
+
+.home-hero-links h1 {
+    font-size: 1.2rem;
+}
+
+.home-hero-links h2 {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: light;
+    background-color: var(--pure-white);
+    color: var(--main-color);
+    border-radius: 50px;
+}
+
+.home-hero-links p {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    font-weight: lighter;
+}
+
+
+
 /* Styling for the title and subtitle */
 .home-hero-title {
     font-style: italic;
@@ -2448,7 +2524,7 @@ header div{
 .home-hero-subtitle {
     font-size: 1.3em;
     font-weight: 500;
-    color: var(--main-color);
+    color: var(--main-color-drk);
     animation: scale 3s ease-in-out infinite;
 }
 
@@ -2460,7 +2536,7 @@ header div{
 .click-area {
     position: absolute;
     top: 0;
-    width: 50%;
+    width: 10%;
     height: 100%;
     z-index: 3; /* Ensure it’s above other elements */
 }
@@ -2476,27 +2552,6 @@ header div{
 .click-area {
     cursor: pointer;
 }  
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .home-hero-title {
-        font-size: 4rem;
-    }
-    
-    .home-hero-subtitle {
-        font-size: 1em;
-    }
-}
-
-@media (max-width: 480px) {
-    .home-hero-title {
-        font-size: 3rem;
-    }
-    
-    .home-hero-subtitle {
-        font-size: 0.9em;
-    }
-}
 
 /* Scale animation */
 @keyframes scale {
@@ -2926,6 +2981,43 @@ header div{
     .home-hero-subtitle {
         font-size: 0.5rem;
     }
+    .home-hero-intro {
+        grid-template-columns: repeat(1,1fr);
+    }
+
+    .home-hero-devs-title {
+        font-size: 2rem;
+    }
+    
+    .home-hero-devs-subtitle {
+        font-size: 0.7rem;
+        margin-bottom: 20px;
+    }
+
+    .home-hero-links {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+    
+    .home-hero-links img {
+        width: 100%;
+    }
+    
+    .home-hero-links h1 {
+        font-size: 0.9rem;
+    }
+    
+    .home-hero-links h2 {
+        font-size: 0.7rem;
+    }
+    
+    .home-hero-links p {
+        font-size: 0.5rem;
+        margin-top: 10px;
+        font-weight: lighter;
+    }
+
     .sidebar-open {
         right: 0;
     }
@@ -3077,6 +3169,48 @@ header div{
 }
 
 @media (max-width: 425px) {
+
+    .home-hero-intro h1 {
+        font-size: 2rem;
+    }
+
+    .home-hero-intro p {
+        font-size: 0.5rem;
+    }
+    
+    .home-hero-devs-title {
+        font-size: 2rem;
+    }
+    
+    .home-hero-devs-subtitle {
+        font-size: 0.7rem;
+        margin-bottom: 20px;
+    }
+    
+    .home-hero-links {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 10px;
+    }
+    
+    .home-hero-links img {
+        width: 100%;
+    }
+    
+    .home-hero-links h1 {
+        font-size: 0.6rem;
+    }
+    
+    .home-hero-links h2 {
+        font-size: 0.5rem;
+    }
+    
+    .home-hero-links p {
+        font-size: 0.3rem;
+        margin-top: 10px;
+        font-weight: lighter;
+    }
+    
     
 }
 

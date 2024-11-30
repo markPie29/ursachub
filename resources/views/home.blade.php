@@ -25,8 +25,17 @@
         <div class="slide slide2" data-slide="2">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">Stay Updated</div>
-                    <div class="home-hero-subtitle">Keep yourself informed.</div>
+                    <div class="home-hero-intro">
+                        <div>
+                            <img src="/img/news.png" alt="">
+                        </div>
+
+                        <div>
+                            <h1>Stay Updated</h1>
+                            <p>Keep yourself informed.</p>
+                        </div>
+                    </div>
+ 
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -35,8 +44,15 @@
         <div class="slide slide3" data-slide="3">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">Buy Products</div>
-                    <div class="home-hero-subtitle">Browse and purchase campus merchandise.</div>
+                    <div class="home-hero-intro">
+                         <div>
+                            <img src="/img/prods.png" alt="">
+                        </div>
+                        <div>
+                            <h1>Buy Products</h1>
+                            <p>Browse and purchase campus merchandise.</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -45,8 +61,16 @@
         <div class="slide slide4" data-slide="4">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">Follow Orgs</div>
-                    <div class="home-hero-subtitle">Support student organizations on campus.</div>
+                    <div class="home-hero-intro">
+                        <div>
+                            <img src="/img/orgs.png" alt="">
+                        </div>
+
+                        <div>
+                            <h1>Follow Orgs</h1>
+                            <p>Support student organizations on campus.</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
@@ -55,8 +79,36 @@
         <div class="slide slide5" data-slide="5">
             <div class="home-hero-background">
                 <div class="home-hero-content">
-                    <div class="home-hero-title">About Us</div>
-                    <div class="home-hero-subtitle">This website is developed by young and bright students.</div>
+                    <div class="home-hero-devs">
+                        <h1 class="home-hero-devs-title">About the Devs</h1>
+                        <p class="home-hero-devs-subtitle">The student that developed this website.</p>
+                        <div class="home-hero-links">
+                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                                <img src="/img/marky.png" alt="">
+                                <h1>Mark Angelo A. Isulat</h1>
+                                <h2>Full-Stack Dev</h2>
+                                <p>Click to view Portfolio</p>
+                            </a>
+                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                                <img src="/img/prince.png" alt="">
+                                <h1>Prince Psalm Vivaz</h1>
+                                <h2>Back-End Dev</h2>
+                                <p>Click to view Portfolio</p>
+                            </a>
+                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                                <img src="/img/brex.png" alt="">
+                                <h1>Brexcel Joe Orias</h1>
+                                <h2>Front-End Dev</h2>
+                                <p>Click to view Portfolio</p>
+                            </a>
+                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                                <img src="/img/tets.png" alt="">
+                                <h1>Althea Lizette Palustre</h1>
+                                <h2>Project Manager</h2>
+                                <p>Click to view Portfolio</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="click-area left"></div>
                 <div class="click-area right"></div>
