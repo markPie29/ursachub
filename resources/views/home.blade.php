@@ -89,19 +89,19 @@
                                 <h2>Full-Stack Dev</h2>
                                 <p>Click to view Portfolio</p>
                             </a>
-                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                            <a href="https://ephemeral-jelly-f428a0.netlify.app/?fbclid=IwZXh0bgNhZW0CMTAAAR3dVWqQDU4JtmBe9bmv0NRH0gUKqNus0i7pAgfpoDOE09uqROgFe8Ls7as_aem_bVC1YW3vyIA744jVdZExFg" target="_blank" rel="noopener noreferrer">
                                 <img src="/img/prince.png" alt="">
                                 <h1>Prince Psalm Vivaz</h1>
                                 <h2>Back-End Dev</h2>
                                 <p>Click to view Portfolio</p>
                             </a>
-                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                            <a href=" https://6571df1b0bb0a1007d9675ab--brexcel.netlify.app/" target="_blank" rel="noopener noreferrer">
                                 <img src="/img/brex.png" alt="">
                                 <h1>Brexcel Joe Orias</h1>
                                 <h2>Front-End Dev</h2>
                                 <p>Click to view Portfolio</p>
                             </a>
-                            <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
+                            <a href="https://altheapalustre.pages.dev/" target="_blank" rel="noopener noreferrer">
                                 <img src="/img/tets.png" alt="">
                                 <h1>Althea Lizette Palustre</h1>
                                 <h2>Project Manager</h2>
