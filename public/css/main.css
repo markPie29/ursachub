@@ -459,7 +459,30 @@ header div{
 }
 .org-main-name {
     color: var(--main-color-drk);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
+.org-main-name a {
+    color: var(--main-color);
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    transition: 0.3s ease-in-out;
+}
+
+.org-main-name a:hover {
+    color: var(--main-color-drk);
+    transform: scale(1.01);
+}
+
+.org-main-name span {
+    font-size: 0.9rem;
+    margin-left: 10px;
+}
+
 .org-main-logo img{
     width: 150px;
     height: 150px;
@@ -541,6 +564,16 @@ header div{
     color: var(--main-color);
     margin-top: 20px;
 }  
+
+
+.admin-main-details a{
+    color: var(--main-color-drk);
+    transition: 0.2s ease-in-out;
+    font-style: italic;
+}  
+.admin-main-details a:hover{
+   transform: scale(1.1);
+} 
 
 
 /* edit deets admin  */
@@ -3209,6 +3242,18 @@ header div{
         font-size: 0.3rem;
         margin-top: 10px;
         font-weight: lighter;
+    }
+
+    .org-main-name {
+        align-items: center;
+    }
+
+    .org-main-name a {
+        font-size: 1.1rem;
+    }
+    
+    .org-main-name span {
+        font-size: 0.5rem;
     }
     
     

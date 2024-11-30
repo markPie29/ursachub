@@ -16,6 +16,7 @@
         </div>
         <div class="org-main-name">
             <h1>{{ $org->org }}</h1>
+            <a href="{{ $org->fb_link }}" target="_blank"> <i class='bx bxl-facebook-circle'></i> <span> {{ $org->org }}</span></a>
         </div>
 
     </div>

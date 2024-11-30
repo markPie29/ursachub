@@ -9,7 +9,8 @@
                     <img src="{{ asset('storage/' . $admin->logo) }}" alt="{{ $admin->org }} Logo" class="logo">
                 </div>
             @endif
-            <h1>{{ $admin->org }}</h1>   
+            <h1>{{ $admin->org }}</h1>  
+            <a href="{{ $admin->fb_link }}" target="_blank">{{ $admin->org }}</a> 
         </div>
 
         <div class="edit-buttons">
@@ -25,7 +26,7 @@
             </form>
 
             <div class="modal-buttons">
-                <button class="open-modal">Edit Name, Password, or GCash</button>
+                <button class="open-modal">Edit Account</button>
             </div>
 
         </div>
@@ -43,6 +44,7 @@
                 {{-- Tabs for Switching Between Forms --}}
                 <div class="tab-buttons">
                     <button class="tab-link active btn" data-tab="editNameTab">Edit Name</button>
+                    <button class="tab-link btn" data-tab="editFBLinkTab">Edit FB Link</button>
                     <button class="tab-link btn" data-tab="editPasswordTab">Edit Password</button>
                     <button class="tab-link btn" data-tab="editGCashTab">Edit GCash</button>
                 </div>
@@ -55,6 +57,16 @@
                         <label for="name">Name:</label>
                         <input type="text" name="name" id="name" value="{{ $admin->name }}" required>
                         <button class="btn" type="submit">Update Name</button>
+                    </form>
+                </div>
+
+                <div class="tab-content" id="editFBLinkTab">
+                    <form action="{{ route('admin.update_fb_link') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <label for="name">FB Link:</label>
+                        <input type="text" name="fb_link" id="fb_link" value="{{ $admin->fb_link }}" required>
+                        <button class="btn" type="submit">Update FB Link</button>
                     </form>
                 </div>
                 
@@ -98,7 +110,6 @@
                     </form>
                 </div>
 
-
             </div>
         </div>
 
@@ -123,13 +134,6 @@
             // Close modal
             closeModalButton.addEventListener('click', () => {
                 modal.style.display = 'none';
-            });
-
-            // Close modal when clicking outside the content
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
             });
 
             // Tab switching functionality

@@ -122,14 +122,31 @@ class AdminAuthController extends Controller
         // Redirect back with a success message
         return redirect()->route('admin.account')->with('success', 'GCash details updated successfully.');
     }
+
+    public function admin_update_fb_link(Request $request)
+    {
+        $request->validate([
+            'fb_link' => 'required|url',
+        ]);
+    
+        // Get the authenticated admin
+        $admin = Auth::guard('admin')->user();
+
+
+        $admin->fb_link = $request->fb_link;
+    
+        $admin->save();
+    
+        return redirect()->route('admin.account')->with('success', 'Link updated successfully.');
+    }
     
 
 
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout(); // or 'student' as needed
-        // $request->session()->invalidate();
-        // $request->session()->regenerateToken();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('admin.login');
     }
