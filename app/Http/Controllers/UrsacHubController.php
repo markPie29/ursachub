@@ -271,6 +271,28 @@ class UrsacHubController extends Controller
         return redirect()->route('admin.account')->with('success', 'News deleted successfully.');
     }
 
+    public function delete_prod($id)
+    {
+        // Find the product by ID
+        $product = Products::findOrFail($id);
+
+        // Optionally, delete associated photos from storage
+        if ($product->photos) {
+            $photos = json_decode($product->photos);
+            foreach ($photos as $photoPath) {
+                if (Storage::exists($photoPath)) {
+                    Storage::delete($photoPath);
+                }
+            }
+        }
+
+        // Delete the product from the database
+        $product->delete();
+
+        // Redirect with a success message
+        return redirect()->route('admin.account')->with('success', 'Product deleted successfully.');
+    }
+
     public function updateStocks(Request $request, $id)
     {
         $product = Products::findOrFail($id);

@@ -19,4 +19,9 @@ class Admin extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtoupper($value);
+    }
 }

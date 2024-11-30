@@ -31,7 +31,7 @@ class AdminAuthController extends Controller
 
         Admin::create($request->all());
 
-        return redirect()->route('admin.login')->with('success', 'Registration successful. Please log in.');
+        return redirect()->route('admin.register')->with('success', 'Registration successful. Please log in.');
     }
 
     public function showLoginForm()
@@ -128,8 +128,8 @@ class AdminAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout(); // or 'student' as needed
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
 
         return redirect()->route('admin.login');
     }

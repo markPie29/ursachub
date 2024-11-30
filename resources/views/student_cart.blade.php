@@ -58,14 +58,17 @@
 
     <div class="checkout-ctn">
         <div class="user-details">
-            <h4>Student Information</h4>
-            <p><strong>Name:</strong> {{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
-            <p><strong>Course:</strong> {{ $course->name }}</p>
-            <p><strong>Student ID:</strong> {{ $student_id }}</p>
+            <h2>Student Information</h2>
+            <strong>Name:</strong>
+            <p>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
+            <strong>Course:</strong> 
+            <p>{{ $course->name }}</p>
+            <strong>Student ID:</strong>
+            <p>{{ $student_id }}</p>
         </div>
 
-        <div class="mt-3">
-            <h4>Total Price: $<span id="total-price">0.00</span></h4>
+        <div class="cart-total-price">
+            <h2>Total Price: <span id="total-price">0.00</span></h2>
         </div>
 
         <div class="payment-options mt-3">

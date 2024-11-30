@@ -14,7 +14,7 @@
             <h2 class="text-2">Student Login</h2>
 
             <div class="form-group inputBox-1">
-                <label for="student_id">Student ID</label>
+                <label for="student_id" class="label-registration">Student ID</label>
                 <input 
                     type="text" 
                     class="form-control" 
@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-group inputBox-2">
-                <label for="password">Password</label>
+                <label for="password" class="label-registration">Password</label>
                 <input 
                     type="password" 
                     class="form-control" 

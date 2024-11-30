@@ -95,6 +95,7 @@
 :root {
     --logo-letter-spacing: -10%;
     --main-color:rgb(18, 103, 221);   
+    --main-color-drk:rgb(0, 44, 105);
     --text-color:rgb(0, 0, 0);
     --header-text-color:rgb(0, 0, 0);
     --header-color:rgba(255, 255, 255, 0.943);
@@ -160,9 +161,9 @@ header div{
     font-weight: 500;
 }
 .navbar a:hover{
-    background: var(--pure-white);
+    background: var(--main-color-drk);
     border-radius: 50px;
-    color: var(--main-color);
+    color: var(--pure-white);
     transition: .4s;
 }
 
@@ -186,7 +187,7 @@ header div{
     position: fixed;
     top: 0;
     right: -250px; /* Initially hidden (off-screen to the left) */
-    background-color: #333;
+    background-color:var(--main-color-drk);
     color: white;
     transition: 0.3s ease; /* Smooth transition */
     z-index: 1000;
@@ -456,7 +457,9 @@ header div{
     align-items: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);;
 }
-
+.org-main-name {
+    color: var(--main-color-drk);
+}
 .org-main-logo img{
     width: 150px;
     height: 150px;
@@ -772,6 +775,17 @@ header div{
     margin-top: 20px;
 }
 
+.course-restrictions div {
+    display: flex;
+    padding: 0 20%;
+    justify-content: space-between;
+}
+
+.course-restrictions .btn-danger {
+    text-align: center;
+    background-color: rgb(255, 46, 46);
+}
+
 .admin-price {
     font-size: 200%;
     text-align: center;
@@ -789,6 +803,29 @@ header div{
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     margin-left: 25%;
 }
+
+/* admin delete  */
+
+.modal-box-delete {
+    flex-direction: column;
+    background-color: var(--pure-white);
+    padding: 2%;
+}
+
+.modal-footer-delete {
+    display: flex;
+}
+
+.modal-box-delete .btn-danger {
+    text-align: center;
+    background-color: rgb(255, 46, 46);
+}
+
+
+
+/* admin delete  */
+
+
 
 /* admin edit stock modal box */
 
@@ -932,18 +969,17 @@ header div{
 
 /* Text Styling */
 .text-1 {
-    color: var(--text-color);
-    font-size: 2em;
+    color: var(--main-color);
+    font-size: 2em; 
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    color: #007bff;
 }
 
 .text-2, .admin-login h3, .admin-registration h3, .registration-container h2, .admin-registration-container h2 {
     font-size: 1.5em;
     font-weight: bold;
-    color: #333;
+    color: var(--main-color-drk);
     margin-bottom: 15px;
 }
 
@@ -963,6 +999,8 @@ header div{
 
 .label-registration {
     color: #666666;
+    font-weight:400;
+    font-size: 0.9rem;
 }
 
 
@@ -982,6 +1020,7 @@ header div{
 .btn:hover {
     transform: scale(1.02);
     box-shadow: 0 4px 1px rgba(0, 0, 0, 0.1);
+    background-color: var(--main-color-drk);
 }
 
 /* Links and Error Handling */
@@ -991,6 +1030,11 @@ header div{
     margin-top: 15px;
     display: flex;
     justify-content: space-between;
+    color: var(--main-color-drk);
+}
+
+.register-prompt a {
+    color: var(--main-color);
 }
 
 .alert {
@@ -1129,7 +1173,7 @@ header div{
 .card-text .product-category,
 .card-text .product-name {
     font-size: 1em;
-    color: var(--text-color);
+    color: var(--main-color-drk);
     margin-bottom: 8px;
     display: flex; /* Change to flex for proper alignment */
     justify-content: flex-start; /* Space between category and price */
@@ -1389,7 +1433,7 @@ header div{
 .product-container p,
 .product-container ul,
 .product-container label {
-    color: #004080; /* Dark blue */
+    color: var(--main-color-drk); /* Dark blue */
 }
 /* admin add product css */
 .add-product-container {
@@ -1666,7 +1710,7 @@ header div{
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-decoration: none;
-    color: inherit;
+    color: var(--main-color-drk);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #ddd; /* Add border for a clean look */
 }
@@ -1834,6 +1878,7 @@ header div{
     font-size: 1.5rem; /* Larger font size */
     margin: 25px 0;
     font-weight:bold;
+    color: var(--main-color-drk);
 }
 .text-section h1 {
     font-size: 1.5rem; /* Larger font size */
@@ -1970,7 +2015,7 @@ header div{
 .order-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    color: var(--text-color);
+    color: var(--main-color-drk);
 }
 
 .order-date {
@@ -2188,6 +2233,28 @@ header div{
     flex-direction: column;
     border-radius: 10px;
     padding:50px;
+    color: var(--main-color-drk);
+}
+
+.checkout-ctn h2 {
+    margin-bottom: 5px;
+}
+
+.checkout-ctn p {
+    color: var(--text-color );
+    margin-bottom: 10px;
+}
+
+.checkout-ctn strong {
+    color: var(--main-color-drk);
+}
+
+.cart-total-price h4 {
+    font-size: 2rem;
+}
+
+.cart-total-price span {
+    color: var(--text-color);
 }
 
 /* CART CSS */ 

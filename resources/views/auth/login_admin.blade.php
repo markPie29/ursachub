@@ -12,7 +12,7 @@
 
         <!-- Name Field -->
         <div class="form-group inputBx">
-            <label for="name">Name</label>
+            <label for="name" class="label-registration">Name</label>
             <input 
                 type="text" 
                 class="form-control" 
@@ -25,7 +25,7 @@
 
         <!-- Organization Field -->
         <div class="form-group inputBx">
-            <label for="org">Organization</label>
+            <label for="org" class="label-registration">Organization</label>
             <select class="form-control" id="org" name="org" required>
                 <option value="" disabled selected>Select an organization</option>
                 @foreach ($organizations as $organization)
@@ -36,7 +36,7 @@
 
         <!-- Password Field -->
         <div class="form-group inputBx">
-            <label for="password">Password</label>
+            <label for="password" class="label-registration">Password</label>
             <input 
                 type="password" 
                 class="form-control" 

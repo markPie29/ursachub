@@ -113,7 +113,7 @@
                             <div class="modal-footer">
                                 <button type="submit" class="btn">Save Changes</button>
                             </div>
-                        </form>
+                        </fo    rm>
                     </div>
                 </div>
 
@@ -159,14 +159,48 @@
                             <li>No courses allowed for this product.</li>
                         @endif
                     </ul>
-                    <button class="btn btn-primary" id="editRestrictionsButton">Update Restrictions</button>
+                    <div>
+                        <button class="btn" id="editRestrictionsButton">Update Restrictions</button>
+                        <button class="btn btn-danger" id="deleteProductButton">Delete</button>
+                    </div>
                 </div>
+
+                <div class="modal-overlay" id="deleteConfirmationModal" style="display: none;">
+                        <div class="modal-box-delete">
+                            <div class="modal-header-delete">
+                                <strong>Confirm Deletion</strong>
+                            </div>
+                            <div class="modal-body-delete">
+                                <p>Are you sure you want to delete this product?</p>
+                                <p>This action cannot be undone.</p>
+                            </div>
+                            <div class="modal-footer-delete">
+                                <form action="{{ route('delete_prod', $product->id) }}" method="POST" class="">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                <button class="btn" id="cancelDeleteButton">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+
+    document.getElementById('deleteProductButton').addEventListener('click', function () {
+        document.getElementById('deleteConfirmationModal').style.display = 'flex';
+    });
+
+    // Cancel Deletion and Close Modal
+    document.getElementById('cancelDeleteButton').addEventListener('click', function () {
+        document.getElementById('deleteConfirmationModal').style.display = 'none';
+    });
+
+
     // Carousel Initialization
     let currentIndex = 0;
     const images = document.querySelectorAll('.product-image');
