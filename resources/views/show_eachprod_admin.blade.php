@@ -113,7 +113,7 @@
                             <div class="modal-footer">
                                 <button type="submit" class="btn">Save Changes</button>
                             </div>
-                        </fo    rm>
+                        </form>
                     </div>
                 </div>
 
@@ -166,24 +166,25 @@
                 </div>
 
                 <div class="modal-overlay" id="deleteConfirmationModal" style="display: none;">
-                        <div class="modal-box-delete">
-                            <div class="modal-header-delete">
-                                <strong>Confirm Deletion</strong>
-                            </div>
-                            <div class="modal-body-delete">
-                                <p>Are you sure you want to delete this product?</p>
-                                <p>This action cannot be undone.</p>
-                            </div>
-                            <div class="modal-footer-delete">
-                                <form action="{{ route('delete_prod', $product->id) }}" method="POST" class="">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                                <button class="btn" id="cancelDeleteButton">Cancel</button>
-                            </div>
+                    <div class="modal-box-delete">
+                        <div class="modal-header-delete">
+                            <strong>Confirm Deletion</strong>
+                        </div>
+                        <div class="modal-body-delete">
+                            <p>Are you sure you want to delete this product?</p>
+                            <p>This action cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer-delete">
+                            <form action="{{ route('delete_prod', $product->id) }}" method="POST" class="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <button class="btn" id="cancelDeleteButton">Cancel</button>
                         </div>
                     </div>
+                </div>
+
             </div>
         </div>
     </div>
