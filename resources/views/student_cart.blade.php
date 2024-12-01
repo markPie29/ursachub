@@ -61,7 +61,7 @@
             <h2>Student Information</h2>
             <strong>Name:</strong>
             <p>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</p>
-            <strong>Course:</strong> 
+            <strong>Program:</strong> 
             <p>{{ $course->name }}</p>
             <strong>Student ID:</strong>
             <p>{{ $student_id }}</p>
@@ -85,7 +85,7 @@
             <!-- GCash reference input, hidden by default -->
             <div id="gcash-ref-container" style="display: none; margin-top: 10px;">
                 <label for="gcash-ref">Reference Number:</label>
-                <input type="text" id="gcash-ref" name="gcash_ref" class="form-control" placeholder="Enter reference number">
+                <input type="text" id="gcash-ref" name="gcash_ref" class="form-control" placeholder="Enter Reference Number">
                 
                 <!-- GCash details for the organization -->
                 <div id="gcash-org-details" style="margin-top: 10px; display: none;">
@@ -165,8 +165,8 @@
         function updateGcashDetails(org) {
             const admin = admins.find(admin => admin.org === org);
             if (admin) {
-                gcashNameElement.textContent = admin.gcash_name || "Not provided";
-                gcashNumberElement.textContent = admin.gcash_number || "Not provided";
+                gcashNameElement.textContent = admin.gcash_name || "Not Provided";
+                gcashNumberElement.textContent = admin.gcash_number || "Not Provided";
                 gcashOrgDetails.style.display = "block";
             } else {
                 gcashOrgDetails.style.display = "none";

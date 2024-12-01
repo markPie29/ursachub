@@ -80,8 +80,8 @@
             <div class="home-hero-background">
                 <div class="home-hero-content">
                     <div class="home-hero-devs">
-                        <h1 class="home-hero-devs-title">About the Devs</h1>
-                        <p class="home-hero-devs-subtitle">The student that developed this website.</p>
+                        <h1 class="home-hero-devs-title">About the Developers</h1>
+                        <p class="home-hero-devs-subtitle">Computer Engineering students that developed this website.</p>
                         <div class="home-hero-links">
                             <a href="https://markpie.netlify.app" target="_blank" rel="noopener noreferrer">
                                 <img src="/img/marky.png" alt="">

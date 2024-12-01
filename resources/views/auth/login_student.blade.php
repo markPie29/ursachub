@@ -20,7 +20,7 @@
                     class="form-control" 
                     id="student_id" 
                     name="student_id" 
-                    placeholder="Student ID"
+                    placeholder="AC202X-XXXXX"
                     style="text-transform:uppercase" 
                     required>
             </div>
