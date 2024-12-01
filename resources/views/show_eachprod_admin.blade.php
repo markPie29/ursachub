@@ -121,7 +121,7 @@
                 <div class="modal-overlay" id="editRestrictionsModal" style="display: none;">
                     <div class="modal-box">
                         <div class="modal-header">
-                            <strong>Edit Course Restrictions</strong>
+                            <strong>Edit Program Restrictions</strong>
                             <button class="close-modal" id="closeEditRestrictionsModal">&times;</button>
                         </div>
                         <form action="{{ route('update_restrictions', $product->id) }}" method="POST">
@@ -149,14 +149,14 @@
                 </div>
 
                 <div class="course-restrictions">
-                    <h3>Allowed Courses</h3>
+                    <h3>Allowed Programs</h3>
                     <ul>
                         @if($product->courses->count())
                             @foreach($product->courses as $course)
                                 <li>{{ $course->name }}</li>
                             @endforeach
                         @else
-                            <li>No courses allowed for this product.</li>
+                            <li>No programs allowed for this product.</li>
                         @endif
                     </ul>
                     <div>
