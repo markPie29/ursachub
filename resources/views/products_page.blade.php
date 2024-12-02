@@ -31,7 +31,6 @@
             <div class="card-text">
                 <p class="product-category">{{ $product->org }}</p>
                 <span class="product-name">{{ $product->name }}</span>
-                
                 <strong class="product-price">Php{{ number_format($product->price, 2) }}</strong>
             </div>
         </a>

@@ -22,10 +22,20 @@
         <a href="{{ route('show_eachnewspage', $newsx->id) }}" class="news-card hidden">
             <!-- News Content at the Top -->
             <div class="news-card-content">
-                <p class="news-org">{{ $newsx->org }}</p>
-                <p class="news-timestamp">{{ \Carbon\Carbon::parse($newsx->updated_at)->format('F d, Y h:i A') }}</p>
+                <div class="news-profile">
+                    @if ($newsx->logo)
+                        <div class="news-logo">
+                            <img src="{{ asset('storage/' . $newsx->logo) }}" alt="{{ $newsx->org }} Logo" class="logo">
+                        </div>
+                    @endif
+                    <div>
+                        <p class="news-org">{{ $newsx->org }}</p>
+                        <p class="news-timestamp">{{ \Carbon\Carbon::parse($newsx->updated_at)->format('F d, Y h:i A') }}</p>
+                    </div>
+                </div>
+              
                 <h3 class="news-headline" id = "news-headline"> {{ $newsx->headline }} </h3>
-        
+                <p class="news-content">  {!! Str::of($newsx->content)->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
             </div>
 
             <!-- Image at the Bottom -->
