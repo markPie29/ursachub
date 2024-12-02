@@ -111,15 +111,29 @@ class UrsacHubController extends Controller
 
 
     public function products_page() {
+        // Get the products with their orgs
         $products = Products::orderBy('updated_at', 'desc')->paginate(12);
+    
+        // Add the logo to each product by matching the org
+        $products->each(function($product) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $product->org)->first();
+            $product->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
     
         return view('products_page', [
             'products' => $products
         ]);
     }
-    
+
     public function news_page() {
         $news = News::orderBy('updated_at', 'desc')->paginate(8);
+
+        $news->each(function($newsx) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $newsx->org)->first();
+            $newsx->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
     
         return view('news_page', [
             'news' => $news
