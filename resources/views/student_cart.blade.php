@@ -84,14 +84,16 @@
 
             <!-- GCash reference input, hidden by default -->
             <div id="gcash-ref-container" style="display: none; margin-top: 10px;">
-                <label for="gcash-ref">Reference Number:</label>
-                <input type="text" id="gcash-ref" name="gcash_ref" class="form-control" placeholder="Enter Reference Number">
-                
+
                 <!-- GCash details for the organization -->
                 <div id="gcash-org-details" style="margin-top: 10px; display: none;">
                     <p><strong>GCash Name:</strong> <span id="gcash-name"></span></p>
                     <p><strong>GCash Number:</strong> <span id="gcash-number"></span></p>
                 </div>
+
+                <label for="gcash-ref">Reference Number:</label>
+                <input type="text" id="gcash-ref" name="gcash_ref" class="form-control" placeholder="Enter Reference Number">
+                
 
                 <!-- New: GCash photo upload section -->
                 <div id="gcash-photo-upload" style="display: none; margin-top: 10px;">

@@ -23,8 +23,9 @@
             <!-- News Content at the Top -->
             <div class="news-card-content">
                 <p class="news-org">{{ $newsx->org }}</p>
-                <p class="news-timestamp">{{ $newsx->updated_at }}</p>
+                <p class="news-timestamp">{{ \Carbon\Carbon::parse($newsx->updated_at)->format('F d, Y h:i A') }}</p>
                 <h3 class="news-headline" id = "news-headline"> {{ $newsx->headline }} </h3>
+        
             </div>
 
             <!-- Image at the Bottom -->
