@@ -220,7 +220,7 @@ class UrsacHubController extends Controller
         // Store JSON-encoded photo paths in the photos column
         $product->photos = json_encode($photoPaths);
 
-        // $product->logo = $admin->logo;
+        $product->logo = $admin->logo;
     
         // Save the product first to generate product_id
         $product->save();
@@ -433,7 +433,7 @@ class UrsacHubController extends Controller
         // Store JSON-encoded photo paths in the photos column
         $news->photos = json_encode($photoPaths);
 
-        // $news->logo = $admin->logo;
+        $news->logo = $admin->logo;
 
         $news->save();
     
