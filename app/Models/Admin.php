@@ -24,4 +24,16 @@ class Admin extends Authenticatable
     {
         $this->attributes['name'] = strtoupper($value);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($admin) {
+            // Sync the logo column with the products table where orgs match
+            \DB::table('products')
+                ->where('org', $admin->orgs)
+                ->update(['logo' => $admin->logo]);
+        });
+    }
 }
