@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.css" rel="stylesheet">
     
 
     <script defer src="/script/script.js"></script>
@@ -57,6 +58,7 @@
         <ul>
             <li><a href="{{ route('student.account') }}"><i class='bx bx-user'></i> Account</a></li>
             <li><a href="{{ route('student.cart') }}"><i class='bx bx-box'></i> Cart</a></li>
+            <li><a href="{{ route('student.calendar') }}">Calendar</a></li>
             <li>
                 <form action="{{ route('student.logout') }}" method="POST" style="display: inline;">
                 @csrf

@@ -9,6 +9,7 @@ use App\Models\Courses;
 use App\Models\Cart;
 use App\Models\Orders;
 use App\Models\Admin;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -124,6 +125,11 @@ class UrsacHubController extends Controller
         return view('products_page', [
             'products' => $products
         ]);
+    }
+
+    public function calendar() {
+        $events = Event::all();
+        return view('calendar', compact('events'));
     }
 
     public function news_page() {

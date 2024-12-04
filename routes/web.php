@@ -86,6 +86,7 @@ Route::prefix('student')->group(function () {
     Route::middleware(['auth:student'])->group(function () {
         Route::get('home', [UrsacHubController::class, 'home'])->name('student.home');
         Route::get('account', [UrsacHubController::class, 'student_account'])->name('student.account');
+        Route::get('calendar', [UrsacHubController::class, 'calendar'])->name('student.calendar');
         Route::post('account/update_password', [StudentAuthController::class, 'student_update_password'])->name('student.update_password');
         Route::get('cart', [UrsacHubController::class, 'student_cart'])->name('student.cart');
         Route::post('/cart/{productId}', [UrsacHubController::class, 'addToCart'])->name('cart.add');
