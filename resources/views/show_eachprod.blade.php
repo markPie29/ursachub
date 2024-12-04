@@ -27,7 +27,7 @@
         <!-- Product Details Column -->
         <div class="product-col-md-6 product-card-content text-center">
             <h2 class="product-title">{{ $product->name }}</h2>
-            <p class="product-price"><strong>Price:</strong> ${{ number_format($product->price, 2) }}</p>
+            <p class="product-price"><strong>Price:</strong> ₱{{ number_format($product->price, 2) }}</p>
 
             <!-- Size Selection -->
             <label for="product-size" class="product-size-label">Select Size:</label>
