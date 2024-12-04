@@ -905,6 +905,33 @@ class UrsacHubController extends Controller
     return view('admin_finishedorders', compact('orders', 'org_name'));
 }
 
+public function updateQuantity(Request $request, $id)
+{
+    $cartItem = Cart::findOrFail($id);
+
+    if ($request->action === 'increase') {
+        $cartItem->quantity += 1;
+    } elseif ($request->action === 'decrease' && $cartItem->quantity > 1) {
+        $cartItem->quantity -= 1;
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'Cannot decrease quantity below 1.'
+        ]);
+    }
+
+    // Update the price (quantity * original price per item)
+    $pricePerItem = $cartItem->price / $cartItem->quantity;
+    $cartItem->price = $pricePerItem * $cartItem->quantity;
+
+    $cartItem->save();
+
+    return response()->json([
+        'success' => true,
+        'new_quantity' => $cartItem->quantity,
+        'new_price' => $cartItem->price
+    ]);
+}
     
 
 }

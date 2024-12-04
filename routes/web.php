@@ -90,6 +90,7 @@ Route::prefix('student')->group(function () {
         Route::get('cart', [UrsacHubController::class, 'student_cart'])->name('student.cart');
         Route::post('/cart/{productId}', [UrsacHubController::class, 'addToCart'])->name('cart.add');
         Route::post('/cart/update/{id}', [UrsacHubController::class, 'updateCartQuantity'])->name('cart.update');
+        Route::post('/cart/update-quantity/{id}', [UrsacHubController::class, 'updateQuantity']);
         Route::post('/cart/remove/{itemId}', [UrsacHubController::class, 'removeItem'])->name('cart.remove');
         Route::post('/cart/checkout', [UrsacHubController::class, 'checkout'])->name('cart.checkout');
         Route::post('/place-order', [UrsacHubController::class, 'placeOrder'])->name('place.order');

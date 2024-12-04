@@ -27,7 +27,11 @@
                             <h3>{{ $item->name }}</h3>
                             <p>{{ $item->org }}</p>
                             <p>Size: <strong>{{ ucfirst($item->size) }}</strong></p>
-                            <p>Quantity: <strong>{{ $item->quantity }}</strong></p>
+                            <p>Quantity: 
+                                <button class="btn-quantity" data-action="decrease" data-id="{{ $item->id }}">-</button>
+                                <span class="quantity-display" id="quantity-{{ $item->id }}">{{ $item->quantity }}</span>
+                                <button class="btn-quantity" data-action="increase" data-id="{{ $item->id }}">+</button>
+                            </p>
                             <p>₱{{ number_format($item->price, 2) }}</p>
                         </div>
                     </div>
@@ -378,6 +382,50 @@
                     alert("An unexpected error occurred. Please check the console for more details.");
                 });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const updateQuantity = (id, action) => {
+            fetch(`/cart/update-quantity/${id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ action: action })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`quantity-${id}`).textContent = data.new_quantity;
+                    document.getElementById(`price-${id}`).textContent = data.new_price.toFixed(2);
+                    updateTotalPrice();
+                } else {
+                    alert(data.message || "Failed to update quantity.");
+                }
+            })
+            .catch(error => console.error("Error updating quantity:", error));
+        };
+
+        document.querySelectorAll(".btn-quantity").forEach(button => {
+            button.addEventListener("click", function () {
+                const id = this.getAttribute("data-id");
+                const action = this.getAttribute("data-action");
+                updateQuantity(id, action);
+            });
+        });
+
+        // Function to update total price
+        const updateTotalPrice = () => {
+            let totalPrice = 0;
+            document.querySelectorAll(".item-checkbox").forEach(checkbox => {
+                if (checkbox.checked) {
+                    const price = parseFloat(document.getElementById(`price-${checkbox.getAttribute("data-item-id")}`).textContent);
+                    totalPrice += price;
+                }
+            });
+            document.getElementById("total-price").textContent = totalPrice.toFixed(2);
+        };
+    });
     });
 </script>
 
