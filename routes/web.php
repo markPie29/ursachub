@@ -35,7 +35,9 @@ Route::get('/', function () {
 //     return view('register');
 // });
 
-
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 Route::post('/student/logout', [StudentAuthController::class, 'logout'])->name('student.logout');
 
