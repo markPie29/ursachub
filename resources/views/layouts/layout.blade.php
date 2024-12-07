@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="icon/2.png" type="image/x-icon">
     <title>URSAC HUB</title>
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" type="image/x-icon" href="/img/icon.png">
     
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com">
