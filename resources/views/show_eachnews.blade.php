@@ -4,6 +4,11 @@
 <section class="filler-div"></section>
 
 <div class="custom-container">
+    <div>
+        <a href="{{ route('news_page' )}}" class="backbutton">
+            <i class='bx bx-x'></i>
+        </a>
+    </div>
     <!-- Image Section with Carousel -->
     <div class="image-section carousel">
         @php

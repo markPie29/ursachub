@@ -1317,6 +1317,13 @@ header div{
     text-align: center; /* Center the main content */
 }
 
+.backbutton {
+    color: var(--main-color-drk);
+    display: flex;
+    font-size: 25px;
+    flex-direction: row-reverse;
+}
+
 .product-row {
     display: flex;
     flex-direction: row;
