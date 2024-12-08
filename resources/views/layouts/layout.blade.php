@@ -32,7 +32,7 @@
         <ul class="navbar">
             <li>
                 <a href="{{ route('freedomwall') }}" class="header-text" >Wall</a>
-                <a href="{{ route('freedomwall') }}" class="header-icon"><i class='bx bxs-news' ></i></a>
+                <a href="{{ route('freedomwall') }}" class="header-icon"><i class='bx bxs-message-alt-dots'></i></a>
             </li>
 
             <li>

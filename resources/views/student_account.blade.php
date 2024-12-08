@@ -42,7 +42,7 @@
             <textarea id="content" name="content" resize="none" rows="4" required placeholder="What's on your mind?"></textarea>
         </div>
 
-        <div>
+        <div class="anonymous-div">
             <label for="anonymous">
                 <input type="checkbox" id="anonymous" name="anonymous">
                 Post Anonymously
@@ -86,7 +86,7 @@
                         <div class="account-post">
                             <div class="posts-info">
                                 <h3>{{ $post->user->first_name }} {{ $post->user->last_name }}</h3>
-                                <p>Posted on: {{ $post->created_at->format('M d, Y \a\t h:i A') }}</p>
+                                <p>{{ $post->created_at->format('M d, Y \a\t h:i A') }}</p>
                             </div>
                                     
 

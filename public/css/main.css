@@ -2677,6 +2677,10 @@ header div{
     display: flex;
 }
 
+.anonymous-div {
+    margin-bottom: 10px;
+}
+
 .remove-photo {
     background-color: red;
     color: var(--pure-white);
@@ -3360,6 +3364,165 @@ header div{
         height: auto;
     }
 
+    .freedomwall-ctn {
+        margin: 10px 20px;
+    }
+
+    .profile-card-section {
+        position: relative;
+        height: 100%; /* Full height */
+        padding: 0 20px;
+        width: auto;
+    }
+
+    .profile-section {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .account-posts-section {
+        margin: 10px 20px;
+        width: auto;
+        border-radius: 10px;
+        box-shadow: var(--shadows);
+        padding: 20px;
+        background-color: var(--pure-white); /* Example background color */
+    }
+    
+    .account-posts-section h1 {
+        color: var(--main-color-drk);
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    
+    .addPosts textarea {
+        width: 100%;
+        resize: none;
+        border: gray solid 1px;
+        font-size: 0.9rem;
+        padding: 10px;
+        border-radius: 10px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+    
+    .anonymous-div {
+        font-size: 0.8rem;
+    }
+    #photo-preview-container{
+        display: flex;
+    }
+    
+    .remove-photo {
+        background-color: red;
+        color: var(--pure-white);
+        border: none;
+        border-radius: 10px;
+        margin: 10px;
+        width: 80px;
+        padding: 5px;
+        transition: 0.2s ease-in-out;
+    }
+    
+    .remove-photo:hover {
+        transform: scale(1.05);
+    }
+    
+    .add-image-icon {
+        font-size: 1.1rem;
+        color: var(--main-color-drk);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+    
+    .add-image-icon span{
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        border-radius: 10px;
+        padding: 5px;
+        transition: 0.2s ease-in-out;
+    }
+    
+    .add-image-icon span:hover{
+        background-color: var(--main-color-drk);
+        color: var(--pure-white);
+    
+    }
+    
+    .add-image-icon i {
+        font-size: 1.8rem;
+    }
+    
+    .photo-preview {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .photo-preview img {
+        max-width: 100%;
+        max-height: 100px;
+        object-fit: cover;
+    }
+    
+    .account-post {
+        margin: 30px 0;
+        background-color: var(--pure-white);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: var(--shadows);
+    }
+    
+    .account-post-anon {
+        margin: 30px 0;
+        background-color: var(--main-color-drk);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: var(--shadows);
+        color: var(--pure-white);
+    }
+    
+    .posts-info {
+        font-size: 0.7rem;
+        display: block;
+    }
+    
+    .posts-info-anon {
+        font-size: 0.7rem;
+        display: block;
+    }
+    
+    .posts-info h3 {
+        color: var(--main-color-drk);
+        text-transform: uppercase;
+    }
+    
+    .posts-info p {
+        color: var(--p-colors);
+        font-size: 0.6rem;
+    }
+    
+    .posts-info-anon h3 {
+        color: var(--pure-white);
+        text-transform: uppercase;
+    }
+    
+    .posts-info-anon p {
+        color: var(--pure-white);
+        font-size: 0.6rem;
+    }
+    
+    .post-images {
+        display: flex;
+        margin-top: 10px;
+    }
+    
+    .post-images img {
+        max-width: 100px;
+        max-height: 100px;
+    }
 
 
     .profile-card {

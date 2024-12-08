@@ -17,7 +17,7 @@
                         <textarea maxlength="200" id="content" name="content" resize="none" rows="4" required placeholder="What's on your mind?"></textarea>
                     </div>
 
-                    <div>
+                    <div class="anonymous-div">
                         <label for="anonymous">
                             <input type="checkbox" id="anonymous" name="anonymous">
                             Post Anonymously
