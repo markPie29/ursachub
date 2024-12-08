@@ -6,26 +6,75 @@
 </section>
 
 <div class="profile-section">
-  <div class="profile-card hidden">
-    <div class="profile-icon">
-      <i class='bx bxs-user-circle'></i>
-    </div>
-
-    <div class="info">
-      <p>{{ $course->name }}</p>
-
-      <div class="filler">
-        <h2>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</h2>
-        <h3>{{ $student_id }}</h3>
+  <div class="profile-card-section">
+    <div class="profile-card hidden">
+      <div class="profile-icon">
+        <i class='bx bxs-user-circle'></i>
       </div>
-    </div>
 
-    <a href="{{ route('student.orders') }}" class="orders-link">View My Orders</a>
+      <div class="info">
+        <p>{{ $course->name }}</p>
 
-    <!-- Button to open the modal -->
-    <div class="modal-buttons">
-        <button class="open-modal">Edit Password</button>
+        <div class="filler">
+          <h2>{{ $lastname }}, {{ $firstname }} {{ $middlename }}</h2>
+          <h3>{{ $student_id }}</h3>
+        </div>
+      </div>
+
+      <a href="{{ route('student.orders') }}" class="orders-link">View My Orders</a>
+
+      <!-- Button to open the modal -->
+      <div class="modal-buttons">
+          <button class="open-modal">Edit Password</button>
+      </div>
+
     </div>
+  </div>
+
+
+  <div class="account-posts-section hidden">
+    <h1>My Wall</h1>
+      <div class="addPosts">
+      <form action="{{ route('posts.create') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <!-- Content Input -->
+        <div>
+            <textarea id="content" name="content" resize="none" rows="4" required placeholder="What's on your mind?"></textarea>
+        </div>
+
+        <!-- Multiple Image Input -->
+        <div>
+            <!-- Hidden File Input -->
+            <input type="file" id="photos" name="photos[]" accept="image/*" multiple style="display: none;" onchange="displaySelectedImages(this)">
+            
+            <!-- Icon Button -->
+            <label class="add-image-icon"for="photos" style="cursor: pointer;">
+                <span><i class="bx bx-image"></i> Add an image</span>
+                <div>
+                   <button type="submit" class="btn">Create Post</button>
+                </div>
+            </label>
+            
+            <div id="photo-preview-container" style="margin-top: 10px;"></div>
+
+
+         
+        </div>
+
+        <!-- Submit Button -->
+      </form>
+
+
+
+
+
+
+      </div>
+
+      <div class="account-posts">
+     
+
+      </div>
 
   </div>
 </div>
@@ -64,6 +113,7 @@
   </div>
 
 <script>
+  
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('editModal');
     const openModalButton = document.querySelector('.open-modal');
@@ -93,6 +143,88 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const photoInput = document.getElementById('photos');
+    const previewContainer = document.getElementById('photo-preview-container');
+    let photoFiles = [];
+
+    // Handle file input change
+    photoInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+
+        if (photoFiles.length + files.length > 5) {
+            alert('You can upload a maximum of 5 photos.');
+            return;
+        }
+
+        files.forEach((file) => {
+            if (!photoFiles.includes(file)) {
+                photoFiles.push(file);
+                displayPhoto(file);
+            }
+        });
+
+        updateInputFiles();
+    });
+
+    // Display photo preview
+    const displayPhoto = (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const div = document.createElement('div');
+            div.classList.add('photo-preview');
+
+            div.innerHTML = `
+                <img src="${e.target.result}" alt="Preview" />
+                <button type="button" class="remove-photo">Remove</button>
+            `;
+
+            previewContainer.appendChild(div);
+
+            // Add remove functionality
+            div.querySelector('.remove-photo').addEventListener('click', () => {
+                photoFiles = photoFiles.filter((f) => f !== file);
+                div.remove();
+                updateInputFiles();
+            });
+        };
+
+        reader.readAsDataURL(file);
+    };
+
+    // Update input files for form submission
+    const updateInputFiles = () => {
+        const dataTransfer = new DataTransfer();
+        photoFiles.forEach((file) => dataTransfer.items.add(file));
+        photoInput.files = dataTransfer.files;
+    };
+
+    // Enable drag-and-drop reordering
+    new Sortable(previewContainer, {
+        animation: 150,
+        onEnd: () => {
+            const reorderedFiles = [];
+            Array.from(previewContainer.children).forEach((div) => {
+                const imgSrc = div.querySelector('img').src;
+                const file = photoFiles.find((f) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(f);
+                    return reader.result === imgSrc;
+                });
+                reorderedFiles.push(file);
+            });
+            photoFiles = reorderedFiles;
+            updateInputFiles();
+        },
+    });
+});
+
+
+
+
+
+
 </script>
 
 

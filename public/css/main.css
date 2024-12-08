@@ -2085,7 +2085,7 @@ header div{
     color: var(--pure-white);
     border-radius: 10px;
     font-size: 1rem;
-    float: right;
+    /* float: right; */
     text-transform: uppercase;
 }
 
@@ -2627,23 +2627,115 @@ header div{
 
 /* student account */
 
+
 .profile-section {
-    align-items: center;
-    justify-content: center;
+    margin-top: 20px;
+    display: flex;
+    overflow: hidden; /* Prevent scrolling of the container */
+}
+
+.account-posts-section {
+    border-radius: 10px;
+    box-shadow: var(--shadows);
+    width: 65%;
+    margin-left: 35%;
+    margin-right: 5%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    background-color: var(--pure-white); /* Example background color */
+}
+
+.account-posts-section h1 {
+    color: var(--main-color-drk);
+    margin-bottom: 10px;
+}
+
+.addPosts textarea {
+    width: 100%;
+    resize: none;
+    border: gray solid 1px;
+    font-size: 1.2rem;
+    padding: 10px;
+    border-radius: 10px;
+    height: 100px;
+}
+
+#photo-preview-container{
     display: flex;
 }
 
+.remove-photo {
+    background-color: red;
+    color: var(--pure-white);
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    width: 80px;
+    padding: 5px;
+    transition: 0.2s ease-in-out;
+}
+
+.remove-photo:hover {
+    transform: scale(1.05);
+}
+
+.add-image-icon {
+    font-size: 1.1rem;
+    color: var(--main-color-drk);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.add-image-icon span{
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.2s ease-in-out;
+}
+
+.add-image-icon span:hover{
+    background-color: var(--main-color-drk);
+    color: var(--pure-white);
+
+}
+
+.add-image-icon i {
+    font-size: 1.8rem;
+}
+
+.photo-preview {
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-preview img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+}
+
+.profile-card-section {
+    position: fixed;
+    height: 100%; /* Full height */
+    overflow: hidden; /* Prevent scrolling */
+    width: 35%;
+    padding: 0 75px;
+}
+
+
 .profile-card {
     background:var(--pure-white);
-    border-radius: 10px;
-    padding: 50px; /* Increased padding for more space inside */
+    padding: 20px;
     text-align: center;
     box-shadow: var(--shadows);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    border-radius: 10px;
 }
 
 .profile-icon{

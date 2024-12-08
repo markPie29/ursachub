@@ -9,6 +9,9 @@ use App\Models\Courses;
 use App\Models\Cart;
 use App\Models\Orders;
 use App\Models\Admin;
+use App\Models\Post;
+use App\Models\Like;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -894,17 +897,84 @@ class UrsacHubController extends Controller
     }
 
     public function finishedOrders(Request $request)
-{
-    $org_name = auth('admin')->user()->org; 
+    {
+        $org_name = auth('admin')->user()->org; 
 
-    $orders = Orders::where('status', 'claimed')
-                ->orderBy('updated_at', 'desc')
-                ->get()
-                ->groupBy('order_number');
+        $orders = Orders::where('status', 'claimed')
+                    ->orderBy('updated_at', 'desc')
+                    ->get()
+                    ->groupBy('order_number');
 
-    return view('admin_finishedorders', compact('orders', 'org_name'));
-}
+        return view('admin_finishedorders', compact('orders', 'org_name'));
+    }
+
+      
+    public function createPost(Request $request)
+    {
+        // Validate input fields
+        $request->validate([
+            'content' => 'required|string',
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg|max:20480', // Validate each file
+        ]);
+
+        $photoPaths = [];
+        
+        // Check if 'photos' files are present
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                \Log::info('File uploaded: ' . $photo->getClientOriginalName());
+            }
+            
+            $photos = $request->file('photos');
+            
+            foreach ($photos as $index => $photo) {
+                if ($index >= 5) break; // Limit to 5 images
+
+                // Validate and store each image
+                if ($photo->isValid()) {
+                    $photoPaths[] = $photo->store('post_photos', 'public'); // Save to storage/app/public/post_photos
+                }
+            }
+        }
+
+        // Store the post
+        $studentId = Auth::guard('student')->id(); // Get current student's ID
+        
+        Post::create([
+            'user_id' => $studentId,
+            'content' => $request->input('content'),
+            'image' => json_encode($photoPaths), // Save paths as JSON
+        ]);
+
+        return redirect()->route('student.account')->with('success', 'Post created successfully.');
+    }
 
     
+    
+    
 
+    
+    
+
+    public function addComment(Request $request, Post $post)
+    {
+        $request->validate(['content' => 'required|string']);
+        $post->comments()->create(['user_id' => auth()->id(), 'content' => $request->content]);
+        return back()->with('success', 'Comment added!');
+    }
+
+    public function likePost(Post $post)
+    {
+        if (!$post->likes()->where('user_id', auth()->id())->exists()) {
+            $post->likes()->create(['user_id' => auth()->id()]);
+        }
+        return back()->with('success', 'Post liked!');
+    }
+
+    public function repost(Post $post)
+    {
+        Repost::create(['user_id' => auth()->id(), 'post_id' => $post->id]);
+        return back()->with('success', 'Post reposted!');
+    }
+    
 }
