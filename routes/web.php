@@ -105,6 +105,7 @@ Route::prefix('student')->group(function () {
         Route::get('orgs', [UrsacHubController::class, 'orgs_page'])->name('orgs_page');
         Route::get('orgs/{id}', [UrsacHubController::class, 'show_eachorgs'])->name('show_eachorgs');
         Route::get('/search-orgs', [UrsacHubController::class, 'searchOrgs'])->name('search_orgs');
+        Route::get('/freedomwall', [UrsacHubController::class, 'freedomwall'])->name('freedomwall');
         Route::post('/posts', [UrsacHubController::class, 'createPost'])->name('posts.create');
         Route::post('/posts/{post}/comments', [UrsacHubController::class, 'addComment'])->name('comments.add');
         Route::post('/posts/{post}/like', [UrsacHubController::class, 'likePost'])->name('posts.like');

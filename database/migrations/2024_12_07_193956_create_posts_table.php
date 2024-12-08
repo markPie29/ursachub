@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('content');
             $table->json('image')->nullable();
             $table->unsignedBigInteger('original_post_id')->nullable();
+            $table->string('anon')->nullable();
             $table->timestamps();
         });
     }

@@ -8,16 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'content', 'image'];
+    protected $fillable = ['user_id', 'content', 'image','anon'];
 
     protected $casts = [
         'image' => 'array', // Automatically decode JSON to an array
     ];
 
-    public function student()
+    public function user()
     {
         return $this->belongsTo(Student::class, 'user_id');
     }
+
 
     public function comments()
     {
