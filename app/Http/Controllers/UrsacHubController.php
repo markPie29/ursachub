@@ -9,6 +9,10 @@ use App\Models\Courses;
 use App\Models\Cart;
 use App\Models\Orders;
 use App\Models\Admin;
+use App\Models\Post;
+use App\Models\Like;
+use App\Models\Comment;
+use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -466,20 +470,29 @@ class UrsacHubController extends Controller
 
     public function student_account()
     {
+        // Get the authenticated student
         $student = Auth::guard('student')->user();
-    
-        // Eager load the related course
+
+        // Retrieve posts and eager load the related student (user) for efficiency
+        $posts = Post::where('user_id', $student->id)
+                    ->latest()
+                    ->with('user') // Assuming the Post model has a 'user' relationship defined
+                    ->get();
+
+        // Eager load the student's course
         $course = $student->course;
-    
+
+        // Return the view with necessary data
         return view('student_account', [
             'firstname' => $student->first_name,
             'lastname' => $student->last_name,
             'middlename' => $student->middle_name,
             'student_id' => $student->student_id,
-            'course' => $course // Pass the course object to the view
+            'course' => $course,
+            'posts' => $posts
         ]);
     }
-    
+
 
     public function student_cart()
     {
@@ -573,7 +586,13 @@ class UrsacHubController extends Controller
         // Search products by name or other fields
         $news = News::where('headline', 'like', '%' . $query . '%')
             ->orWhere('org', 'like', '%' . $query . '%')
-            ->paginate(10);
+            ->paginate(8);
+
+        $news->each(function($newsx) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $newsx->org)->first();
+            $newsx->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
 
         return view('news_page', compact('news')); // Replace 'your-blade-template' with the actual template name
     }
@@ -894,17 +913,108 @@ class UrsacHubController extends Controller
     }
 
     public function finishedOrders(Request $request)
-{
-    $org_name = auth('admin')->user()->org; 
+    {
+        $org_name = auth('admin')->user()->org; 
 
-    $orders = Orders::where('status', 'claimed')
-                ->orderBy('updated_at', 'desc')
-                ->get()
-                ->groupBy('order_number');
+        $orders = Orders::where('status', 'claimed')
+                    ->orderBy('updated_at', 'desc')
+                    ->get()
+                    ->groupBy('order_number');
 
-    return view('admin_finishedorders', compact('orders', 'org_name'));
-}
+        return view('admin_finishedorders', compact('orders', 'org_name'));
+    }
 
+      
+    public function createPost(Request $request)
+    {
+        // Validate input fields
+        $request->validate([
+            'content' => 'required|string|max:200', // Content validation
+            'photos.*' => 'nullable|image|mimes:jpeg,png,jpg|max:20480', // Validate each photo
+        ]);
+    
+        // Check if the post should be anonymous
+        $isAnonymous = $request->has('anonymous') ? 'anon' : null;
+    
+        // Process photos if any are uploaded
+        $photoPaths = [];
+        if ($request->hasFile('photos')) {
+            foreach ($request->file('photos') as $photo) {
+                \Log::info('File uploaded: ' . $photo->getClientOriginalName());
+            }
+            
+            $photos = $request->file('photos');
+            foreach ($photos as $index => $photo) {
+                if ($index >= 5) break; // Limit to 5 images
+                if ($photo->isValid()) {
+                    $photoPaths[] = $photo->store('post_photos', 'public'); // Store image paths in storage
+                }
+            }
+        }
+    
+        // Get current student's ID
+        $studentId = Auth::guard('student')->id();
+    
+        // Store the post in the database
+        Post::create([
+            'user_id' => $studentId,
+            'content' => $request->input('content'),
+            'image' => json_encode($photoPaths), // Save image paths as JSON
+            'anon' => $isAnonymous, // Set anon column to 'anon' or null based on the checkbox
+        ]);
+    
+        return redirect()->route('student.account')->with('success', 'Post created successfully.');
+    }
+    
     
 
+    
+    
+    
+
+    
+    
+
+    public function addComment(Request $request, Post $post)
+    {
+        $request->validate(['content' => 'required|string']);
+        $post->comments()->create(['user_id' => auth()->id(), 'content' => $request->content]);
+        return back()->with('success', 'Comment added!');
+    }
+
+    public function likePost(Post $post)
+    {
+        if (!$post->likes()->where('user_id', auth()->id())->exists()) {
+            $post->likes()->create(['user_id' => auth()->id()]);
+        }
+        return back()->with('success', 'Post liked!');
+    }
+
+    public function repost(Post $post)
+    {
+        Repost::create(['user_id' => auth()->id(), 'post_id' => $post->id]);
+        return back()->with('success', 'Post reposted!');
+    }
+
+    public function freedomwall() {
+        // Get the authenticated student
+        $student = Auth::guard('student')->user();
+
+        // Retrieve posts and eager load the related student (user) for efficiency
+        $posts = Post::latest()->get();
+
+        // Eager load the student's course
+        $course = $student->course;
+
+        // Return the view with necessary data
+        return view('freedomwall', [
+            'firstname' => $student->first_name,
+            'lastname' => $student->last_name,
+            'middlename' => $student->middle_name,
+            'student_id' => $student->student_id,
+            'course' => $course,
+            'posts' => $posts
+        ]);
+    }
+    
 }

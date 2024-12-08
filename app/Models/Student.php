@@ -30,5 +30,20 @@ class Student extends Authenticatable
     {
         $this->attributes['name'] = strtoupper($value);
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'user_id');
+    }
 }
 

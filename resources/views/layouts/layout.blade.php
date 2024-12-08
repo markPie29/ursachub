@@ -18,6 +18,7 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 </head>
 
@@ -30,15 +31,20 @@
     <div>
         <ul class="navbar">
             <li>
+                <a href="{{ route('freedomwall') }}" class="header-text" >Wall</a>
+                <a href="{{ route('freedomwall') }}" class="header-icon"><i class='bx bxs-message-alt-dots'></i></a>
+            </li>
+
+            <li>
                 <a href="{{ route('news_page') }}" class="header-text" >News</a>
                 <a href="{{ route('news_page') }}" class="header-icon"><i class='bx bxs-news' ></i></a>
             </li>
             <li>
-                <a href="{{ route('products_page') }}" class="header-text">Products</a>
+                <a href="{{ route('products_page') }}" class="header-text">Shop</a>
                 <a href="{{ route('products_page') }}" class="header-icon"><i class='bx bxs-store-alt' ></i></a>
             </li>
             <li>
-                <a href="{{ route('orgs_page') }}" class="header-text">Organizations</a>
+                <a href="{{ route('orgs_page') }}" class="header-text">Orgs</a>
                 <a href="{{ route('orgs_page') }}" class="header-icon"><i class='bx bxs-group' ></i></a>
             </li>
         </ul>

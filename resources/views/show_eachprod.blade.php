@@ -4,6 +4,14 @@
 <section class="filler-div"></section>
 
 <div class="product-container">
+    <div>
+        <a href="{{ route('products_page' )}}" class="backbutton">
+            <i class='bx bx-x'></i>
+        </a>
+    </div>
+
+
+
     <div class="product-row d-flex flex-row product-card">
         <!-- Product Image Column -->
         <div class="product-col-md-6 image-carousel">
