@@ -95,7 +95,7 @@
                                 <h2>Back-End Dev</h2>
                                 <p>Click to view Portfolio</p>
                             </a>
-                            <a href="" target="_blank" rel="noopener noreferrer">
+                            <a href="https://ursdsa.netlify.app/" target="_blank" rel="noopener noreferrer">
                                 <img src="/img/brex.png" alt="">
                                 <h1>Brexcel Joe Orias</h1>
                                 <h2>Front-End Dev</h2>
