@@ -126,3 +126,11 @@ document.querySelectorAll('.slide').forEach(slide => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form'); // Target your form
+    const loadingSpinner = document.getElementById('loading-spinner');
+
+    form.addEventListener('submit', function () {
+        loadingSpinner.style.display = 'flex'; // Show the spinner
+    });
+});

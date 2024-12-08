@@ -370,7 +370,7 @@
                         alert(`Order placed successfully! Order Number: ${data.order_number}`);
                         location.reload();
                     } else {
-                        alert(`Failed to place order: ${data.error || "Unknown error"}`);
+                        alert(`Failed to place order: Please reduce the quantities.`);
                     }
                 })
                 .catch(error => {
