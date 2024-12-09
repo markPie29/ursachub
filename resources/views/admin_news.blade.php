@@ -6,8 +6,117 @@
         <div class='admin-prod-news-header '>
             <h1>News</h1>
 
-            <a href="{{ route('addnewspage') }}"> <div class="btn" > <i class='bx bxs-news'></i> Add News <i class='bx bx-plus'></i></div> </a>
+            <div style = "display:flex;">
+                <a href="{{ route('addnewspage') }}"> 
+                    <div class="btn" >
+                        <i class='bx bxs-news'></i> Add News <i class='bx bx-plus'></i>
+                    </div> 
+                </a>
+            </div>
         </div>
+
+
+        @if(session('success'))
+            <div class="success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="admin-events">
+            <div class="add-event-modal">
+                <h1>Add an Event</h1>
+                    <form action="{{ route('addevent') }}" method="POST">
+                        @csrf <!-- CSRF token for security -->
+
+                        <!-- Event Name -->
+                        <label for="event-name">Event Name:</label>
+                        <input maxlength="25" type="text" id="event-name" name="event_name" placeholder="Enter event name" required>
+
+                        <label for="event-venue">Event Venue:</label>
+                        <input maxlength="25" type="text" id="event-venue" name="event_venue" placeholder="Enter event venue" required>
+
+                        <!-- Event Date and Time -->
+                        <label for="event-date-time">Event Date and Time:</label>
+                        <input type="datetime-local" id="event-date-time" name="event_date_time" required>
+
+                        <!-- Buttons -->
+                        <button type="submit">Add Event</button>
+                    </form>
+            </div>
+
+            <div class="admin-each-events">
+                <h1>Events</h1>
+                <h2>{{ $admin->org }}</h2>
+                <!-- Check if there are any events -->
+                @if($events->isNotEmpty())
+                    @foreach($events as $event)
+
+                    @php
+                        $eventDate = \Carbon\Carbon::parse($event->date)->toDateString(); // Extract only the date part
+                        $todayDate = \Carbon\Carbon::now()->toDateString(); // Today's date
+                    @endphp
+
+                    @if($eventDate === $todayDate)
+                        <div class="event-item today">
+
+                            <div class="event-item-info">
+                                <h3>{{ $event->name }}</h3>
+                                <p>{{ \Carbon\Carbon::parse($event->date)->format('F j, Y, g:i A') }}</p> 
+                                <p>{{ $event->venue }}</p>
+                                <span>Event is Happening Today!</span>
+                            </div>
+
+                            <div class="event-item-btns">
+                                <button class="remove-event eventbtn">Remove</button>
+                                <button class="edit-event eventbtn">Edit</button>
+                            </div>  
+
+                        </div>
+                    @elseif($eventDate < $todayDate)
+                        <div class="event-item passed">
+                            
+                            <div class="event-item-info">
+                                <h3>{{ $event->name }}</h3>
+                                <p>{{ \Carbon\Carbon::parse($event->date)->format('F j, Y, g:i A') }}</p> 
+                                <p>{{ $event->venue }}</p>  
+                                <span>Event already passed.</span>
+                            </div>
+
+                            <div class="event-item-btns">
+                                <button class="remove-event eventbtn">Remove</button>
+                                <button class="edit-event eventbtn">Edit</button>
+                            </div>  
+
+                        </div>
+                    @else
+                        <div class="event-item upcoming">
+                            
+                            <div class="event-item-info">
+                                <h3>{{ $event->name }}</h3>
+                                <p>{{ \Carbon\Carbon::parse($event->date)->format('F j, Y, g:i A') }}</p>  
+                                <p>{{ $event->venue }}</p> 
+                                <span>Upcoming Event</span>
+                            </div>
+
+                            <div class="event-item-btns">
+                                <button class="remove-event eventbtn">Remove</button>
+                                <button class="edit-event eventbtn">Edit</button>
+                            </div>  
+
+                        </div>
+                    @endif
+
+
+                    @endforeach
+                @else
+                    <p>No events available.</p>
+                @endif
+            </div>
+
+        </div>
+
+
+
 
         <div class="news-container">
         @foreach($news as $newsx)

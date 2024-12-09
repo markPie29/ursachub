@@ -96,6 +96,8 @@
     --logo-letter-spacing: -10%;
     --main-color:rgb(18, 103, 221);   
     --main-color-drk:rgb(0, 44, 105);
+    --warning-red: #fc0000;
+    --success-green: #30a136;
     --text-color:rgb(0, 0, 0);
     --header-text-color:rgb(0, 0, 0);
     --header-color:rgba(255, 255, 255, 0.943);
@@ -1072,8 +1074,15 @@ header div{
 
 .alert {
     padding: 10px;
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #ff4545;
+    color: var(--pure-white);
+    border-radius: 5px;
+}
+
+.success {
+    padding: 10px;
+    background-color: #3a992f;
+    color: var(--pure-white);
     border-radius: 5px;
 }
 
@@ -2689,7 +2698,7 @@ header div{
 }
 
 .remove-photo {
-    background-color: red;
+    background-color: var(--warning-red);
     color: var(--pure-white);
     border: none;
     border-radius: 10px;
@@ -3087,6 +3096,179 @@ header div{
     margin-top: 20px;
 }
 
+/* admin events */
+
+.admin-events {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 30px;
+    border-radius: 30px;
+    padding: 2%;
+    gap: 20px;
+}
+
+.admin-each-events {
+    overflow-y: auto;
+    overflow-x: hidden; 
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: var(--pure-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 400px;
+}
+
+.event-item {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    padding:10px;
+    margin: 20px 0;
+}
+
+.event-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-item-info h3 {
+    color: var(--main-color-drk);
+}
+
+.event-item-info p {
+    font-style: italic;
+    color: var(--p-colors);
+}
+
+
+.event-item-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+
+}
+
+.eventbtn {
+    color: var(--pure-white);
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    padding: 4px;
+    transition: 0.3s ease-in-out;
+    margin: 5px 0;
+}
+
+.eventbtn:hover {
+    transform: scale(1.05);
+}
+
+.remove-event {
+    background-color: var(--warning-red);
+
+}
+
+.edit-event {
+    background-color: var(--main-color);
+}
+
+
+.today span {
+    background-color: var(--success-green);
+    padding: 8px;
+    width: 80%;
+    font-size: 0.8rem;
+    color: var(--pure-white);
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.passed span {
+    background-color: var(--warning-red);
+    padding: 8px;
+    width: 80%;
+    font-size: 0.8rem;
+    color: var(--pure-white);
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.upcoming span {
+    background-color: var(--main-color);
+    padding: 8px;
+    width: 80%;
+    font-size: 0.8rem;
+    color: var(--pure-white);
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+
+.admin-each-events h1 {
+    color: var(--main-color-drk);   
+}
+
+.admin-each-events h2 {
+    color: var(--p-colors);
+    font-size: 0.9rem; 
+    font-style: italic;
+    font-weight: 500;
+}
+
+.add-event-modal {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: var(--pure-white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-event-modal h1 {
+    color: var(--main-color-drk);
+}
+
+.add-event-modal input[type="text"],
+.add-event-modal input[type="datetime-local"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Submit Button */
+.add-event-modal button[type="submit"] {
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.add-event-modal .close {
+    background-color: var(--main-color-drk);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.add-event-modal button:hover {
+    transform: scale(1.05);
+}
+
 
 
 
@@ -3421,7 +3603,7 @@ header div{
     }
     
     .remove-photo {
-        background-color: red;
+        background-color: var(--warning-red);
         color: var(--pure-white);
         border: none;
         border-radius: 10px;

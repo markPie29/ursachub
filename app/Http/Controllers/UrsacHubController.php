@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
 use App\Models\Student;
+use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -78,9 +79,10 @@ class UrsacHubController extends Controller
             
             // Fetch data based on the authenticated admin's organization
             $news = News::where('org', $admin->org)->paginate(8); 
-    
+            $events = Event::where('org', $admin->org)->get();
+
             // Pass the organization name, products, and news to the view
-            return view('admin_news', compact('admin','news'));
+            return view('admin_news', compact('admin','news','events'));
         }
     
         // Redirect to the admin login page if not authenticated
@@ -965,7 +967,29 @@ class UrsacHubController extends Controller
     
         return redirect()->route('student.account')->with('success', 'Post created successfully.');
     }
+
+
+    public function addEvent(Request $request)
+    {
+        $admin = Auth::guard('admin')->user();
+        // Validate incoming data
+        $validatedData = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'event_venue' => 'required|string|max:255',
+            'event_date_time' => 'required|date'
+        ]);
     
+        // Save the event to the database
+        $event = new Event(); // Assuming you have an Event model
+        $event->name = $validatedData['event_name'];
+        $event->venue = $validatedData['event_venue'];
+        $event->date = $validatedData['event_date_time'];
+        $event->org = $admin->org;
+        $event->save();
+    
+        // Redirect or return a response
+        return redirect()->back()->with('success', 'Event added successfully!');
+    }
     
 
     
