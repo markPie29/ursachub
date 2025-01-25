@@ -21,6 +21,55 @@
 
     </div>
 
+    <div class="each-org-student-events-ctn">
+        <div class="student-events-header">
+            <a href="{{ route('view_events')}}"><h1>Events</h1></a>
+        </div>
+
+        <div class="student-each-events">
+            @php
+                $todayDate = \Carbon\Carbon::now()->toDateString();
+
+                // Get all events sorted by date
+                $latestEvents = $events->sortBy('date')->filter(function ($event) use ($todayDate) {
+                    return \Carbon\Carbon::parse($event->date)->toDateString() >= $todayDate;
+                })->take(3);
+            @endphp
+
+            @if($latestEvents->isNotEmpty())
+                @foreach($latestEvents as $event)
+                    <div class="student-event-item {{ \Carbon\Carbon::parse($event->date)->toDateString() === $todayDate ? 'today' : 'upcoming' }}">
+                        
+                        <div class="event-item-profile">
+                            <div class="news-logo">
+                                <img src="{{ asset('storage/' . $event->logo) }}" alt="{{ $event->org }} Logo" class="logo">
+                            </div>
+                            
+                            <div class="event-item-info">
+                                <h3>{{ $event->name }}</h3>
+                                <p>{{ \Carbon\Carbon::parse($event->date)->format('F j, Y, g:i A') }}</p> 
+                                <p>{{ $event->venue }}</p>
+                            </div>
+                        </div>
+
+                        <div class="event-item-status">
+                            @if(\Carbon\Carbon::parse($event->date)->toDateString() === $todayDate)
+                                <span>Event is Today!</span>
+                            @else
+                                <span>Upcoming Event!</span>
+                            @endif
+                        </div>
+
+
+                    </div>
+                @endforeach
+            @else
+                <p>No events available.</p>
+            @endif
+        </div>
+
+    </div>
+
    
 
     <div class="org-news-prod-ctn">

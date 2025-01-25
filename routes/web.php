@@ -61,6 +61,9 @@ Route::prefix('admin')->group(function () {
         Route::get('news_admin/{id}', [UrsacHubController::class, 'show_eachnewspage_admin'])->name('show_eachnewspage_admin');
         Route::put('news/{id}/edit', [UrsacHubController::class, 'editNews'])->name('editNews');
         Route::delete('news/{id}', [UrsacHubController::class, 'delete_news'])->name('delete_news');
+        Route::post('/add-event', [UrsacHubController::class, 'add_event'])->name('add_event');
+        Route::delete('/delete-event/{id}', [UrsacHubController::class, 'delete_event'])->name('delete_event');
+        Route::put('/edit-event/{id}', [UrsacHubController::class, 'edit_event'])->name('edit_event');
         Route::get('products_admin/{id}', [UrsacHubController::class, 'show_eachprodpage_admin'])->name('show_eachprodpage_admin');
         Route::get('/addprodpage', [UrsacHubController::class, 'addprodpage'])->name('addprodpage');
         Route::post('addprod', [UrsacHubController::class, 'addprod'])->name('admin.addprod');
@@ -106,6 +109,7 @@ Route::prefix('student')->group(function () {
         Route::get('orgs/{id}', [UrsacHubController::class, 'show_eachorgs'])->name('show_eachorgs');
         Route::get('/search-orgs', [UrsacHubController::class, 'searchOrgs'])->name('search_orgs');
         Route::get('/freedomwall', [UrsacHubController::class, 'freedomwall'])->name('freedomwall');
+        Route::get('/events', [UrsacHubController::class, 'view_events'])->name('view_events');
         Route::post('/posts', [UrsacHubController::class, 'createPost'])->name('posts.create');
         Route::post('/posts/{post}/comments', [UrsacHubController::class, 'addComment'])->name('comments.add');
         Route::post('/posts/{post}/like', [UrsacHubController::class, 'likePost'])->name('posts.like');
