@@ -1081,7 +1081,14 @@ header div{
 
 .success {
     padding: 10px;
-    background-color: #3a992f;
+    background-color: var(--success-green);
+    color: var(--pure-white);
+    border-radius: 5px;
+}
+
+.error {
+    padding: 10px;
+    background-color: var(--warning-red);
     color: var(--pure-white);
     border-radius: 5px;
 }
@@ -1787,7 +1794,6 @@ header div{
     display: flex;
 }
 .news-logo {
-    height: 60px;
     width: 60px;
     display: flex;
     align-items: center;
@@ -3119,12 +3125,18 @@ header div{
 }
 
 .event-item {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     border: 1px solid #d6d6d6;
     border-radius: 10px;
     padding:10px;
     margin: 20px 0;
+}
+
+.event-item-profile {
+    display: flex;
+    margin-bottom: 20px;
 }
 
 .event-item-info {
@@ -3147,7 +3159,6 @@ header div{
     flex-direction: column;
     justify-content: center;
     align-items: end;
-
 }
 
 .eventbtn {
@@ -3166,12 +3177,130 @@ header div{
 
 .remove-event {
     background-color: var(--warning-red);
-
 }
 
 .edit-event {
     background-color: var(--main-color);
 }
+
+.remove-event-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #00000018;
+}
+
+.remove-event-modal-content {
+    display: flex;
+    flex-direction: column;
+    background-color:  var(--pure-white);
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    box-shadow: var(--shadows);
+    width: 20%;
+    text-align: center;
+    color: var(--main-color-drk);
+    border-radius: 10px;
+}
+
+
+.remove-event-modal-content button {
+    padding: 10px;
+    color: white;
+    border-radius: 20px; 
+    margin: 5px 0;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    border: none;
+    width: 200px;
+    align-self: center;
+}
+
+.remove-event-modal-content button:hover {
+    transform: scale(1.05);
+}
+
+.remove-event-modal-content #remove {
+    background-color: var(--warning-red);
+}
+
+.remove-event-modal-content #close {
+    background-color: var(--main-color);
+}
+
+.edit-event-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: #00000063;
+    overflow: hidden;
+}
+
+.edit-event-modal-content {
+    display: flex;
+    flex-direction: column;
+    background-color:  var(--pure-white);
+    margin: 10% auto; /* 15% from the top and centered */
+    padding: 20px;
+    box-shadow: var(--shadows);
+    width: 20%;
+    text-align: left;
+    color: var(--main-color-drk);
+    border-radius: 10px;
+}
+
+.edit-event-modal-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.edit-event-modal-content input {
+    width: 250px;
+    height: 50px;
+    border: solid 1px var(--main-color-drk);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.edit-event-modal-content button {
+    padding: 10px;
+    color: white;
+    border-radius: 20px; 
+    margin: 5px 0;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+    border: none;
+    width: 250px;
+    align-self: center;
+    transition: 0.3s ease-in-out;
+}
+
+
+.edit-event-modal-content button:hover {
+    transform: scale(1.05);
+}
+
+
+.edit-event-modal-content #edit {
+    background-color: var(--main-color-drk);
+}
+
+.edit-event-modal-content #close {
+    background-color: var(--main-color);
+}
+
+
 
 
 .today span {
@@ -3267,6 +3396,70 @@ header div{
 
 .add-event-modal button:hover {
     transform: scale(1.05);
+}
+
+.view-all-events {
+    background-color: var(--main-color);
+    transition: 0.3ms ease-in-out;
+}
+
+.view-all-events:hover {
+    transform: scale(2);
+}
+
+.student-events-ctn {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 30px;
+    border-radius: 10px;
+}
+
+.each-org-student-events-ctn {
+    max-width: 1200px;
+    border-radius: 10px;
+}
+
+.student-events-header a {
+    color: var(--main-color-drk);
+    transition: 0.3s ease-in-out;
+}
+
+.student-events-header a:hover {
+    transform: scale(1.05);
+}
+
+
+.student-events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--main-color-drk);
+}
+
+.student-each-events {
+    display: flex;
+    justify-content: space-between;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.student-event-item {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding:30px;
+    margin-top: 20px;
+    background-color: var(--pure-white);
+    width: 32%;
+    transition: 0.3s ease-in-out;
+}
+
+.student-event-item:hover {
+    transform: translateY(-10px);
+}
+
+.student-event-item p {
+    font-size: 0.8rem;
 }
 
 
@@ -3459,7 +3652,7 @@ header div{
     }
     .search-form {
         width: 0;
-        margin: 0 0 0 40px;
+        margin: 0 0 0 20px;
     }
 
     .news-container {
@@ -3734,6 +3927,17 @@ header div{
     }
     .orders-link {
         font-size: 0.8rem;
+    }
+
+    .student-events-ctn {
+        margin-top: 25px;
+    }
+
+    .student-event-item {
+        min-width: 300px;
+        box-shadow: none;
+        margin-top: 20px;
+        margin-right: 20px;
     }
     
     

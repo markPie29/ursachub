@@ -66,7 +66,7 @@ class UrsacHubController extends Controller
             return view('admin_products', compact('admin','products'));
         }
     
-        // Redirect to the admin login page if not authenticated
+        // Redirect to the admin login page if not authenticated4
         return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
     }
 
@@ -134,15 +134,25 @@ class UrsacHubController extends Controller
 
     public function news_page() {
         $news = News::orderBy('updated_at', 'desc')->paginate(8);
+        
 
         $news->each(function($newsx) {
             // Fetch the admin logo by matching org name
             $admin = Admin::where('org', $newsx->org)->first();
             $newsx->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
         });
+
+        $events = Event::orderBy('updated_at', 'desc')->get();
+
+        $events->each(function($event) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $event->org)->first();
+            $event->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
     
         return view('news_page', [
-            'news' => $news
+            'news' => $news,
+            'events' => $events
         ]);
     }
     
@@ -627,11 +637,37 @@ class UrsacHubController extends Controller
         $products = Products::where('org', $org->org)->paginate(); 
         $news = News::where('org', $org->org)->paginate();
 
+        $events = Event::where('org', $org->org)
+        ->orderBy('updated_at', 'desc')->get();
+
+        $events->each(function($event) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $event->org)->first();
+            $event->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
+
         // Pass the organization name, products, and news to the view
         return view('show_eachorg', [
             'org' => $org,
             'products' => $products,
             'news' => $news,
+            'events' => $events
+        ]);
+
+    }
+
+    public function view_events () 
+    {
+        $events = Event::orderBy('date', 'desc')->get();
+
+        $events->each(function($event) {
+            // Fetch the admin logo by matching org name
+            $admin = Admin::where('org', $event->org)->first();
+            $event->logo = $admin ? $admin->logo : null; // Assign the logo, or null if not found
+        });
+
+        return view('view_events', [
+            'events' => $events
         ]);
 
     }
@@ -969,7 +1005,7 @@ class UrsacHubController extends Controller
     }
 
 
-    public function addEvent(Request $request)
+    public function add_event(Request $request)
     {
         $admin = Auth::guard('admin')->user();
         // Validate incoming data
@@ -989,6 +1025,38 @@ class UrsacHubController extends Controller
     
         // Redirect or return a response
         return redirect()->back()->with('success', 'Event added successfully!');
+    }
+
+    public function edit_event(Request $request, $id) {
+
+        $admin = Auth::guard('admin')->user();
+        // Validate incoming data
+        $validatedData = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'event_venue' => 'required|string|max:255',
+            'event_date_time' => 'required|date'
+        ]);
+    
+        // Save the event to the database
+        $event = Event::findOrFail($id); // Assuming you have an Event model
+        $event->name = $validatedData['event_name'];
+        $event->venue = $validatedData['event_venue'];
+        $event->date = $validatedData['event_date_time'];
+        $event->org = $admin->org;
+        $event->save();
+    
+        // Redirect or return a response
+        return redirect()->back()->with('success', 'Event edited successfully!');
+    }
+
+    public function delete_event($id) {
+        try {
+            $event = Event::findOrFail($id);
+            $event->delete();
+            return redirect()->back()->with('success', 'Event deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting the event.');
+        }
     }
     
 
