@@ -66,7 +66,7 @@
         function fillDemoAdmin() {
             document.getElementById('name').value = 'COENGSC';
             document.getElementById('org').value = 'College of Engineering - Student Council';
-            document.getElementById('password').value = 'admin123';
+            document.getElementById('password').value = '12345678';
         }
     </script>
 

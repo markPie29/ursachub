@@ -6,11 +6,12 @@
 
 ### Demo Credentials
 - **Student Account**:
-  - Student ID: `2024-00001`
-  - Password: `student123`
-- **Admin Account (CCS)**:
-  - Org: `CCS`
-  - Password: `admin123`
+  - Student ID: `AC2023-00521`
+  - Password: `12345678`
+- **Admin Account (COENGSC)**:
+  - Name: `COENGSC`
+  - Org: `College of Engineering - Student Council`
+  - Password: `12345678`
 
 ---
 

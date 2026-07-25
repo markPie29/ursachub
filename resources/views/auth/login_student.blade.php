@@ -59,7 +59,7 @@
     <script>
         function fillDemoStudent() {
             document.getElementById('student_id').value = 'AC2023-00521';
-            document.getElementById('password').value = 'student123';
+            document.getElementById('password').value = '12345678';
         }
     </script>
     <!-- Login Form ends here -->
