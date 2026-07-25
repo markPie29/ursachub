@@ -40,18 +40,26 @@
             <a href="#" onclick="showPassword()" class="show-password">Show Password</a>
             
 
-            <div class="inputBox-3">
-                <button type="submit" class="btn btn-primary">Sign In</button>
+            <div class="inputBox-3" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                <button type="button" class="btn btn-secondary" onclick="fillDemoStudent()" style="background-color: #6c757d; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: 500;">⚡ Auto-fill Student Credentials (Demo)</button>
             </div>
 
-
             <!-- Registration prompt inside the container -->
-            <div class="register-prompt">
+            <div class="register-prompt" style="margin-top: 15px;">
                 <p>Don't have an account? <a href="{{ route('student.register') }}">Register here.</a></p>
+                <p style="margin-top: 5px;">Are you an administrator? <a href="{{ route('admin.login') }}" style="color: #007bff; font-weight: bold;">Log in as Admin here.</a></p>
             </div>
         </div>
         <!-- Login div ends here -->
     </form>
+
+    <script>
+        function fillDemoStudent() {
+            document.getElementById('student_id').value = '2024-00001';
+            document.getElementById('password').value = 'student123';
+        }
+    </script>
     <!-- Login Form ends here -->
 
     <!-- Error handling -->

@@ -18,6 +18,10 @@
 
 </head>
 
+<div id="demo-warning-banner" style="background-color: #fff3cd; color: #856404; text-align: center; padding: 6px 15px; font-weight: 600; font-size: 13px; border-bottom: 1px solid #ffeeba; position: relative; z-index: 9999;">
+    ⚠️ DEMO MODE: This system is deployed for live demonstration. Some features may be simulated or intentionally non-functional.
+</div>
+
 <div class="admin-sidebar">
     <h1 class="logo">URSAC Hub</h1>
     

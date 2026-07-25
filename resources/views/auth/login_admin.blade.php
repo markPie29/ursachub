@@ -48,12 +48,25 @@
             <a href="#" onclick=showPassword() class="show-password">Show Password</a>
         </div>
 
-        <!-- Login Button -->
-        <div class="inputBx">
-            <button type="submit" class="btn btn-primary">Sign In</button>
+        <!-- Login Button & Demo Actions -->
+        <div class="inputBx" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            <button type="button" class="btn btn-secondary" onclick="fillDemoAdmin()" style="background-color: #6c757d; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: 500;">⚡ Auto-fill Admin Credentials (Demo)</button>
+        </div>
+
+        <div class="register-prompt" style="margin-top: 15px; text-align: center;">
+            <p>Looking for student login? <a href="{{ route('student.login') }}" style="color: #007bff; font-weight: bold;">Log in as Student here.</a></p>
         </div>
 
     </form>
+
+    <script>
+        function fillDemoAdmin() {
+            document.getElementById('name').value = 'CCS Student Council';
+            document.getElementById('org').value = 'CCS';
+            document.getElementById('password').value = 'admin123';
+        }
+    </script>
 
     <!-- Error handling -->
     @if ($errors->any())

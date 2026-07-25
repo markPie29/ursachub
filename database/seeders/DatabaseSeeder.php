@@ -72,8 +72,8 @@ class DatabaseSeeder extends Seeder
             'extralarge' => 0,
             'double_extralarge' => 0,
             'price' => 150.00,
-            'photos' => json_encode([]),
-            'logo' => null,
+            'photos' => json_encode(['seed_images/ccs_lanyard.png']),
+            'logo' => 'seed_images/ccs_logo.png',
         ]);
         $product1->courses()->attach([$bsit->id, $bscs->id, $bsis->id]);
 
@@ -86,8 +86,8 @@ class DatabaseSeeder extends Seeder
             'extralarge' => 10,
             'double_extralarge' => 5,
             'price' => 350.00,
-            'photos' => json_encode([]),
-            'logo' => null,
+            'photos' => json_encode(['seed_images/ccs_tech_shirt.png']),
+            'logo' => 'seed_images/ccs_logo.png',
         ]);
         $product2->courses()->attach([$bsit->id, $bscs->id, $bsis->id]);
 
@@ -100,8 +100,8 @@ class DatabaseSeeder extends Seeder
             'extralarge' => 10,
             'double_extralarge' => 5,
             'price' => 650.00,
-            'photos' => json_encode([]),
-            'logo' => null,
+            'photos' => json_encode(['seed_images/cea_hoodie.png']),
+            'logo' => 'seed_images/cea_logo.png',
         ]);
         $product3->courses()->attach([$bsce->id]);
 
@@ -110,16 +110,16 @@ class DatabaseSeeder extends Seeder
             'org' => 'CCS',
             'headline' => 'Welcome to URSAC Hub Live Demo!',
             'content' => 'URSAC Hub is now deployed as a public demo environment. Feel free to log in as a student or admin using the demo credentials.',
-            'photos' => json_encode([]),
-            'logo' => null,
+            'photos' => json_encode(['seed_images/ccs_tech_shirt.png']),
+            'logo' => 'seed_images/ccs_logo.png',
         ]);
 
         News::create([
             'org' => 'CEA',
             'headline' => 'Annual Engineering Week Announced',
             'content' => 'Join us next month for workshops, competitions, and guest speaker events during Engineering Week.',
-            'photos' => json_encode([]),
-            'logo' => null,
+            'photos' => json_encode(['seed_images/cea_hoodie.png']),
+            'logo' => 'seed_images/cea_logo.png',
         ]);
 
         // 6. Seed Events
