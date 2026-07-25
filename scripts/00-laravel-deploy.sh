@@ -17,7 +17,13 @@ mkdir -p /var/www/html/database
 touch /var/www/html/database/database.sqlite
 chmod 664 /var/www/html/database/database.sqlite
 
-echo "==> [5/8] Linking storage"
+echo "==> [5/8] Linking storage & media"
+if [ -d "/var/www/html/ursachub db" ]; then
+  cp -r "/var/www/html/ursachub db/gcash_proofs" /var/www/html/storage/app/public/ 2>/dev/null || true
+  cp -r "/var/www/html/ursachub db/logos" /var/www/html/storage/app/public/ 2>/dev/null || true
+  cp -r "/var/www/html/ursachub db/news_photos" /var/www/html/storage/app/public/ 2>/dev/null || true
+  cp -r "/var/www/html/ursachub db/product_photos" /var/www/html/storage/app/public/ 2>/dev/null || true
+fi
 php artisan storage:link || true
 
 echo "==> [6/8] Resetting demo database (fresh migrate + seed)"
