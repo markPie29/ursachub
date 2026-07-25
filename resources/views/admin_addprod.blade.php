@@ -63,7 +63,7 @@
 
                         <div class="add-product-field">
                             <label for="photos" class="add-product-label">Photos (max 5):</label>
-                            <span>Note: The first image will be the thumbnail.</span>
+                            <span>Note: The first image will be the thumbnail. <em>(Demo mode: Uploads are non-persistent)</em></span>
                             <input 
                                 type="file" 
                                 name="photos[]" 

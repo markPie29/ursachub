@@ -1,0 +1,17 @@
+/vendor
+/node_modules
+/.git
+.env
+.env.*
+!.env.example
+/storage/*.key
+/public/hot
+/public/storage
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/tests
+/.github
+README.md
