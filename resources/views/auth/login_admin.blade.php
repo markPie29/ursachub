@@ -20,6 +20,7 @@
                 name="name" 
                 placeholder="Name" 
                 style="text-transform:uppercase"
+                autocomplete="username"
                 required>
         </div>
 
@@ -44,6 +45,7 @@
                 name="password" 
                 placeholder="Password" 
                 style="text-transform:uppercase"
+                autocomplete="current-password"
                 required>
             <a href="#" onclick=showPassword() class="show-password">Show Password</a>
         </div>
@@ -62,8 +64,8 @@
 
     <script>
         function fillDemoAdmin() {
-            document.getElementById('name').value = 'CCS Student Council';
-            document.getElementById('org').value = 'CCS';
+            document.getElementById('name').value = 'COENGSC';
+            document.getElementById('org').value = 'College of Engineering - Student Council';
             document.getElementById('password').value = 'admin123';
         }
     </script>

@@ -22,10 +22,6 @@
 
 </head>
 
-<div id="demo-warning-banner" style="background-color: #fff3cd; color: #856404; text-align: center; padding: 6px 15px; font-weight: 600; font-size: 13px; border-bottom: 1px solid #ffeeba; position: relative; z-index: 9999;">
-    ⚠️ DEMO MODE: This system is deployed for live demonstration. Some features may be simulated or intentionally non-functional.
-</div>
-
 <header class="header-main">
     <div>
         <a href="{{ route('student.home') }}" class="header-text logo">URSAC Hub</a>
@@ -85,4 +81,8 @@
         <h1 class="logo-loading">URSAC Hub</h1>
     </div>
 @yield('content')
+
+<div id="demo-warning-banner" style="background-color: #fff3cd; color: #856404; text-align: center; padding: 6px 15px; font-weight: 600; font-size: 13px; border-top: 1px solid #ffeeba; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999;">
+    ⚠️ DEMO MODE: This system is deployed for live demonstration. Some features may be simulated or intentionally non-functional.
+</div>
 </html>

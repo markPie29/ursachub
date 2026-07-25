@@ -22,6 +22,7 @@
                     name="student_id" 
                     placeholder="AC202X-XXXXX"
                     style="text-transform:uppercase" 
+                    autocomplete="username"
                     required>
             </div>
 
@@ -34,6 +35,7 @@
                     name="password" 
                     placeholder="Password" 
                     style="text-transform:uppercase"
+                    autocomplete="current-password"
                     required>
             </div>
 
@@ -56,7 +58,7 @@
 
     <script>
         function fillDemoStudent() {
-            document.getElementById('student_id').value = '2024-00001';
+            document.getElementById('student_id').value = 'AC2023-00521';
             document.getElementById('password').value = 'student123';
         }
     </script>

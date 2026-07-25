@@ -18,10 +18,6 @@
 
 </head>
 
-<div id="demo-warning-banner" style="background-color: #fff3cd; color: #856404; text-align: center; padding: 8px 15px; font-weight: 600; font-size: 14px; border-bottom: 1px solid #ffeeba; position: relative; z-index: 9999;">
-    ⚠️ DEMO MODE: This system is deployed for live demonstration. Some features may be simulated or intentionally non-functional.
-</div>
-
 <div id="loading-screen">
     <div class="spinner"></div>
     <h1 class="logo-loading">URSAC Hub</h1>
@@ -47,6 +43,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+<div id="demo-warning-banner" style="background-color: #fff3cd; color: #856404; text-align: center; padding: 8px 15px; font-weight: 600; font-size: 14px; border-top: 1px solid #ffeeba; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999;">
+    ⚠️ DEMO MODE: This system is deployed for live demonstration. Some features may be simulated or intentionally non-functional.
+</div>
 
 </html>
 

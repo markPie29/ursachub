@@ -12,7 +12,16 @@
     <!-- Image Section with Carousel -->
     <div class="image-section carousel">
         @php
-            $photos = json_decode($news->photos, true); // Decode the JSON column to an array
+            $photosRaw = $news->photos;
+            if (is_string($photosRaw)) {
+                $photosClean = str_replace('\"', '"', $photosRaw);
+                $photos = json_decode($photosClean, true);
+                if (!is_array($photos)) {
+                    $photos = json_decode($photosRaw, true);
+                }
+            } else {
+                $photos = $photosRaw;
+            }
         @endphp
 
         @if(is_array($photos) && count($photos) > 0)
@@ -35,7 +44,7 @@
         <h1>{{ $news->org }}</h1>
         <h3>{{ $news->updated_at }}</h3>
         <h2>{{ $news->headline }}</h2>
-        <p>{!! Str::of($news->content)->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
+        <p>{!! Str::of(str_replace(['\r\n', '\n', '\r'], '<br>', $news->content))->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
     </div>
 </div>
 

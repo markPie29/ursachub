@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             SqlDumpSeeder::class,
+            MockEventsSeeder::class,
         ]);
     }
 }

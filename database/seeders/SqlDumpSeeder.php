@@ -46,6 +46,9 @@ class SqlDumpSeeder extends Seeder
             // Replace MySQL escaped single quotes \' with SQLite standard ''
             $sqliteQuery = str_replace("\\'", "''", $insertQuery);
             
+            // Replace MySQL escaped double quotes \" with "
+            $sqliteQuery = str_replace('\\"', '"', $sqliteQuery);
+
             // Replace double backslashes \\ with single backslash \ (for escaped JSON paths)
             $sqliteQuery = str_replace('\\\\', '\\', $sqliteQuery);
 

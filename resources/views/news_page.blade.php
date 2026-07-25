@@ -88,14 +88,23 @@
                 </div>
               
                 <h3 class="news-headline" id = "news-headline"> {{ $newsx->headline }} </h3>
-                <p class="news-content">  {!! Str::of($newsx->content)->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
+                <p class="news-content">  {!! Str::of(str_replace(['\r\n', '\n', '\r'], '<br>', $newsx->content))->replaceMatches('/(https?:\/\/[^\s]+)/', '<a href="$1" target="_blank">$1</a>') !!}</p>
             </div>
 
             <!-- Image at the Bottom -->
             <div class="news-card-image">
                 @php
-                    // Decode the JSON-encoded image URLs
-                    $images = json_decode($newsx->photos, true);
+                    // Decode the JSON-encoded image URLs handling potential double escaping
+                    $photosRaw = $newsx->photos;
+                    if (is_string($photosRaw)) {
+                        $photosClean = str_replace('\"', '"', $photosRaw);
+                        $images = json_decode($photosClean, true);
+                        if (!is_array($images)) {
+                            $images = json_decode($photosRaw, true);
+                        }
+                    } else {
+                        $images = $photosRaw;
+                    }
                 @endphp
 
                 @if(is_array($images) && count($images) > 0)
